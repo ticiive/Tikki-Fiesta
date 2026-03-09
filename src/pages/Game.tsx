@@ -215,7 +215,7 @@ const Game = () => {
   };
 
   const handleTransitionComplete = useCallback(() => {
-    setShowTransition(false);
+    setHasCompletedFirstTransition(true);
     setGameState(GameState.PLAYING);
     console.log("SISTEMA: Transição completa. Iniciando Rodada", currentRound);
   }, [currentRound]);
