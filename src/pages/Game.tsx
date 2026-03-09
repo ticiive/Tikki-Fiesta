@@ -214,6 +214,12 @@ const Game = () => {
     );
   };
 
+  const handleTransitionComplete = useCallback(() => {
+    setShowTransition(false);
+    setGameState(GameState.PLAYING);
+    console.log("SISTEMA: Transição completa. Iniciando Rodada", currentRound);
+  }, [currentRound]);
+
   if (!location.state || playerOrder.length === 0 || !activePlayer || currentRound <= 0) {
     return null;
   }
