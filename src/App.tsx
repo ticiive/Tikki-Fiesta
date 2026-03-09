@@ -20,6 +20,7 @@ const App = () => (
   <TooltipProvider>
     <Toaster />
     <Sonner />
+    <OrientationOverlay />
     <BrowserRouter basename="/pop-board-play">
       <Routes>
         <Route path="/" element={<Landing />} />
