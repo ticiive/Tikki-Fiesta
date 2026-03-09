@@ -55,9 +55,7 @@ const OrientationOverlay = () => {
           </motion.div>
 
           <p className="text-lg font-bold text-white text-center px-8 leading-relaxed">
-            Para uma melhor experiência,
-            <br />
-            vire o seu aparelho
+            Vire o aparelho para jogar!
           </p>
 
           <motion.div
