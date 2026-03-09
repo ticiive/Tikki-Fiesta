@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dices, Crown, Swords, Star, Coins, ChevronDown, Gamepad2 } from "lucide-react";
-import SplashScreen from "@/components/SplashScreen";
+
 
 /* ── floating icons config ── */
 const FLOATERS = [
