@@ -219,16 +219,20 @@ const Game = () => {
   }
 
   return (
-    <GameBoard
-      key={currentRound}
-      currentRound={currentRound}
-      totalRounds={totalRounds}
-      currentTurn={turnsCounter}
-      totalPlayers={totalPlayers}
-      activePlayer={activePlayer}
-      inactivePlayers={inactivePlayers}
-      onUpdateCoins={(d) => updateActivePlayer("coins", d)}
-      onUpdateStars={(d) => updateActivePlayer("stars", d)}
+    <>
+      <AnimatePresence>
+        {showTransition && <GameTransition onComplete={handleTransitionComplete} />}
+      </AnimatePresence>
+      <GameBoard
+        key={currentRound}
+        currentRound={currentRound}
+        totalRounds={totalRounds}
+        currentTurn={turnsCounter}
+        totalPlayers={totalPlayers}
+        activePlayer={activePlayer}
+        inactivePlayers={inactivePlayers}
+        onUpdateCoins={(d) => updateActivePlayer("coins", d)}
+        onUpdateStars={(d) => updateActivePlayer("stars", d)}
         onEndTurn={handleEndTurn}
       />
     </>
