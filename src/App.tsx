@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
+import OrientationOverlay from "./components/OrientationOverlay";
 import Index from "./pages/Index";
 import Game from "./pages/Game";
 import Sorteio from "./pages/Sorteio";
@@ -19,6 +20,7 @@ const App = () => (
   <TooltipProvider>
     <Toaster />
     <Sonner />
+    <OrientationOverlay />
     <BrowserRouter basename="/pop-board-play">
       <Routes>
         <Route path="/" element={<Landing />} />
