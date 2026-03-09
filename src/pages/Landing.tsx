@@ -18,6 +18,12 @@ const Landing = () => {
   const navigate = useNavigate();
   const [leaving, setLeaving] = useState(false);
   const [rulesOpen, setRulesOpen] = useState(false);
+  const [isStarting, setIsStarting] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsStarting(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handlePlay = () => {
     setLeaving(true);
