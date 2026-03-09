@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dices, Crown, Swords, Star, Coins, ChevronDown, Gamepad2 } from "lucide-react";
-import SplashScreen from "@/components/SplashScreen";
+
 
 /* ── floating icons config ── */
 const FLOATERS = [
@@ -18,12 +18,7 @@ const Landing = () => {
   const navigate = useNavigate();
   const [leaving, setLeaving] = useState(false);
   const [rulesOpen, setRulesOpen] = useState(false);
-  const [isStarting, setIsStarting] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsStarting(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const handlePlay = () => {
     setLeaving(true);
@@ -32,7 +27,6 @@ const Landing = () => {
 
   return (
     <AnimatePresence mode="wait">
-      {isStarting && <SplashScreen key="splash" />}
       <motion.div
         className="relative h-screen w-screen flex flex-col items-center justify-center overflow-hidden"
         style={{

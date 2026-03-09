@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import type { Player } from "@/types/game";
 import ActivePlayerCard from "@/components/game/ActivePlayerCard";
 import InactivePlayerRow from "@/components/game/InactivePlayerRow";
+import GameTransition from "@/components/GameTransition";
 
 enum GameState {
   START = "START",
@@ -112,6 +114,7 @@ const Game = () => {
   const [playersWhoPlayed, setPlayersWhoPlayed] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>(GameState.START);
   const [hasNavigatedRound, setHasNavigatedRound] = useState(false);
+  const [showTransition, setShowTransition] = useState(true);
 
   const totalPlayers = playerOrder.length;
   const activePlayer = playerOrder[0];
@@ -211,23 +214,34 @@ const Game = () => {
     );
   };
 
+  const handleTransitionComplete = useCallback(() => {
+    setShowTransition(false);
+    setGameState(GameState.PLAYING);
+    console.log("SISTEMA: Transição completa. Iniciando Rodada", currentRound);
+  }, [currentRound]);
+
   if (!location.state || playerOrder.length === 0 || !activePlayer || currentRound <= 0) {
     return null;
   }
 
   return (
-    <GameBoard
-      key={currentRound}
-      currentRound={currentRound}
-      totalRounds={totalRounds}
-      currentTurn={turnsCounter}
-      totalPlayers={totalPlayers}
-      activePlayer={activePlayer}
-      inactivePlayers={inactivePlayers}
-      onUpdateCoins={(d) => updateActivePlayer("coins", d)}
-      onUpdateStars={(d) => updateActivePlayer("stars", d)}
-      onEndTurn={handleEndTurn}
-    />
+    <>
+      <AnimatePresence>
+        {showTransition && <GameTransition onComplete={handleTransitionComplete} />}
+      </AnimatePresence>
+      <GameBoard
+        key={currentRound}
+        currentRound={currentRound}
+        totalRounds={totalRounds}
+        currentTurn={turnsCounter}
+        totalPlayers={totalPlayers}
+        activePlayer={activePlayer}
+        inactivePlayers={inactivePlayers}
+        onUpdateCoins={(d) => updateActivePlayer("coins", d)}
+        onUpdateStars={(d) => updateActivePlayer("stars", d)}
+        onEndTurn={handleEndTurn}
+      />
+    </>
   );
 };
 
