@@ -229,8 +229,9 @@ const Game = () => {
       inactivePlayers={inactivePlayers}
       onUpdateCoins={(d) => updateActivePlayer("coins", d)}
       onUpdateStars={(d) => updateActivePlayer("stars", d)}
-      onEndTurn={handleEndTurn}
-    />
+        onEndTurn={handleEndTurn}
+      />
+    </>
   );
 };
 
