@@ -114,7 +114,7 @@ const Game = () => {
   const [playersWhoPlayed, setPlayersWhoPlayed] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>(GameState.START);
   const [hasNavigatedRound, setHasNavigatedRound] = useState(false);
-  const [showTransition, setShowTransition] = useState(true);
+  const [hasCompletedFirstTransition, setHasCompletedFirstTransition] = useState(false);
 
   const totalPlayers = playerOrder.length;
   const activePlayer = playerOrder[0];
@@ -215,7 +215,7 @@ const Game = () => {
   };
 
   const handleTransitionComplete = useCallback(() => {
-    setShowTransition(false);
+    setHasCompletedFirstTransition(true);
     setGameState(GameState.PLAYING);
     console.log("SISTEMA: Transição completa. Iniciando Rodada", currentRound);
   }, [currentRound]);
@@ -227,7 +227,7 @@ const Game = () => {
   return (
     <>
       <AnimatePresence>
-        {showTransition && <GameTransition onComplete={handleTransitionComplete} />}
+        {!hasCompletedFirstTransition && <GameTransition onComplete={handleTransitionComplete} />}
       </AnimatePresence>
       <GameBoard
         key={currentRound}
