@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import type { Player } from "@/types/game";
 import ActivePlayerCard from "@/components/game/ActivePlayerCard";
 import InactivePlayerRow from "@/components/game/InactivePlayerRow";
+import GameTransition from "@/components/GameTransition";
 
 enum GameState {
   START = "START",
