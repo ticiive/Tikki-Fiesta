@@ -227,7 +227,7 @@ const Game = () => {
   return (
     <>
       <AnimatePresence>
-        {showTransition && <GameTransition onComplete={handleTransitionComplete} />}
+        {!hasCompletedFirstTransition && <GameTransition onComplete={handleTransitionComplete} />}
       </AnimatePresence>
       <GameBoard
         key={currentRound}
