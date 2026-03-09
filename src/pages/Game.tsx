@@ -114,6 +114,7 @@ const Game = () => {
   const [playersWhoPlayed, setPlayersWhoPlayed] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>(GameState.START);
   const [hasNavigatedRound, setHasNavigatedRound] = useState(false);
+  const [showTransition, setShowTransition] = useState(true);
 
   const totalPlayers = playerOrder.length;
   const activePlayer = playerOrder[0];
