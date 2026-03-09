@@ -31,7 +31,8 @@ const Landing = () => {
   };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
+      {isStarting && <SplashScreen key="splash" />}
       <motion.div
         className="relative h-screen w-screen flex flex-col items-center justify-center overflow-hidden"
         style={{
