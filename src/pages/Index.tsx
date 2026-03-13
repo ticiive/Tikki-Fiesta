@@ -120,7 +120,7 @@ const Index = () => {
                 onClick={() => setSelectedRounds(r)}
                 className={`
                   flex-1 py-4 rounded-3xl border-[3px] font-bold text-2xl transition-all duration-200
-                  ${selected === r
+                  ${selectedRounds === r
                     ? "border-coral bg-coral text-secondary-foreground scale-[0.96]"
                     : "border-border glass text-coral hover:scale-[1.03]"
                   }
