@@ -14,7 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Quicksand', 'sans-serif'],
+        sans: ['Fredoka', 'Quicksand', 'sans-serif'],
+        display: ['Fredoka', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -50,6 +51,25 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Cozy palette
+        sunflower: {
+          DEFAULT: "hsl(var(--sunflower))",
+          light: "hsl(var(--sunflower-light))",
+        },
+        mint: {
+          DEFAULT: "hsl(var(--mint))",
+          light: "hsl(var(--mint-light))",
+        },
+        coral: {
+          DEFAULT: "hsl(var(--coral))",
+          light: "hsl(var(--coral-light))",
+        },
+        sky: {
+          DEFAULT: "hsl(var(--sky))",
+          light: "hsl(var(--sky-light))",
+          bg: "hsl(var(--sky-bg))",
+        },
+        // Legacy aliases
         cobalt: {
           DEFAULT: "hsl(var(--cobalt))",
           light: "hsl(var(--cobalt-light))",
@@ -80,25 +100,35 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-12px)" },
+        },
+        "bounce-in": {
+          "0%": { transform: "scale(0.3)", opacity: "0" },
+          "50%": { transform: "scale(1.08)" },
+          "70%": { transform: "scale(0.95)" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
+        "coin-pop": {
+          "0%": { transform: "translateY(0) scale(1)", opacity: "1" },
+          "50%": { transform: "translateY(-30px) scale(1.3)", opacity: "1" },
+          "100%": { transform: "translateY(-50px) scale(0.8)", opacity: "0" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "float": "float 3s ease-in-out infinite",
+        "bounce-in": "bounce-in 0.5s ease-out",
+        "coin-pop": "coin-pop 0.6s ease-out forwards",
       },
     },
   },
