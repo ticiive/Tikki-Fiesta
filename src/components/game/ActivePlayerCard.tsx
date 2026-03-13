@@ -1,5 +1,7 @@
 import type { Player } from "@/types/game";
-import { Coins, Star, Zap, Shield, Swords } from "lucide-react";
+import { Coins, Star, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
+import CharacterAvatar from "@/components/game/CharacterAvatar";
 
 interface Props {
   player: Player;
@@ -21,7 +23,7 @@ const CircleBtn = ({
   return (
     <button
       onClick={onClick}
-      className={`${dim} rounded-full border-2 border-secondary-foreground/30 bg-secondary-foreground/10 text-secondary-foreground font-bold hover:bg-secondary-foreground/20 active:scale-90 transition-all flex items-center justify-center`}
+      className={`${dim} rounded-full border-2 border-border bg-card/60 text-foreground font-bold hover:bg-card/90 active:scale-90 transition-all flex items-center justify-center backdrop-blur-sm`}
     >
       {label}
     </button>
@@ -30,31 +32,32 @@ const CircleBtn = ({
 
 const ActivePlayerCard = ({ player, onUpdateCoins, onUpdateStars, onEndTurn }: Props) => {
   return (
-    <div
-      className="relative h-full rounded-3xl border-[3px] border-tangerine bg-tangerine p-4 flex gap-4"
-      style={{ boxShadow: "var(--pop-shadow-tangerine)" }}
+    <motion.div
+      className="relative h-full rounded-3xl border-[3px] border-border glass p-4 flex gap-4"
+      style={{ boxShadow: "var(--pop-shadow-white)" }}
+      initial={{ scale: 0.95, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 300, damping: 25 }}
     >
-      {/* Left: Avatar + Action Buttons */}
+      {/* Left: Avatar + Info */}
       <div className="flex flex-col items-center justify-between py-2">
-        <div className="w-16 h-16 rounded-2xl bg-secondary-foreground/20 flex items-center justify-center text-3xl">
-          🎮
-        </div>
+        <CharacterAvatar playerId={player.id} size="lg" />
         <div className="flex flex-col items-center">
-          <h2 className="text-xl font-bold text-secondary-foreground mt-1">
+          <h2 className="text-xl font-bold text-foreground mt-1 font-display">
             {player.label}
           </h2>
-          <p className="text-xs text-secondary-foreground/70 font-semibold">
-            Jogador Ativo
+          <p className="text-xs text-foreground/50 font-semibold flex items-center gap-1">
+            <Sparkles className="w-3 h-3" /> Sua vez de jogar! ✨
           </p>
         </div>
-        {/* Quick Action Buttons */}
+        {/* Quick action placeholder */}
         <div className="flex gap-2 mt-auto">
-          {[Zap, Shield, Swords].map((Icon, i) => (
+          {["⚡", "🛡️", "⚔️"].map((emoji, i) => (
             <button
               key={i}
-              className="w-10 h-10 rounded-full bg-cobalt flex items-center justify-center border-2 border-primary-foreground/20 hover:scale-110 active:scale-90 transition-all"
+              className="w-10 h-10 rounded-full glass flex items-center justify-center border-2 border-border hover:scale-110 active:scale-90 transition-all text-sm"
             >
-              <Icon className="w-4 h-4 text-primary-foreground" />
+              {emoji}
             </button>
           ))}
         </div>
@@ -64,8 +67,8 @@ const ActivePlayerCard = ({ player, onUpdateCoins, onUpdateStars, onEndTurn }: P
       <div className="flex-1 flex flex-col justify-center gap-4">
         {/* Coins */}
         <div className="flex items-center gap-3">
-          <Coins className="w-8 h-8 text-secondary-foreground shrink-0" />
-          <span className="text-4xl font-bold text-secondary-foreground min-w-[3ch] text-center">
+          <Coins className="w-8 h-8 text-sunflower shrink-0" />
+          <span className="text-4xl font-bold text-foreground min-w-[3ch] text-center font-display">
             {player.coins}
           </span>
           <div className="flex items-center gap-1.5 ml-auto">
@@ -78,8 +81,8 @@ const ActivePlayerCard = ({ player, onUpdateCoins, onUpdateStars, onEndTurn }: P
 
         {/* Stars */}
         <div className="flex items-center gap-3">
-          <Star className="w-8 h-8 text-secondary-foreground shrink-0" />
-          <span className="text-4xl font-bold text-secondary-foreground min-w-[3ch] text-center">
+          <Star className="w-8 h-8 text-sunflower shrink-0" />
+          <span className="text-4xl font-bold text-foreground min-w-[3ch] text-center font-display">
             {player.stars}
           </span>
           <div className="flex items-center gap-1.5 ml-auto">
@@ -89,17 +92,19 @@ const ActivePlayerCard = ({ player, onUpdateCoins, onUpdateStars, onEndTurn }: P
         </div>
       </div>
 
-      {/* Right: End Turn Button */}
+      {/* Right: End Turn */}
       <div className="flex items-end">
-        <button
+        <motion.button
           onClick={onEndTurn}
-          className="px-5 py-3 rounded-2xl border-[3px] border-destructive bg-destructive text-destructive-foreground font-bold text-sm hover:scale-[1.03] active:scale-95 transition-all whitespace-nowrap"
-          style={{ boxShadow: "3px 3px 0px hsl(0 70% 40%)" }}
+          className="px-5 py-3 rounded-3xl border-[3px] border-border bg-coral text-secondary-foreground font-bold text-sm whitespace-nowrap"
+          style={{ boxShadow: "var(--pop-shadow-coral)" }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.95 }}
         >
-          ENCERRAR RODADA 🔄
-        </button>
+          PRÓXIMO TURNO 🔄
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

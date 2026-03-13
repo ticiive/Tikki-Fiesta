@@ -11,64 +11,46 @@ const GameTransition = ({ onComplete }: GameTransitionProps) => {
   const [isPortrait, setIsPortrait] = useState(false);
   const [timerDone, setTimerDone] = useState(false);
 
-  // 3-second mandatory timer
   useEffect(() => {
     const timer = setTimeout(() => setTimerDone(true), 3000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Orientation listener
   useEffect(() => {
     const mql = window.matchMedia("(orientation: portrait)");
-    const onChange = (e: MediaQueryListEvent | MediaQueryList) => {
-      setIsPortrait(e.matches);
-    };
+    const onChange = (e: MediaQueryListEvent | MediaQueryList) => setIsPortrait(e.matches);
     onChange(mql);
     mql.addEventListener("change", onChange as (e: MediaQueryListEvent) => void);
     return () => mql.removeEventListener("change", onChange as (e: MediaQueryListEvent) => void);
   }, []);
 
-  // Only proceed when timer is done AND (not mobile OR landscape)
   useEffect(() => {
-    if (timerDone && (!isMobile || !isPortrait)) {
-      onComplete();
-    }
+    if (timerDone && (!isMobile || !isPortrait)) onComplete();
   }, [timerDone, isMobile, isPortrait, onComplete]);
 
   const showOrientationWarning = isMobile && isPortrait;
 
   return (
     <motion.div
-      className="fixed inset-0 z-[9998] flex flex-col items-center justify-center bg-black"
+      className="fixed inset-0 z-[9998] flex flex-col items-center justify-center"
+      style={{ background: "linear-gradient(180deg, hsl(200 80% 72%) 0%, hsl(200 60% 92%) 100%)" }}
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
     >
-      {/* Phone rotation animation */}
       <motion.div
-        className="text-neon-green mb-8"
+        className="text-coral mb-8"
         animate={{ rotate: [0, -90, -90, 0] }}
         transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", times: [0, 0.4, 0.7, 1] }}
       >
-        <svg
-          width="80"
-          height="80"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
           <line x1="12" y1="18" x2="12" y2="18.01" />
         </svg>
       </motion.div>
 
-      {/* Text */}
       <motion.p
-        className="text-xl sm:text-2xl font-bold text-white text-center px-8 leading-relaxed"
-        style={{ fontFamily: "'Fredoka', 'Quicksand', sans-serif" }}
+        className="text-xl sm:text-2xl font-bold text-foreground text-center px-8 leading-relaxed font-display"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.5 }}
@@ -78,17 +60,13 @@ const GameTransition = ({ onComplete }: GameTransitionProps) => {
           : "Tudo pronto! Agora vire o aparelho para uma melhor experiência 🎮"}
       </motion.p>
 
-      {/* Loading dots (only during initial 3s) */}
       <AnimatePresence>
         {!timerDone && (
-          <motion.div
-            className="mt-6 flex gap-2"
-            exit={{ opacity: 0 }}
-          >
+          <motion.div className="mt-6 flex gap-2" exit={{ opacity: 0 }}>
             {[0, 1, 2].map((i) => (
               <motion.div
                 key={i}
-                className="w-3 h-3 rounded-full bg-neon-green/60"
+                className="w-3 h-3 rounded-full bg-mint/60"
                 animate={{ scale: [1, 1.4, 1], opacity: [0.4, 1, 0.4] }}
                 transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
               />
