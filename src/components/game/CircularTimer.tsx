@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Play, Pause } from "lucide-react";
 
 interface CircularTimerProps {
-  initialTime: number; // seconds
+  initialTime: number;
   onTimeUp: () => void;
   size?: number;
 }
@@ -25,10 +25,7 @@ const CircularTimer = ({ initialTime, onTimeUp, size = 240 }: CircularTimerProps
   const offset = CIRCUMFERENCE * (1 - progress);
 
   const clearTimer = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
+    if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; }
   }, []);
 
   useEffect(() => {
@@ -37,16 +34,9 @@ const CircularTimer = ({ initialTime, onTimeUp, size = 240 }: CircularTimerProps
       if (timeLeft <= 0) onTimeUpRef.current();
       return;
     }
-
     intervalRef.current = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          return 0;
-        }
-        return prev - 1;
-      });
+      setTimeLeft((prev) => (prev <= 1 ? 0 : prev - 1));
     }, 1000);
-
     return clearTimer;
   }, [isRunning, timeLeft <= 0, clearTimer]);
 
@@ -54,10 +44,7 @@ const CircularTimer = ({ initialTime, onTimeUp, size = 240 }: CircularTimerProps
   const seconds = timeLeft % 60;
   const display = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 
-  const strokeColor = isDanger
-    ? "hsl(var(--destructive))"
-    : "hsl(var(--tangerine))";
-
+  const strokeColor = isDanger ? "hsl(var(--destructive))" : "hsl(var(--coral))";
   const viewBox = `0 0 ${RADIUS * 2 + STROKE} ${RADIUS * 2 + STROKE}`;
   const center = RADIUS + STROKE / 2;
 
@@ -69,44 +56,20 @@ const CircularTimer = ({ initialTime, onTimeUp, size = 240 }: CircularTimerProps
         animate={isDanger ? { scale: [1, 1.06, 1] } : { scale: 1 }}
         transition={isDanger ? { duration: 0.5, repeat: Infinity } : {}}
       >
-        <svg
-          width={size}
-          height={size}
-          viewBox={viewBox}
-          className="rotate-[-90deg]"
-        >
-          {/* Background track */}
-          <circle
-            cx={center}
-            cy={center}
-            r={RADIUS}
-            fill="none"
-            stroke="hsl(var(--muted))"
-            strokeWidth={STROKE}
-          />
-          {/* Progress arc */}
+        <svg width={size} height={size} viewBox={viewBox} className="rotate-[-90deg]">
+          <circle cx={center} cy={center} r={RADIUS} fill="none" stroke="hsl(var(--muted))" strokeWidth={STROKE} />
           <motion.circle
-            cx={center}
-            cy={center}
-            r={RADIUS}
-            fill="none"
-            stroke={strokeColor}
-            strokeWidth={STROKE}
-            strokeLinecap="round"
-            strokeDasharray={CIRCUMFERENCE}
-            strokeDashoffset={offset}
+            cx={center} cy={center} r={RADIUS} fill="none"
+            stroke={strokeColor} strokeWidth={STROKE} strokeLinecap="round"
+            strokeDasharray={CIRCUMFERENCE} strokeDashoffset={offset}
             initial={false}
             animate={{ strokeDashoffset: offset }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           />
         </svg>
-
-        {/* Center text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <motion.span
-            className={`text-5xl font-bold tracking-tight ${
-              isDanger ? "text-destructive" : "text-cobalt"
-            }`}
+            className={`text-5xl font-bold tracking-tight font-display ${isDanger ? "text-destructive" : "text-foreground"}`}
             animate={isDanger ? { opacity: [1, 0.4, 1] } : { opacity: 1 }}
             transition={isDanger ? { duration: 0.5, repeat: Infinity } : {}}
           >
@@ -115,19 +78,14 @@ const CircularTimer = ({ initialTime, onTimeUp, size = 240 }: CircularTimerProps
         </div>
       </motion.div>
 
-      {/* Play / Pause */}
       <motion.button
         onClick={() => setIsRunning((r) => !r)}
-        className="w-16 h-16 rounded-full border-[3px] border-cobalt bg-card flex items-center justify-center"
-        style={{ boxShadow: "var(--pop-shadow-cobalt)" }}
+        className="w-16 h-16 rounded-full border-[3px] border-border glass flex items-center justify-center"
+        style={{ boxShadow: "var(--pop-shadow-white)" }}
         whileTap={{ scale: 0.9 }}
         disabled={timeLeft <= 0}
       >
-        {isRunning ? (
-          <Pause className="w-7 h-7 text-cobalt" />
-        ) : (
-          <Play className="w-7 h-7 text-cobalt ml-1" />
-        )}
+        {isRunning ? <Pause className="w-7 h-7 text-foreground" /> : <Play className="w-7 h-7 text-foreground ml-1" />}
       </motion.button>
     </div>
   );

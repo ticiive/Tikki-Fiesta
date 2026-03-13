@@ -5,6 +5,8 @@ import type { Player } from "@/types/game";
 import ActivePlayerCard from "@/components/game/ActivePlayerCard";
 import InactivePlayerRow from "@/components/game/InactivePlayerRow";
 import GameTransition from "@/components/GameTransition";
+import SkyBackground from "@/components/SkyBackground";
+import { getCharacter } from "@/components/game/CharacterAvatar";
 
 enum GameState {
   START = "START",
@@ -19,29 +21,12 @@ interface GameLocationState {
   currentRound?: number;
 }
 
-interface GameBoardProps {
-  currentRound: number;
-  totalRounds: number;
-  currentTurn: number;
-  totalPlayers: number;
-  activePlayer: Player;
-  inactivePlayers: Player[];
-  onUpdateCoins: (delta: number) => void;
-  onUpdateStars: (delta: number) => void;
-  onEndTurn: () => void;
-}
-
 const normalizePlayers = (rawPlayers: Array<Player | string> = []): Player[] =>
   rawPlayers.map((player) => {
     if (typeof player === "string") {
-      return {
-        id: player,
-        label: player,
-        coins: 0,
-        stars: 0,
-      };
+      const char = getCharacter(player);
+      return { id: player, label: char.name, coins: 0, stars: 0 };
     }
-
     return {
       id: player.id,
       label: player.label,
@@ -60,22 +45,32 @@ const GameBoard = ({
   onUpdateCoins,
   onUpdateStars,
   onEndTurn,
-}: GameBoardProps) => {
-  return (
-    <div className="h-screen w-screen flex flex-col overflow-hidden bg-background">
+}: {
+  currentRound: number;
+  totalRounds: number;
+  currentTurn: number;
+  totalPlayers: number;
+  activePlayer: Player;
+  inactivePlayers: Player[];
+  onUpdateCoins: (delta: number) => void;
+  onUpdateStars: (delta: number) => void;
+  onEndTurn: () => void;
+}) => (
+  <SkyBackground>
+    <div className="h-screen w-screen flex flex-col overflow-hidden">
       <div className="h-[75%] flex flex-col p-4 pb-2">
         <div className="flex items-center justify-between px-2 mb-2">
           <div className="flex flex-col">
-            <span className="text-xs font-black text-cobalt/40 uppercase tracking-widest">
+            <span className="text-xs font-bold text-foreground/35 uppercase tracking-widest">
               Status da Partida
             </span>
-            <span className="text-lg font-bold text-cobalt">
-              Rodada {currentRound} <span className="text-cobalt/30">/ {totalRounds}</span>
+            <span className="text-lg font-bold text-foreground font-display">
+              Rodada {currentRound} <span className="text-foreground/30">/ {totalRounds}</span>
             </span>
           </div>
 
-          <div className="bg-tangerine/10 px-3 py-1 rounded-full border border-tangerine/20">
-            <span className="text-xs font-bold text-tangerine">
+          <div className="glass px-3 py-1 rounded-full">
+            <span className="text-xs font-bold text-coral">
               Turno {Math.min(currentTurn + 1, totalPlayers)} de {totalPlayers}
             </span>
           </div>
@@ -91,12 +86,12 @@ const GameBoard = ({
         </div>
       </div>
 
-      <div className="h-[25%] border-t-4 border-cobalt-light/20 bg-muted/30">
+      <div className="h-[25%] border-t-[3px] border-border bg-card/20 backdrop-blur-sm">
         <InactivePlayerRow players={inactivePlayers} />
       </div>
     </div>
-  );
-};
+  </SkyBackground>
+);
 
 const Game = () => {
   const location = useLocation();
@@ -134,18 +129,14 @@ const Game = () => {
       navigate("/setup");
       return;
     }
-
     setPlayerOrder(incomingPlayers);
-
     if (incomingRound > currentRound) {
       prepareNextRound();
     }
   }, [location.state, incomingPlayers, incomingRound, currentRound, navigate]);
 
-  // Reset de ouro obrigatório ao detectar mudança de rodada
   useEffect(() => {
     if (currentRound <= 0) return;
-
     setCurrentTurn(0);
     setTurnsCounter(0);
     setPlayersWhoPlayed([]);
@@ -155,31 +146,19 @@ const Game = () => {
 
   const handleShowRanking = (playersAfterRound: Player[]) => {
     if (hasNavigatedRound) return;
-
     setHasNavigatedRound(true);
     setGameState(GameState.RANKING);
-
     const isGameOver = currentRound >= totalRounds;
-
     navigate("/sorteio", {
-      state: {
-        players: playersAfterRound,
-        currentRound,
-        totalRounds,
-        isGameOver,
-      },
+      state: { players: playersAfterRound, currentRound, totalRounds, isGameOver },
     });
   };
 
   const updateActivePlayer = (field: "coins" | "stars", delta: number) => {
     setPlayerOrder((prev) => {
       if (prev.length === 0) return prev;
-
       const updated = [...prev];
-      updated[0] = {
-        ...updated[0],
-        [field]: Math.max(0, updated[0][field] + delta),
-      };
+      updated[0] = { ...updated[0], [field]: Math.max(0, updated[0][field] + delta) };
       return updated;
     });
   };
@@ -199,26 +178,17 @@ const Game = () => {
     setPlayersWhoPlayed(nextPlayersWhoPlayed);
     setTurnsCounter(nextTurnsCounter);
 
-    // Guard clause universal de fim de rodada
     if (nextTurnsCounter >= totalPlayers) {
       setGameState(GameState.ROUND_END);
-      console.log(
-        `SISTEMA: Turno ${nextCurrentTurn} de ${totalPlayers} finalizado. Próximo passo: ROUND_END -> RANKING`
-      );
       handleShowRanking(rotated);
       return;
     }
-
-    console.log(
-      `SISTEMA: Turno ${nextCurrentTurn} de ${totalPlayers} finalizado. Próximo passo: PLAYING`
-    );
   };
 
   const handleTransitionComplete = useCallback(() => {
     setHasCompletedFirstTransition(true);
     setGameState(GameState.PLAYING);
-    console.log("SISTEMA: Transição completa. Iniciando Rodada", currentRound);
-  }, [currentRound]);
+  }, []);
 
   if (!location.state || playerOrder.length === 0 || !activePlayer || currentRound <= 0) {
     return null;
@@ -246,4 +216,3 @@ const Game = () => {
 };
 
 export default Game;
-
