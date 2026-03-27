@@ -159,3 +159,74 @@
     inset 0 2px 4px hsla(0 0% 100% / 0.4),
     inset 0 -2px 6px hsla(0 0% 0% / 0.1);
 }
+
+/* Parchment surface */
+.parchment {
+  background: hsl(var(--island-parchment));
+  border: 3px solid hsl(var(--island-palm));
+  border-radius: 1.5rem;
+  box-shadow: var(--pop-shadow-parchment);
+  position: relative;
+}
+.parchment::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 18px,
+      hsla(30 30% 60% / 0.08) 18px,
+      hsla(30 30% 60% / 0.08) 19px
+    );
+  pointer-events: none;
+}
+
+/* Wood plank surface */
+.wood-plank {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      hsl(28 45% 35%) 0px,
+      hsl(28 40% 42%) 3px,
+      hsl(28 45% 38%) 6px,
+      hsl(28 42% 32%) 12px
+    );
+  border: 3px solid hsl(var(--island-palm));
+  border-radius: 1rem;
+  box-shadow: var(--pop-shadow-wood);
+}
+
+/* Stone button */
+.stone-btn {
+  border: 3px solid hsl(var(--island-palm));
+  border-radius: 1rem;
+  font-weight: 700;
+  color: hsl(var(--island-bone));
+  text-shadow: 1px 1px 2px hsla(0 0% 0% / 0.4);
+  position: relative;
+  overflow: hidden;
+}
+.stone-btn::after {
+  content: '';
+  position: absolute;
+  top: 8%;
+  left: 15%;
+  width: 50%;
+  height: 30%;
+  background: hsla(0 0% 100% / 0.2);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Sand grain texture overlay */
+.sand-texture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
