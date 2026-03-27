@@ -56,6 +56,28 @@
     --sky-light: 200 70% 72%;
     --sky-bg: 200 70% 85%;
 
+    /* Tribal Island palette */
+    --island-sand: 38 55% 82%;
+    --island-sand-light: 38 50% 90%;
+    --island-sand-bright: 42 70% 72%;
+    --island-turquoise: 178 65% 45%;
+    --island-turquoise-light: 178 55% 65%;
+    --island-turquoise-glow: 178 70% 55%;
+    --island-magenta: 320 70% 50%;
+    --island-magenta-light: 320 60% 65%;
+    --island-jungle: 145 60% 35%;
+    --island-jungle-light: 145 50% 50%;
+    --island-fire: 25 90% 55%;
+    --island-fire-light: 25 80% 65%;
+    --island-palm: 25 40% 25%;
+    --island-palm-light: 25 30% 40%;
+    --island-bone: 40 30% 92%;
+    --island-parchment: 35 45% 85%;
+    --island-parchment-dark: 30 35% 70%;
+    --island-wood: 28 45% 35%;
+    --island-wood-light: 28 40% 50%;
+    --island-stone: 200 10% 55%;
+
     /* Glass effect tokens */
     --glass-bg: 0 0% 100% / 0.55;
     --glass-border: 0 0% 100% / 0.8;
@@ -67,6 +89,12 @@
     --pop-shadow-mint: 3px 3px 0px hsl(160 50% 38%);
     --pop-shadow-sky: 3px 3px 0px hsl(200 70% 40%);
     --pop-shadow-white: 3px 3px 0px hsl(0 0% 85%);
+    --pop-shadow-turquoise: 4px 4px 0px hsl(178 65% 30%);
+    --pop-shadow-magenta: 4px 4px 0px hsl(320 70% 35%);
+    --pop-shadow-jungle: 4px 4px 0px hsl(145 60% 22%);
+    --pop-shadow-fire: 4px 4px 0px hsl(25 85% 38%);
+    --pop-shadow-wood: 4px 4px 0px hsl(28 45% 22%);
+    --pop-shadow-parchment: 3px 3px 0px hsl(30 35% 60%);
     --pop-border-width: 3px;
 
     /* Legacy aliases for compatibility */
