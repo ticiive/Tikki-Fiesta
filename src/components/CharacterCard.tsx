@@ -3,49 +3,54 @@ import { UserPlus } from "lucide-react";
 interface CharacterCardProps {
   label: string;
   selected: boolean;
-  order?: number; // Nova prop para a ordem de seleção
+  order?: number;
   onClick: () => void;
 }
 
-const CharacterCard = ({ label, selected, order, onClick }: CharacterCardProps) => {
+const CharacterCard = ({
+  label,
+  selected,
+  order,
+  onClick,
+}: CharacterCardProps) => {
   return (
     <button
       onClick={onClick}
       className={`
-        relative aspect-square w-full rounded-3xl border-[3px] transition-all duration-200
-        flex flex-col items-center justify-center gap-2
-        font-bold text-lg
-        ${
-          selected
-            ? "border-tangerine bg-tangerine/15 scale-[0.96]"
-            : "border-cobalt-light bg-card hover:scale-[1.03]"
-        }
+        splash-hit wood-panel relative flex aspect-square w-full flex-col items-center justify-center gap-3 px-4 py-5 text-center font-bold text-lg transition-all duration-200
+        ${selected ? "scale-[0.98] saturate-110" : "hover:scale-[1.02]"}
       `}
-      style={{
-        boxShadow: selected
-          ? "var(--pop-shadow-tangerine)"
-          : "var(--pop-shadow-cobalt)",
-      }}
     >
-      {/* Badge de Ordem - Aparece apenas quando selecionado */}
       {selected && order && (
-        <div className="absolute -top-2 -right-2 w-8 h-8 bg-cobalt text-white rounded-full border-2 border-background flex items-center justify-center text-sm font-black shadow-md animate-in zoom-in duration-300">
+        <div className="stone-badge absolute -top-2 -right-2 flex h-9 w-9 items-center justify-center text-sm font-black animate-in zoom-in duration-300">
           {order}
         </div>
       )}
 
       <div
         className={`
-          w-14 h-14 rounded-2xl flex items-center justify-center text-3xl transition-colors duration-200
-          ${selected ? "bg-tangerine text-secondary-foreground" : "bg-muted text-cobalt"}
+          flex h-16 w-16 items-center justify-center rounded-[1.25rem] border-2 text-3xl transition-all duration-200
+          ${
+            selected
+              ? "border-[#8f4f2b] bg-[linear-gradient(180deg,#fff6de,#efcf7a)] text-[#7a4b1d]"
+              : "border-[#6d4425]/60 bg-[linear-gradient(180deg,rgba(255,247,229,0.72),rgba(237,210,160,0.65))] text-[#6c4325]"
+          }
         `}
       >
-        {selected ? "🎮" : <UserPlus className="w-7 h-7" />}
+        {selected ? "🗺️" : <UserPlus className="h-7 w-7" />}
       </div>
-      
-      <span className={`text-sm font-semibold ${selected ? "text-tangerine" : "text-cobalt"}`}>
-        {label}
-      </span>
+
+      <div className={`${selected ? "parchment-panel w-full px-4 py-2" : "w-full px-2 py-1"}`}>
+        <span
+          className={`block text-sm font-extrabold uppercase tracking-[0.18em] ${
+            selected ? "text-[#7d4b1d]" : "text-[#5f381f]"
+          }`}
+        >
+          {selected ? "Na Trilha" : "Explorador"}
+        </span>
+      </div>
+
+      <span className="text-base font-black text-[#fff4de]">{label}</span>
     </button>
   );
 };

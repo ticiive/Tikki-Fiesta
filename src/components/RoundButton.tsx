@@ -9,19 +9,13 @@ const RoundButton = ({ value, selected, onClick }: RoundButtonProps) => {
     <button
       onClick={onClick}
       className={`
-        flex-1 py-4 rounded-2xl border-[3px] font-bold text-2xl transition-all duration-200
-        ${
-          selected
-            ? "border-tangerine bg-tangerine text-secondary-foreground scale-[0.96]"
-            : "border-tangerine bg-card text-tangerine hover:scale-[1.03]"
-        }
+        splash-hit gem-button flex-1 px-3 py-4 text-2xl font-black tracking-wide text-[#fff9ef]
+        ${selected ? "gem-magenta" : "gem-turquoise"}
       `}
-      style={{
-        boxShadow: selected
-          ? "2px 2px 0px hsl(25 90% 40%)"
-          : "var(--pop-shadow-tangerine)",
-      }}
     >
+      <span className="block text-xs uppercase tracking-[0.3em] text-[#fff6e0]/80">
+        Rodadas
+      </span>
       {value}
     </button>
   );
