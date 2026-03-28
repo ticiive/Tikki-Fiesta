@@ -9,14 +9,17 @@ const RoundButton = ({ value, selected, onClick }: RoundButtonProps) => {
     <button
       onClick={onClick}
       className={`
-        splash-hit gem-button flex-1 px-3 py-4 text-2xl font-black tracking-wide text-[#fff9ef]
-        ${selected ? "gem-magenta" : "gem-turquoise"}
+        splash-hit flex-1 px-3 py-4 text-center transition-all duration-200
+        ${selected ? "gem-button gem-magenta" : "gem-button gem-turquoise"}
       `}
+      type="button"
     >
-      <span className="block text-xs uppercase tracking-[0.3em] text-[#fff6e0]/80">
-        Rodadas
+      <span className="block text-[11px] font-black uppercase tracking-[0.28em] text-white/82">
+        Ondas
       </span>
-      {value}
+      <strong className="mt-1 block text-3xl font-black text-white">
+        {value}
+      </strong>
     </button>
   );
 };

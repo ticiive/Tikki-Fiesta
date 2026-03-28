@@ -1,52 +1,33 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Coins, Dices, Flame, Swords, Timer, Trophy } from "lucide-react";
+import { Coins, Dices, Shell, Sparkles, Timer, Trophy, Waves } from "lucide-react";
 
 const MINIGAMES = [
   {
-    title: "Desafio de Moedas",
+    title: "Coco Sprint",
     icon: Coins,
-    description: "O explorador mais rápido conquista 10 moedas brilhantes.",
-    badge: "Tesouro",
-    surface: "parchment-panel",
+    description: "Quem agir mais rápido ganha um bônus de moedas.",
+    badge: "🥥 Velocidade",
   },
   {
-    title: "Duelo de Dados",
+    title: "Splash Dice",
     icon: Dices,
-    description: "Role os dados e deixe a sorte decidir o rumo do mapa.",
-    badge: "Dados",
-    surface: "wood-panel",
+    description: "Role os dados e deixe a maré decidir a vantagem.",
+    badge: "🌊 Sorte",
   },
   {
-    title: "Corrida Contra o Tempo",
+    title: "Sunset Rush",
     icon: Timer,
-    description: "Resolva o desafio antes da maré virar a ampulheta.",
-    badge: "Maré",
-    surface: "parchment-panel",
+    description: "Resolva o desafio antes da contagem chegar ao fim.",
+    badge: "☀️ Tempo",
   },
   {
-    title: "Batalha Épica",
-    icon: Swords,
-    description: "Dois aventureiros entram em duelo estratégico por glória.",
-    badge: "Duelo",
-    surface: "wood-panel",
-  },
-  {
-    title: "Grande Prêmio",
+    title: "Shell Crown",
     icon: Trophy,
-    description: "Quem acertar primeiro recebe estrelas de bônus.",
-    badge: "Troféu",
-    surface: "parchment-panel",
+    description: "O melhor desempenho da rodada rende glória extra.",
+    badge: "🐚 Pódio",
   },
-];
-
-const CARD_STYLES = [
-  "parchment-panel",
-  "wood-panel",
-  "parchment-panel",
-  "wood-panel",
-  "parchment-panel",
 ];
 
 const Sorteio = () => {
@@ -101,117 +82,132 @@ const Sorteio = () => {
 
   return (
     <div className="world-shell">
-      <div className="mobile-island">
-        <div className="island-screen items-center justify-center">
-          <div className="parchment-panel w-full px-4 py-4">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <span className="subtle-copy text-xs uppercase tracking-[0.3em]">
-                  Sorteio de evento
-                </span>
-                <h1 className="font-display mt-2 text-4xl leading-none text-[#7a4b1d]">
-                  Rodada {currentRound}
-                  <span className="ml-2 text-3xl text-[#af7b38]">/ {totalRounds}</span>
-                </h1>
+      <div className="gameplay-stage">
+        <div className="landscape-board items-center">
+          <aside className="landscape-side">
+            <section className="leafy-card p-5">
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-white/82">
+                Sorteio tropical
+              </p>
+              <h2 className="font-display mt-2 text-5xl leading-none text-white">
+                Rodada {currentRound}
+              </h2>
+              <p className="mt-3 text-sm font-bold text-white/84">
+                de {totalRounds} ondas
+              </p>
+            </section>
+            <section className="surf-card p-5 text-[#13717a]">
+              <div className="flex items-center gap-2">
+                <Waves className="h-4 w-4" />
+                <p className="text-xs font-black uppercase tracking-[0.2em]">
+                  Evento
+                </p>
               </div>
-              <div className="stake-tab is-selected px-4 py-3 text-center">
-                <span className="block text-xs uppercase tracking-[0.22em]">
-                  Baralho
-                </span>
-                <strong className="text-lg">Misturando</strong>
-              </div>
-            </div>
-          </div>
+              <p className="mt-3 text-sm font-bold">
+                O minigame define o clima da próxima etapa com visual fresh de
+                praia mobile.
+              </p>
+            </section>
+          </aside>
 
-          <AnimatePresence mode="wait">
-            {phase === "shuffling" ? (
-              <motion.div
-                key="shuffle"
-                className="relative mt-6 h-52 w-72"
-                exit={{ opacity: 0, scale: 0.88 }}
-                transition={{ duration: 0.3 }}
-              >
-                {CARD_STYLES.map((cardStyle, index) => (
-                  <motion.div
-                    key={index}
-                    className={`absolute inset-0 ${cardStyle} p-4`}
-                    style={{ zIndex: CARD_STYLES.length - index }}
-                    animate={{
-                      x: [0, (index % 2 === 0 ? 1 : -1) * 78, 0, (index % 2 === 0 ? -1 : 1) * 54, 0],
-                      rotate: [0, index % 2 === 0 ? 8 : -8, 0, index % 2 === 0 ? -5 : 5, 0],
-                      y: [0, -10 * (index % 3), 5, -8, 0],
-                    }}
-                    transition={{
-                      duration: 0.6,
-                      repeat: 3,
-                      delay: index * 0.05,
-                      ease: "easeInOut",
-                    }}
-                  >
-                    <div className="flex h-full items-center justify-center">
-                      <Dices className="h-14 w-14 text-[#7a4b1d]/40" />
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            ) : (
-              <motion.div
-                key="revealed"
-                className="mt-6 flex w-full flex-col items-center gap-6"
-                initial={{ opacity: 0, scale: 0.5, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
+          <main className="landscape-main items-center justify-center">
+            <AnimatePresence mode="wait">
+              {phase === "shuffling" ? (
                 <motion.div
-                  className={`${chosenGame.surface} w-full max-w-[21rem] px-6 py-6 text-center`}
-                  initial={{ rotateY: 90 }}
-                  animate={{ rotateY: 0 }}
-                  transition={{ delay: 0.1, duration: 0.4 }}
+                  key="shuffle"
+                  className="relative mt-2 h-64 w-full max-w-md"
+                  exit={{ opacity: 0, scale: 0.88 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <div className="island-badge mx-auto mb-4 inline-flex items-center gap-2 px-4 py-2 text-xs font-black uppercase tracking-[0.22em]">
-                    <Flame className="h-4 w-4" />
-                    {chosenGame.badge}
-                  </div>
-
+                  {Array.from({ length: 4 }).map((_, index) => (
+                    <motion.div
+                      key={index}
+                      className={`${index % 2 === 0 ? "surf-card" : "driftwood-card"} absolute inset-0 p-6`}
+                      style={{ zIndex: 4 - index }}
+                      animate={{
+                        x: [0, (index % 2 === 0 ? 1 : -1) * 84, 0, (index % 2 === 0 ? -1 : 1) * 56, 0],
+                        rotate: [0, index % 2 === 0 ? 8 : -8, 0, index % 2 === 0 ? -5 : 5, 0],
+                        y: [0, -12 * (index % 3), 6, -10, 0],
+                      }}
+                      transition={{ duration: 0.64, repeat: 3, delay: index * 0.06, ease: "easeInOut" }}
+                    >
+                      <div className="flex h-full items-center justify-center text-6xl">
+                        🐚
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="reveal"
+                  className="flex w-full max-w-2xl flex-col items-center gap-6"
+                  initial={{ opacity: 0, scale: 0.5, y: 30 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ type: "spring", stiffness: 280, damping: 22 }}
+                >
                   <motion.div
-                    animate={{ scale: [1, 1.12, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                    className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-[1.5rem] border-2 border-[#865226] bg-[linear-gradient(180deg,#fff6df,#efcf7a)] text-[#7a4b1d]"
+                    className="surf-card w-full p-8 text-center"
+                    initial={{ rotateY: 90 }}
+                    animate={{ rotateY: 0 }}
+                    transition={{ delay: 0.1, duration: 0.4 }}
                   >
-                    <ChosenIcon className="h-10 w-10" />
+                    <div className="island-badge mx-auto inline-flex items-center gap-2 px-4 py-2 text-xs font-black uppercase tracking-[0.22em]">
+                      <Sparkles className="h-4 w-4" />
+                      {chosenGame.badge}
+                    </div>
+
+                    <motion.div
+                      animate={{ scale: [1, 1.12, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                      className="mx-auto mt-5 flex h-24 w-24 items-center justify-center rounded-full border-2 border-white/70 bg-white/35 text-[#0d7983]"
+                    >
+                      <ChosenIcon className="h-11 w-11" />
+                    </motion.div>
+
+                    <h1 className="font-display mt-6 text-6xl leading-none text-white">
+                      {chosenGame.title}
+                    </h1>
+                    <p className="mx-auto mt-4 max-w-xl text-base font-bold leading-relaxed text-white/88">
+                      {chosenGame.description}
+                    </p>
                   </motion.div>
 
-                  <h2 className="font-display text-5xl leading-none text-[#7a4b1d]">
-                    {chosenGame.title}
-                  </h2>
-
-                  <p className="subtle-copy mt-4 text-base leading-relaxed">
-                    {chosenGame.description}
-                  </p>
+                  <div className="flex w-full flex-wrap justify-center gap-3">
+                    <button
+                      onClick={handleStart}
+                      className="splash-hit gem-button gem-magenta px-8 py-4 text-sm uppercase tracking-[0.22em]"
+                      type="button"
+                    >
+                      Iniciar minigame
+                    </button>
+                    <button
+                      onClick={handleSkip}
+                      className="splash-hit gem-button gem-turquoise px-8 py-4 text-sm uppercase tracking-[0.22em]"
+                      type="button"
+                    >
+                      {isGameOver ? "Ir para ranking" : "Pular etapa"}
+                    </button>
+                  </div>
                 </motion.div>
+              )}
+            </AnimatePresence>
+          </main>
 
-                <div className="flex w-full flex-col items-center gap-3">
-                  <motion.button
-                    onClick={handleStart}
-                    className="splash-hit gem-button gem-magenta w-full max-w-[21rem] px-8 py-4 text-sm uppercase tracking-[0.22em]"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Iniciar minigame
-                  </motion.button>
-
-                  <motion.button
-                    onClick={handleSkip}
-                    className="splash-hit gem-button gem-turquoise w-full max-w-[21rem] px-8 py-4 text-sm uppercase tracking-[0.22em]"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {isGameOver ? "Ir para ranking" : "Pular e continuar"}
-                  </motion.button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <aside className="landscape-side">
+            <section className="parchment-panel p-5">
+              <div className="flex items-center gap-2">
+                <Shell className="h-4 w-4 text-[#157f89]" />
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#468185]">
+                  Estilo visual
+                </p>
+              </div>
+              <ul className="mt-4 grid gap-2 text-sm font-bold text-[#468185]">
+                <li>Água turquesa intensa</li>
+                <li>Peças redondas com outline forte</li>
+                <li>Conchas e cocos no lugar de ícones genéricos</li>
+              </ul>
+            </section>
+          </aside>
         </div>
       </div>
     </div>

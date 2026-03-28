@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface GameTransitionProps {
@@ -12,64 +12,67 @@ const GameTransition = ({ onComplete }: GameTransitionProps) => {
   const [timerDone, setTimerDone] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setTimerDone(true), 3000);
+    const timer = setTimeout(() => setTimerDone(true), 2600);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    const mql = window.matchMedia("(orientation: portrait)");
-    const onChange = (e: MediaQueryListEvent | MediaQueryList) => setIsPortrait(e.matches);
-    onChange(mql);
-    mql.addEventListener("change", onChange as (e: MediaQueryListEvent) => void);
-    return () => mql.removeEventListener("change", onChange as (e: MediaQueryListEvent) => void);
+    const mediaQuery = window.matchMedia("(orientation: portrait)");
+    const onChange = (event: MediaQueryListEvent | MediaQueryList) => {
+      setIsPortrait(event.matches);
+    };
+
+    onChange(mediaQuery);
+    mediaQuery.addEventListener("change", onChange as (event: MediaQueryListEvent) => void);
+
+    return () =>
+      mediaQuery.removeEventListener("change", onChange as (event: MediaQueryListEvent) => void);
   }, []);
 
   useEffect(() => {
-    if (timerDone && (!isMobile || !isPortrait)) onComplete();
+    if (timerDone && (!isMobile || !isPortrait)) {
+      onComplete();
+    }
   }, [timerDone, isMobile, isPortrait, onComplete]);
 
-  const showOrientationWarning = isMobile && isPortrait;
+  const waitingRotation = isMobile && isPortrait;
 
   return (
     <motion.div
-      className="fixed inset-0 z-[9998] flex flex-col items-center justify-center"
-      style={{ background: "linear-gradient(180deg, hsl(200 80% 72%) 0%, hsl(200 60% 92%) 100%)" }}
+      className="fixed inset-0 z-[9998] flex flex-col items-center justify-center bg-[linear-gradient(180deg,#68e7eb,#1fb7dc_55%,#ffdca2)] px-6 text-center"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
     >
       <motion.div
-        className="text-coral mb-8"
-        animate={{ rotate: [0, -90, -90, 0] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", times: [0, 0.4, 0.7, 1] }}
+        className="surf-card flex h-24 w-24 items-center justify-center text-5xl"
+        animate={{ y: [0, -10, 0], rotate: [0, 4, -3, 0] }}
+        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
       >
-        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-          <line x1="12" y1="18" x2="12" y2="18.01" />
-        </svg>
+        🌴
       </motion.div>
 
-      <motion.p
-        className="text-xl sm:text-2xl font-bold text-foreground text-center px-8 leading-relaxed font-display"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.5 }}
-      >
-        {showOrientationWarning && timerDone
-          ? "Vire o aparelho para jogar! 📱"
-          : "Tudo pronto! Agora vire o aparelho para uma melhor experiência 🎮"}
-      </motion.p>
+      <h2 className="font-display mt-8 text-6xl leading-none text-white">
+        Praia liberada
+      </h2>
+      <p className="mt-4 max-w-md text-lg font-black leading-relaxed text-white/88">
+        {waitingRotation
+          ? "Gire o aparelho para entrar na partida horizontal."
+          : "Entrando na arena tropical com HUD nas laterais."}
+      </p>
 
       <AnimatePresence>
         {!timerDone && (
           <motion.div className="mt-6 flex gap-2" exit={{ opacity: 0 }}>
-            {[0, 1, 2].map((i) => (
-              <motion.div
-                key={i}
-                className="w-3 h-3 rounded-full bg-mint/60"
-                animate={{ scale: [1, 1.4, 1], opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
-              />
+            {["🥥", "🐚", "🌺"].map((item, index) => (
+              <motion.span
+                key={item}
+                className="text-2xl"
+                animate={{ y: [0, -8, 0], opacity: [0.4, 1, 0.4] }}
+                transition={{ duration: 1, repeat: Infinity, delay: index * 0.18 }}
+              >
+                {item}
+              </motion.span>
             ))}
           </motion.div>
         )}

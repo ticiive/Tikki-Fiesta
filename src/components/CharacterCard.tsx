@@ -1,4 +1,5 @@
-import { UserPlus } from "lucide-react";
+import { Shell } from "lucide-react";
+import CharacterAvatar, { getCharacter } from "@/components/game/CharacterAvatar";
 
 interface CharacterCardProps {
   label: string;
@@ -13,44 +14,44 @@ const CharacterCard = ({
   order,
   onClick,
 }: CharacterCardProps) => {
+  const character = getCharacter(label);
+
   return (
     <button
       onClick={onClick}
       className={`
-        splash-hit wood-panel relative flex aspect-square w-full flex-col items-center justify-center gap-3 px-4 py-5 text-center font-bold text-lg transition-all duration-200
-        ${selected ? "scale-[0.98] saturate-110" : "hover:scale-[1.02]"}
+        splash-hit relative flex aspect-square w-full flex-col items-center justify-between rounded-[1.8rem] border-[3px] p-4 text-center transition-all duration-200
+        ${
+          selected
+            ? "leafy-card scale-[0.98]"
+            : "driftwood-card hover:-translate-y-1 hover:scale-[1.02]"
+        }
       `}
+      type="button"
     >
       {selected && order && (
-        <div className="stone-badge absolute -top-2 -right-2 flex h-9 w-9 items-center justify-center text-sm font-black animate-in zoom-in duration-300">
+        <div className="stone-badge absolute -right-2 -top-2 flex h-10 w-10 items-center justify-center text-sm font-black">
           {order}
         </div>
       )}
 
-      <div
-        className={`
-          flex h-16 w-16 items-center justify-center rounded-[1.25rem] border-2 text-3xl transition-all duration-200
-          ${
-            selected
-              ? "border-[#8f4f2b] bg-[linear-gradient(180deg,#fff6de,#efcf7a)] text-[#7a4b1d]"
-              : "border-[#6d4425]/60 bg-[linear-gradient(180deg,rgba(255,247,229,0.72),rgba(237,210,160,0.65))] text-[#6c4325]"
-          }
-        `}
-      >
-        {selected ? "🗺️" : <UserPlus className="h-7 w-7" />}
+      <div className="island-badge inline-flex items-center gap-2 px-3 py-1 text-[11px] font-black uppercase tracking-[0.2em]">
+        <Shell className="h-3.5 w-3.5" />
+        {selected ? "Escolhido" : "Livre"}
       </div>
 
-      <div className={`${selected ? "parchment-panel w-full px-4 py-2" : "w-full px-2 py-1"}`}>
-        <span
-          className={`block text-sm font-extrabold uppercase tracking-[0.18em] ${
-            selected ? "text-[#7d4b1d]" : "text-[#5f381f]"
-          }`}
-        >
-          {selected ? "Na Trilha" : "Explorador"}
+      <div className="rounded-[1.4rem] border-2 border-white/60 bg-white/50 px-3 py-3 shadow-[0_8px_18px_rgba(24,112,127,0.12)]">
+        <CharacterAvatar playerId={label} size="lg" bounce={selected} />
+      </div>
+
+      <div className="w-full rounded-[1.3rem] bg-white/18 px-3 py-3">
+        <span className="block text-lg font-black text-white">
+          {character.name}
+        </span>
+        <span className="mt-1 block text-xs font-black uppercase tracking-[0.18em] text-white/80">
+          {selected ? "Pronto para a praia" : "Toque para entrar"}
         </span>
       </div>
-
-      <span className="text-base font-black text-[#fff4de]">{label}</span>
     </button>
   );
 };

@@ -1,44 +1,58 @@
 import { motion } from "framer-motion";
 
-/* Stylized palm leaf SVG */
-const PalmLeaf = ({ flip = false, className = "" }: { flip?: boolean; className?: string }) => (
-  <svg
-    width="120"
-    height="200"
-    viewBox="0 0 120 200"
-    fill="none"
-    className={className}
-    style={{ transform: flip ? "scaleX(-1)" : undefined }}
-  >
-    <path
-      d="M60 200 C60 140, 20 100, 5 60 C15 80, 40 90, 60 120 C60 90, 30 50, 10 20 C25 45, 50 65, 60 100 C55 60, 25 30, 15 5 C35 30, 55 55, 60 80 C65 55, 85 30, 105 5 C95 30, 65 60, 60 100 C70 65, 95 45, 110 20 C90 50, 60 90, 60 120 C80 90, 105 80, 115 60 C100 100, 60 140, 60 200Z"
-      fill="hsl(145 60% 35%)"
-      stroke="hsl(145 60% 22%)"
-      strokeWidth="2"
-    />
-  </svg>
-);
-
-/* Small rounded stones for corners */
-const Stones = ({ className = "" }: { className?: string }) => (
-  <svg width="80" height="40" viewBox="0 0 80 40" className={className} fill="none">
-    <ellipse cx="15" cy="28" rx="14" ry="10" fill="hsl(200 10% 60%)" stroke="hsl(200 10% 40%)" strokeWidth="2" />
-    <ellipse cx="40" cy="30" rx="11" ry="8" fill="hsl(200 10% 55%)" stroke="hsl(200 10% 38%)" strokeWidth="2" />
-    <ellipse cx="62" cy="29" rx="13" ry="9" fill="hsl(200 10% 58%)" stroke="hsl(200 10% 42%)" strokeWidth="2" />
-  </svg>
-);
-
-/* Floating water ripple */
-const WaterRipple = ({ delay, left }: { delay: number; left: string }) => (
+const PalmLeaves = ({ side }: { side: "left" | "right" }) => (
   <motion.div
-    className="absolute pointer-events-none"
-    style={{ bottom: "8%", left }}
-    initial={{ opacity: 0, scale: 0.6 }}
-    animate={{ opacity: [0, 0.4, 0], scale: [0.6, 1.4, 1.8] }}
-    transition={{ duration: 4, repeat: Infinity, delay, ease: "easeOut" }}
+    className={`absolute top-0 ${side === "left" ? "-left-6" : "-right-6"} pointer-events-none opacity-90`}
+    animate={{ rotate: side === "left" ? [0, 2, -1, 0] : [0, -2, 1, 0] }}
+    transition={{ duration: side === "left" ? 7 : 7.8, repeat: Infinity, ease: "easeInOut" }}
   >
-    <svg width="60" height="20" viewBox="0 0 60 20" fill="none">
-      <ellipse cx="30" cy="10" rx="28" ry="8" stroke="hsla(178, 55%, 65%, 0.5)" strokeWidth="1.5" fill="none" />
+    <svg
+      width="190"
+      height="240"
+      viewBox="0 0 190 240"
+      fill="none"
+      style={{ transform: side === "right" ? "scaleX(-1)" : undefined }}
+    >
+      <path
+        d="M92 238C92 178 54 130 18 82C45 92 66 101 92 129C79 96 55 58 24 20C58 47 82 73 95 111C104 78 126 48 164 18C137 58 111 95 99 129C128 100 149 89 174 82C138 130 100 178 92 238Z"
+        fill="#4cc36f"
+        stroke="#1f7c4b"
+        strokeWidth="5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M92 240C95 186 92 134 91 88"
+        stroke="#2d8f55"
+        strokeWidth="7"
+        strokeLinecap="round"
+      />
+    </svg>
+  </motion.div>
+);
+
+const ShellCluster = ({ side }: { side: "left" | "right" }) => (
+  <div className={`absolute bottom-5 ${side === "left" ? "left-5" : "right-5"} pointer-events-none opacity-90`}>
+    <svg width="120" height="70" viewBox="0 0 120 70" fill="none">
+      <path d="M20 48C20 32 32 20 47 20C60 20 72 32 72 48C72 54 68 58 62 58H30C24 58 20 54 20 48Z" fill="#fff7ea" stroke="#2f9ab1" strokeWidth="3" />
+      <path d="M48 58V25" stroke="#8acfe0" strokeWidth="2" />
+      <path d="M38 56L34 31" stroke="#8acfe0" strokeWidth="2" />
+      <path d="M58 56L62 31" stroke="#8acfe0" strokeWidth="2" />
+      <ellipse cx="92" cy="44" rx="18" ry="13" fill="#ffd9c9" stroke="#2f9ab1" strokeWidth="3" />
+      <ellipse cx="92" cy="44" rx="7" ry="5" fill="#fff2ea" />
+    </svg>
+  </div>
+);
+
+const WaterRipple = ({ left, delay }: { left: string; delay: number }) => (
+  <motion.div
+    className="absolute bottom-[14%] pointer-events-none"
+    style={{ left }}
+    initial={{ opacity: 0.2, scale: 0.7 }}
+    animate={{ opacity: [0.15, 0.4, 0.15], scale: [0.7, 1.2, 1.55] }}
+    transition={{ duration: 4.4, repeat: Infinity, delay, ease: "easeOut" }}
+  >
+    <svg width="86" height="28" viewBox="0 0 86 28" fill="none">
+      <ellipse cx="43" cy="14" rx="38" ry="10" stroke="rgba(255,255,255,0.55)" strokeWidth="2" />
     </svg>
   </motion.div>
 );
@@ -46,77 +60,41 @@ const WaterRipple = ({ delay, left }: { delay: number; left: string }) => (
 const IslandBackground = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="relative min-h-screen w-full overflow-hidden sand-texture">
-      {/* Base gradient: sand → turquoise water */}
       <div
         className="absolute inset-0"
         style={{
           background: `
-            linear-gradient(
-              180deg,
-              hsl(200 70% 78%) 0%,
-              hsl(178 55% 65%) 25%,
-              hsl(178 45% 60%) 45%,
-              hsl(38 50% 80%) 70%,
-              hsl(38 55% 82%) 85%,
-              hsl(35 45% 85%) 100%
-            )
+            radial-gradient(circle at 28% 24%, rgba(255,255,255,0.28) 0 10%, transparent 11%),
+            radial-gradient(circle at 72% 18%, rgba(255,255,255,0.18) 0 12%, transparent 13%),
+            linear-gradient(180deg, #7ef0ee 0%, #24cbe2 28%, #12a6d3 48%, #ffeab5 76%, #ffd98f 100%)
           `,
         }}
       />
 
-      {/* Water shimmer */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "repeating-linear-gradient(90deg, transparent, hsla(178 70% 70% / 0.08) 4px, transparent 8px)",
+            "repeating-linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 6px, transparent 12px)",
         }}
-        animate={{ x: [0, 20, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ x: [0, 22, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Water ripples */}
-      <WaterRipple delay={0} left="15%" />
-      <WaterRipple delay={2} left="55%" />
-      <WaterRipple delay={3.5} left="80%" />
+      <WaterRipple left="14%" delay={0} />
+      <WaterRipple left="56%" delay={1.7} />
+      <WaterRipple left="80%" delay={3.1} />
 
-      {/* Palm leaves — left edge */}
-      <motion.div
-        className="absolute -left-6 top-0 pointer-events-none opacity-60"
-        animate={{ rotate: [0, 2, -1, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <PalmLeaf />
-      </motion.div>
+      <PalmLeaves side="left" />
+      <PalmLeaves side="right" />
+      <ShellCluster side="left" />
+      <ShellCluster side="right" />
 
-      {/* Palm leaves — right edge */}
-      <motion.div
-        className="absolute -right-6 top-0 pointer-events-none opacity-60"
-        animate={{ rotate: [0, -2, 1, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-      >
-        <PalmLeaf flip />
-      </motion.div>
-
-      {/* Corner stones — bottom-left */}
-      <div className="absolute bottom-2 left-2 pointer-events-none opacity-50">
-        <Stones />
-      </div>
-
-      {/* Corner stones — bottom-right */}
-      <div className="absolute bottom-2 right-2 pointer-events-none opacity-50" style={{ transform: "scaleX(-1)" }}>
-        <Stones />
-      </div>
-
-      {/* Subtle vignette for depth */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{
-          boxShadow: "inset 0 0 100px 30px hsla(25, 40%, 15%, 0.15)",
-        }}
+        style={{ boxShadow: "inset 0 0 120px 32px rgba(12,112,138,0.12)" }}
       />
 
-      {/* Content */}
       <div className="relative z-10">{children}</div>
     </div>
   );

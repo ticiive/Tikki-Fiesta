@@ -1,51 +1,58 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { RotateCcw, Waves } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
+
+const GAMEPLAY_ROUTES = new Set([
+  "/game",
+  "/sorteio",
+  "/timer",
+  "/ranking",
+  "/minigame-ranking",
+]);
 
 const OrientationOverlay = () => {
   const isMobile = useIsMobile();
+  const location = useLocation();
   const [isPortrait, setIsPortrait] = useState(false);
 
   useEffect(() => {
     const mql = window.matchMedia("(orientation: portrait)");
-    const onChange = (e: MediaQueryListEvent | MediaQueryList) => {
-      setIsPortrait(e.matches);
+    const onChange = (event: MediaQueryListEvent | MediaQueryList) => {
+      setIsPortrait(event.matches);
     };
+
     onChange(mql);
-    mql.addEventListener("change", onChange as (e: MediaQueryListEvent) => void);
-    return () => mql.removeEventListener("change", onChange as (e: MediaQueryListEvent) => void);
+    mql.addEventListener("change", onChange as (event: MediaQueryListEvent) => void);
+
+    return () =>
+      mql.removeEventListener("change", onChange as (event: MediaQueryListEvent) => void);
   }, []);
 
-  const show = isMobile && isPortrait;
+  const show = isMobile && isPortrait && GAMEPLAY_ROUTES.has(location.pathname);
 
   return (
     <AnimatePresence>
       {show && (
         <motion.div
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black/95 backdrop-blur-sm"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0d6b88]/92 px-6 text-center backdrop-blur-md"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
         >
-          {/* Corner arrows */}
-          <ChevronRight className="absolute top-6 right-6 text-muted-foreground/40 w-8 h-8 animate-pulse" />
-          <ChevronLeft className="absolute bottom-6 left-6 text-muted-foreground/40 w-8 h-8 animate-pulse" />
-
-          {/* Rotating phone icon */}
           <motion.div
-            className="text-primary mb-8"
+            className="surf-card flex h-24 w-24 items-center justify-center text-[#0d6b76]"
             animate={{ rotate: [0, -90, -90, 0] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", times: [0, 0.4, 0.7, 1] }}
+            transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", times: [0, 0.38, 0.72, 1] }}
           >
             <svg
-              width="80"
-              height="80"
+              width="56"
+              height="56"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.5"
+              strokeWidth="1.8"
               strokeLinecap="round"
               strokeLinejoin="round"
             >
@@ -54,18 +61,19 @@ const OrientationOverlay = () => {
             </svg>
           </motion.div>
 
-          <p className="text-lg font-bold text-white text-center px-8 leading-relaxed">
-            Vire o aparelho para jogar!
+          <h2 className="font-display mt-8 text-5xl leading-none text-white">
+            Vire para jogar
+          </h2>
+          <p className="mt-4 max-w-sm text-base font-bold leading-relaxed text-white/86">
+            As telas de partida foram desenhadas em modo paisagem, com as
+            estatísticas distribuídas nas laterais como um jogo mobile tropical.
           </p>
 
-          <motion.div
-            className="mt-4 flex items-center gap-2 text-muted-foreground/60 text-sm"
-            animate={{ x: [0, 6, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <RotateCcw size={16} />
-            <span>Modo paisagem</span>
-          </motion.div>
+          <div className="mt-6 flex items-center gap-2 rounded-full bg-white/14 px-4 py-2 text-sm font-black uppercase tracking-[0.18em] text-white/84">
+            <RotateCcw className="h-4 w-4" />
+            <span>Modo horizontal</span>
+            <Waves className="h-4 w-4" />
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

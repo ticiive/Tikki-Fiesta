@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Compass, Flame, Waves } from "lucide-react";
+import { Shell, Sun, Waves } from "lucide-react";
 import CharacterCard from "@/components/CharacterCard";
 import RoundButton from "@/components/RoundButton";
+import IslandBackground from "@/components/IslandBackground";
 
 const players = ["P1", "P2", "P3", "P4"];
 const roundOptions = [10, 15, 20];
@@ -16,7 +17,7 @@ const Index = () => {
   const togglePlayer = (label: string) => {
     setSelectedPlayers((prev) => {
       if (prev.includes(label)) {
-        return prev.filter((p) => p !== label);
+        return prev.filter((player) => player !== label);
       }
 
       if (prev.length >= MAX_PLAYERS) {
@@ -41,52 +42,30 @@ const Index = () => {
   };
 
   return (
-    <div className="world-shell">
-      <div className="mobile-island">
-        <div className="island-screen">
-          <header className="parchment-panel p-5">
-            <div className="mb-3 flex items-start justify-between gap-4">
+    <IslandBackground>
+      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col justify-center px-5 py-8">
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+          <section className="parchment-panel p-6">
+            <div className="flex items-start justify-between gap-4">
               <div>
-                <span className="subtle-copy text-xs uppercase tracking-[0.3em]">
-                  Ilha do Tabuleiro
+                <span className="island-badge inline-flex items-center gap-2 px-4 py-2 text-xs font-black uppercase tracking-[0.22em]">
+                  <Sun className="h-4 w-4" />
+                  Setup de Praia
                 </span>
-                <h1 className="font-display mt-2 text-5xl leading-none text-[#7a4b1d]">
-                  Preparar Jornada
+                <h1 className="font-display mt-4 text-6xl leading-none text-[#14828d]">
+                  Monte o Time
                 </h1>
-              </div>
-              <div className="island-badge flex h-14 w-14 items-center justify-center text-[#7a4b1d]">
-                <Compass className="h-7 w-7" />
-              </div>
-            </div>
-
-            <p className="subtle-copy text-left text-sm leading-relaxed">
-              Monte a mesa como se estivesse abrindo um mapa vivo: escolha os
-              exploradores, marque a duração da aventura e siga para a ilha.
-            </p>
-          </header>
-
-          <section className="parchment-panel px-4 py-5">
-            <div className="mb-4 flex items-center justify-between gap-3">
-              <div>
-                <h2 className="section-title">
-                  <Flame className="h-5 w-5 text-tangerine" />
-                  Escolha os jogadores
-                </h2>
-                <p className="subtle-copy mt-1 text-sm">
-                  Até {MAX_PLAYERS} exploradores por partida.
+                <p className="subtle-copy mt-4 max-w-xl text-base leading-relaxed">
+                  Escolha quem vai entrar na água e defina o número de ondas da
+                  partida antes de começar.
                 </p>
               </div>
-              <div className="stake-tab is-selected px-4 py-3 text-center">
-                <span className="block text-xs uppercase tracking-[0.22em]">
-                  Selecionados
-                </span>
-                <strong className="text-lg">
-                  {selectedPlayers.length}/{MAX_PLAYERS}
-                </strong>
+              <div className="surf-card flex h-20 w-20 items-center justify-center text-4xl">
+                🌺
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="mt-6 grid grid-cols-2 gap-4">
               {players.map((player) => {
                 const orderIndex = selectedPlayers.indexOf(player);
 
@@ -103,54 +82,78 @@ const Index = () => {
             </div>
           </section>
 
-          <section className="wood-panel px-4 py-5">
-            <div className="mb-4 flex items-center gap-3">
-              <div className="island-badge flex h-11 w-11 items-center justify-center text-[#7a4b1d]">
-                <Waves className="h-5 w-5" />
+          <aside className="flex flex-col gap-5">
+            <section className="leafy-card p-5">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.22em] text-white/82">
+                    Jogadores na areia
+                  </p>
+                  <h2 className="font-display mt-2 text-5xl leading-none text-white">
+                    {selectedPlayers.length}/{MAX_PLAYERS}
+                  </h2>
+                </div>
+                <div className="rounded-full bg-white/18 px-4 py-2 text-sm font-black uppercase tracking-[0.18em] text-white">
+                  limite {MAX_PLAYERS}
+                </div>
               </div>
-              <div>
-                <h2 className="section-title text-[#fff0d8]">
-                  Rota de Rodadas
-                </h2>
-                <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-[#fbe8cf]/80">
-                  Escolha o ritmo da aventura
+              <p className="mt-4 text-sm font-bold leading-relaxed text-white/86">
+                Você precisa de pelo menos 2 jogadores para começar.
+              </p>
+            </section>
+
+            <section className="driftwood-card p-5">
+              <div className="flex items-center gap-3">
+                <div className="island-badge flex h-12 w-12 items-center justify-center">
+                  <Waves className="h-5 w-5" />
+                </div>
+                <div>
+                  <h2 className="section-title">Quantidade de Ondas</h2>
+                  <p className="subtle-copy mt-1 text-sm">
+                    Escolha o ritmo da partida.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-5 flex gap-3">
+                {roundOptions.map((round) => (
+                  <RoundButton
+                    key={round}
+                    value={round}
+                    selected={selectedRounds === round}
+                    onClick={() => setSelectedRounds(round)}
+                  />
+                ))}
+              </div>
+            </section>
+
+            <section className="surf-card p-5 text-[#0f6f78]">
+              <div className="flex items-center gap-3">
+                <Shell className="h-5 w-5" />
+                <p className="text-xs font-black uppercase tracking-[0.22em]">
+                  Resumo
                 </p>
               </div>
-            </div>
+              <ul className="mt-4 grid gap-2 text-sm font-black">
+                <li>Interface com água turquesa e painéis inspirados em conchas.</li>
+                <li>Gameplay em landscape com HUD nas margens.</li>
+                <li>Botões em estilo pebble/coconut para ações rápidas.</li>
+              </ul>
+            </section>
 
-            <div className="flex gap-3">
-              {roundOptions.map((round) => (
-                <RoundButton
-                  key={round}
-                  value={round}
-                  selected={selectedRounds === round}
-                  onClick={() => setSelectedRounds(round)}
-                />
-              ))}
-            </div>
-          </section>
-
-          <div className="mt-auto">
-            <div className="lagoon-divider mb-4" />
             <button
-              disabled={!canStart}
               onClick={handleStart}
-              className={`
-                splash-hit gem-button w-full px-6 py-5 text-lg uppercase tracking-[0.22em]
-                ${canStart ? "gem-magenta" : "gem-turquoise"}
-              `}
+              disabled={!canStart}
+              className={`splash-hit gem-button px-8 py-5 text-lg uppercase tracking-[0.24em] ${
+                canStart ? "gem-magenta" : "gem-turquoise opacity-65"
+              }`}
+              type="button"
             >
-              <span className="block text-xs text-[#fff3dc]/80">
-                {canStart ? "Mapa pronto" : "Faltam escolhas"}
-              </span>
-              {canStart
-                ? `Iniciar com ${selectedPlayers.length} jogadores`
-                : "Selecione 2 a 4 jogadores"}
+              {canStart ? "Começar partida" : "Selecione jogadores"}
             </button>
-          </div>
+          </aside>
         </div>
       </div>
-    </div>
+    </IslandBackground>
   );
 };
 

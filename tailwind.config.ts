@@ -20,7 +20,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Nunito", "sans-serif"],
-        display: ['"Ceviche One"', "cursive"],
+        display: ['"Lilita One"', "cursive"],
       },
       colors: {
         border: "hsl(var(--border))",
