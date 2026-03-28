@@ -7,28 +7,38 @@ interface Props {
 
 const InactivePlayerRow = ({ players }: Props) => {
   return (
-    <div className="h-full flex gap-3 p-3">
-      {players.map((p) => (
+    <div className="grid h-full grid-cols-1 gap-3 overflow-auto pr-1 sm:grid-cols-3">
+      {players.map((player, index) => (
         <div
-          key={p.id}
-          className="flex-1 rounded-2xl border-[3px] border-cobalt bg-card p-3 flex items-center gap-3"
-          style={{ boxShadow: "var(--pop-shadow-cobalt)" }}
+          key={player.id}
+          className={`stake-tab ${index === 0 ? "is-selected" : ""} flex min-h-[8.2rem] flex-col justify-between px-4 py-4`}
         >
-          {/* Avatar */}
-          <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center text-2xl shrink-0">
-            🎲
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <span className="text-xs font-extrabold uppercase tracking-[0.24em] text-[#ffe7c8]/80">
+                Próximo
+              </span>
+              <h3 className="font-display mt-1 text-3xl leading-none text-[#fff5df]">
+                {player.label}
+              </h3>
+            </div>
+            <div className="flex h-11 w-11 items-center justify-center rounded-[1rem] border-2 border-[#7f4f2b] bg-[linear-gradient(180deg,#fff1cf,#efc56f)] text-2xl text-[#7d4b1d]">
+              🐚
+            </div>
           </div>
 
-          {/* Info */}
-          <div className="flex flex-col gap-0.5">
-            <span className="font-bold text-sm text-cobalt">{p.label}</span>
-            <div className="flex items-center gap-1 text-xs font-semibold text-muted-foreground">
-              <Coins className="w-3.5 h-3.5" />
-              <span>Moedas: {p.coins}</span>
+          <div className="mt-3 grid gap-2 text-sm font-black text-[#fff2dd]">
+            <div className="rounded-xl bg-[rgba(255,248,231,0.13)] px-3 py-2">
+              <span className="flex items-center gap-2">
+                <Coins className="h-4 w-4 text-[#ffe08c]" />
+                {player.coins} moedas
+              </span>
             </div>
-            <div className="flex items-center gap-1 text-xs font-semibold text-muted-foreground">
-              <Star className="w-3.5 h-3.5" />
-              <span>Estrelas: {p.stars}</span>
+            <div className="rounded-xl bg-[rgba(255,248,231,0.13)] px-3 py-2">
+              <span className="flex items-center gap-2">
+                <Star className="h-4 w-4 text-[#ffe08c]" />
+                {player.stars} estrelas
+              </span>
             </div>
           </div>
         </div>

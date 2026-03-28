@@ -14,7 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Quicksand', 'sans-serif'],
+        sans: ['Nunito', 'sans-serif'],
+        display: ['"Ceviche One"', 'cursive'],
       },
       colors: {
         border: "hsl(var(--border))",

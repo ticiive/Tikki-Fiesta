@@ -1,47 +1,52 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { Trophy, Dices, Coins, Swords, Timer } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Coins, Dices, Flame, Swords, Timer, Trophy } from "lucide-react";
 
 const MINIGAMES = [
   {
-    title: "DESAFIO DE MOEDAS",
+    title: "Desafio de Moedas",
     icon: Coins,
-    description: "O jogador mais rápido ganha 10 moedas!",
-    bg: "bg-secondary/15",
+    description: "O explorador mais rápido conquista 10 moedas brilhantes.",
+    badge: "Tesouro",
+    surface: "parchment-panel",
   },
   {
-    title: "DUELO DE DADOS",
+    title: "Duelo de Dados",
     icon: Dices,
-    description: "Role os dados e torça pelo melhor resultado!",
-    bg: "bg-primary/10",
+    description: "Role os dados e deixe a sorte decidir o rumo do mapa.",
+    badge: "Dados",
+    surface: "wood-panel",
   },
   {
-    title: "CORRIDA CONTRA O TEMPO",
+    title: "Corrida Contra o Tempo",
     icon: Timer,
-    description: "Complete o desafio antes do tempo acabar!",
-    bg: "bg-accent/15",
+    description: "Resolva o desafio antes da maré virar a ampulheta.",
+    badge: "Maré",
+    surface: "parchment-panel",
   },
   {
-    title: "BATALHA ÉPICA",
+    title: "Batalha Épica",
     icon: Swords,
-    description: "Enfrente seu oponente em um duelo estratégico!",
-    bg: "bg-destructive/10",
+    description: "Dois aventureiros entram em duelo estratégico por glória.",
+    badge: "Duelo",
+    surface: "wood-panel",
   },
   {
-    title: "GRANDE PRÊMIO",
+    title: "Grande Prêmio",
     icon: Trophy,
-    description: "Quem acertar leva 5 estrelas de bônus!",
-    bg: "bg-secondary/20",
+    description: "Quem acertar primeiro recebe estrelas de bônus.",
+    badge: "Troféu",
+    surface: "parchment-panel",
   },
 ];
 
-const CARD_COLORS = [
-  "border-cobalt",
-  "border-tangerine",
-  "border-neon-green",
-  "border-cobalt-light",
-  "border-tangerine-light",
+const CARD_STYLES = [
+  "parchment-panel",
+  "wood-panel",
+  "parchment-panel",
+  "wood-panel",
+  "parchment-panel",
 ];
 
 const Sorteio = () => {
@@ -49,7 +54,7 @@ const Sorteio = () => {
   const navigate = useNavigate();
   const { players, currentRound, totalRounds, isGameOver } =
     (location.state as {
-      players: any[];
+      players: Array<{ id: string; label: string; coins: number; stars: number }>;
       currentRound: number;
       totalRounds: number;
       isGameOver: boolean;
@@ -57,7 +62,7 @@ const Sorteio = () => {
 
   const [phase, setPhase] = useState<"shuffling" | "revealed">("shuffling");
   const [chosenGame] = useState(
-    () => MINIGAMES[Math.floor(Math.random() * MINIGAMES.length)]
+    () => MINIGAMES[Math.floor(Math.random() * MINIGAMES.length)],
   );
 
   useEffect(() => {
@@ -73,121 +78,142 @@ const Sorteio = () => {
 
   const handleStart = () => {
     navigate("/timer", {
-      state: { players, currentRound, totalRounds, isGameOver },
+      state: { players, currentRound, totalRounds, isGameOver, chosenGame },
     });
   };
 
   const handleSkip = () => {
     if (isGameOver) {
       navigate("/ranking", { state: { players } });
-    } else {
-      navigate("/game", {
-        state: {
-          players: players.map((p: any) => p.label || p),
-          totalRounds,
-          currentRound,
-        },
-      });
+      return;
     }
+
+    navigate("/game", {
+      state: {
+        players: players.map((player) => player.label || player),
+        totalRounds,
+        currentRound,
+      },
+    });
   };
 
   const ChosenIcon = chosenGame.icon;
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center overflow-hidden bg-background px-4">
-      {/* Round info */}
-      <div className="absolute top-4 left-4">
-        <span className="text-sm font-bold text-cobalt tracking-wide">
-          🎲 Rodada {currentRound}/{totalRounds}
-        </span>
-      </div>
+    <div className="world-shell">
+      <div className="mobile-island">
+        <div className="island-screen items-center justify-center">
+          <div className="parchment-panel w-full px-4 py-4">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <span className="subtle-copy text-xs uppercase tracking-[0.3em]">
+                  Sorteio de evento
+                </span>
+                <h1 className="font-display mt-2 text-4xl leading-none text-[#7a4b1d]">
+                  Rodada {currentRound}
+                  <span className="ml-2 text-3xl text-[#af7b38]">/ {totalRounds}</span>
+                </h1>
+              </div>
+              <div className="stake-tab is-selected px-4 py-3 text-center">
+                <span className="block text-xs uppercase tracking-[0.22em]">
+                  Baralho
+                </span>
+                <strong className="text-lg">Misturando</strong>
+              </div>
+            </div>
+          </div>
 
-      <AnimatePresence mode="wait">
-        {phase === "shuffling" ? (
-          <motion.div
-            key="shuffle"
-            className="relative w-64 h-40"
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3 }}
-          >
-            {[0, 1, 2, 3, 4].map((i) => (
+          <AnimatePresence mode="wait">
+            {phase === "shuffling" ? (
               <motion.div
-                key={i}
-                className={`absolute inset-0 rounded-2xl border-[4px] ${CARD_COLORS[i]} bg-card shadow-lg`}
-                style={{ zIndex: 5 - i }}
-                animate={{
-                  x: [0, (i % 2 === 0 ? 1 : -1) * 80, 0, (i % 2 === 0 ? -1 : 1) * 60, 0],
-                  rotate: [0, (i % 2 === 0 ? 8 : -8), 0, (i % 2 === 0 ? -5 : 5), 0],
-                  y: [0, -10 * (i % 3), 5, -8, 0],
-                }}
-                transition={{
-                  duration: 0.6,
-                  repeat: 3,
-                  delay: i * 0.05,
-                  ease: "easeInOut",
-                }}
+                key="shuffle"
+                className="relative mt-6 h-52 w-72"
+                exit={{ opacity: 0, scale: 0.88 }}
+                transition={{ duration: 0.3 }}
               >
-                <div className="w-full h-full flex items-center justify-center">
-                  <Dices className="w-12 h-12 text-cobalt-light opacity-40" />
+                {CARD_STYLES.map((cardStyle, index) => (
+                  <motion.div
+                    key={index}
+                    className={`absolute inset-0 ${cardStyle} p-4`}
+                    style={{ zIndex: CARD_STYLES.length - index }}
+                    animate={{
+                      x: [0, (index % 2 === 0 ? 1 : -1) * 78, 0, (index % 2 === 0 ? -1 : 1) * 54, 0],
+                      rotate: [0, index % 2 === 0 ? 8 : -8, 0, index % 2 === 0 ? -5 : 5, 0],
+                      y: [0, -10 * (index % 3), 5, -8, 0],
+                    }}
+                    transition={{
+                      duration: 0.6,
+                      repeat: 3,
+                      delay: index * 0.05,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <div className="flex h-full items-center justify-center">
+                      <Dices className="h-14 w-14 text-[#7a4b1d]/40" />
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="revealed"
+                className="mt-6 flex w-full flex-col items-center gap-6"
+                initial={{ opacity: 0, scale: 0.5, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                <motion.div
+                  className={`${chosenGame.surface} w-full max-w-[21rem] px-6 py-6 text-center`}
+                  initial={{ rotateY: 90 }}
+                  animate={{ rotateY: 0 }}
+                  transition={{ delay: 0.1, duration: 0.4 }}
+                >
+                  <div className="island-badge mx-auto mb-4 inline-flex items-center gap-2 px-4 py-2 text-xs font-black uppercase tracking-[0.22em]">
+                    <Flame className="h-4 w-4" />
+                    {chosenGame.badge}
+                  </div>
+
+                  <motion.div
+                    animate={{ scale: [1, 1.12, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                    className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-[1.5rem] border-2 border-[#865226] bg-[linear-gradient(180deg,#fff6df,#efcf7a)] text-[#7a4b1d]"
+                  >
+                    <ChosenIcon className="h-10 w-10" />
+                  </motion.div>
+
+                  <h2 className="font-display text-5xl leading-none text-[#7a4b1d]">
+                    {chosenGame.title}
+                  </h2>
+
+                  <p className="subtle-copy mt-4 text-base leading-relaxed">
+                    {chosenGame.description}
+                  </p>
+                </motion.div>
+
+                <div className="flex w-full flex-col items-center gap-3">
+                  <motion.button
+                    onClick={handleStart}
+                    className="splash-hit gem-button gem-magenta w-full max-w-[21rem] px-8 py-4 text-sm uppercase tracking-[0.22em]"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Iniciar minigame
+                  </motion.button>
+
+                  <motion.button
+                    onClick={handleSkip}
+                    className="splash-hit gem-button gem-turquoise w-full max-w-[21rem] px-8 py-4 text-sm uppercase tracking-[0.22em]"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {isGameOver ? "Ir para ranking" : "Pular e continuar"}
+                  </motion.button>
                 </div>
               </motion.div>
-            ))}
-          </motion.div>
-        ) : (
-          <motion.div
-            key="revealed"
-            className="flex flex-col items-center gap-6"
-            initial={{ opacity: 0, scale: 0.5, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          >
-            {/* Revealed card */}
-            <motion.div
-              className={`relative w-72 sm:w-80 rounded-3xl border-[4px] border-foreground/80 ${chosenGame.bg} bg-card p-6 flex flex-col items-center gap-4`}
-              style={{ boxShadow: "6px 6px 0px hsl(var(--foreground) / 0.15)" }}
-              initial={{ rotateY: 90 }}
-              animate={{ rotateY: 0 }}
-              transition={{ delay: 0.1, duration: 0.4 }}
-            >
-              <motion.div
-                animate={{ scale: [1, 1.15, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                <ChosenIcon className="w-16 h-16 text-tangerine" />
-              </motion.div>
-
-              <h2 className="text-2xl sm:text-3xl font-bold text-cobalt text-center tracking-tight">
-                {chosenGame.title}
-              </h2>
-
-              <p className="text-base text-muted-foreground font-semibold text-center leading-snug">
-                {chosenGame.description}
-              </p>
-            </motion.div>
-
-            {/* Action buttons */}
-            <div className="flex flex-col items-center gap-3">
-              <motion.button
-                onClick={handleStart}
-                className="px-10 py-4 rounded-2xl border-[3px] border-tangerine bg-tangerine text-secondary-foreground font-bold text-lg tracking-wide"
-                style={{ boxShadow: "var(--pop-shadow-tangerine)" }}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-              >
-                🎮 INICIAR MINIGAME
-              </motion.button>
-
-              <motion.button
-                onClick={handleSkip}
-                className="px-6 py-2 rounded-xl text-sm font-bold text-muted-foreground hover:text-cobalt transition-colors"
-                whileTap={{ scale: 0.95 }}
-              >
-                {isGameOver ? "Ir para Ranking 🏆" : "Pular e Continuar ▶"}
-              </motion.button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
     </div>
   );
 };
