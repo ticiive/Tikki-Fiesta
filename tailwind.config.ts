@@ -2,7 +2,12 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -14,8 +19,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Fredoka', 'Quicksand', 'sans-serif'],
-        display: ['Fredoka', 'sans-serif'],
+        sans: ["Nunito", "sans-serif"],
+        display: ['"Ceviche One"', "cursive"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -51,7 +56,6 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Cozy palette
         sunflower: {
           DEFAULT: "hsl(var(--sunflower))",
           light: "hsl(var(--sunflower-light))",
@@ -69,7 +73,6 @@ export default {
           light: "hsl(var(--sky-light))",
           bg: "hsl(var(--sky-bg))",
         },
-        // Tribal Island palette
         island: {
           sand: "hsl(var(--island-sand))",
           "sand-light": "hsl(var(--island-sand-light))",
@@ -92,7 +95,6 @@ export default {
           "wood-light": "hsl(var(--island-wood-light))",
           stone: "hsl(var(--island-stone))",
         },
-        // Legacy aliases
         cobalt: {
           DEFAULT: "hsl(var(--cobalt))",
           light: "hsl(var(--cobalt-light))",
@@ -130,7 +132,7 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "float": {
+        float: {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-12px)" },
         },
@@ -149,7 +151,7 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "float": "float 3s ease-in-out infinite",
+        float: "float 3s ease-in-out infinite",
         "bounce-in": "bounce-in 0.5s ease-out",
         "coin-pop": "coin-pop 0.6s ease-out forwards",
       },
