@@ -170,6 +170,7 @@
     min-height: 100vh;
     overflow: hidden;
     padding: 1rem;
+    isolation: isolate;
   }
 
   .world-shell::before,
@@ -177,6 +178,7 @@
     content: "";
     position: absolute;
     inset: 0;
+    z-index: -1;
     pointer-events: none;
   }
 
@@ -200,7 +202,7 @@
 
   .mobile-island {
     position: relative;
-    z-index: 1;
+    z-index: 10;
     width: min(100%, 30rem);
     min-height: calc(100vh - 2rem);
     margin: 0 auto;
@@ -228,6 +230,7 @@
 
   .island-screen {
     position: relative;
+    z-index: 10;
     display: flex;
     min-height: calc(100vh - 2rem);
     flex-direction: column;
@@ -251,7 +254,7 @@
 
   .gameplay-stage {
     position: relative;
-    z-index: 1;
+    z-index: 10;
     width: min(100%, 82rem);
     min-height: calc(100vh - 2rem);
     margin: 0 auto;
@@ -279,6 +282,7 @@
 
   .landscape-board {
     position: relative;
+    z-index: 10;
     display: grid;
     min-height: calc(100vh - 2rem);
     grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr) minmax(14rem, 18rem);
@@ -293,7 +297,7 @@
   .landscape-side,
   .landscape-main {
     position: relative;
-    z-index: 1;
+    z-index: 10;
   }
 
   .landscape-side {

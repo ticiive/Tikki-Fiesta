@@ -59,9 +59,9 @@ const WaterRipple = ({ left, delay }: { left: string; delay: number }) => (
 
 const IslandBackground = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden sand-texture">
+    <div className="relative isolate min-h-screen w-full overflow-hidden sand-texture">
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 -z-10 pointer-events-none"
         style={{
           background: `
             radial-gradient(circle at 28% 24%, rgba(255,255,255,0.28) 0 10%, transparent 11%),
@@ -72,7 +72,7 @@ const IslandBackground = ({ children }: { children: React.ReactNode }) => {
       />
 
       <motion.div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 -z-10 pointer-events-none"
         style={{
           background:
             "repeating-linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 6px, transparent 12px)",
@@ -91,7 +91,7 @@ const IslandBackground = ({ children }: { children: React.ReactNode }) => {
       <ShellCluster side="right" />
 
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 -z-10 pointer-events-none"
         style={{ boxShadow: "inset 0 0 120px 32px rgba(12,112,138,0.12)" }}
       />
 
