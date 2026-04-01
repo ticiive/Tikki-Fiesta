@@ -20,6 +20,7 @@ const CharacterCard = ({ label, selected, onClick }: CharacterCardProps) => {
             : "border-cobalt-light bg-card hover:scale-[1.03]"
         }
       `}
+      
       style={{
         boxShadow: selected
           ? "var(--pop-shadow-tangerine)"
