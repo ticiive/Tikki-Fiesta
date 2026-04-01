@@ -39,7 +39,7 @@ const Game = () => {
   const endTurn = () => {
     setPlayerOrder((prev) => {
       const rotated = [...prev.slice(1), prev[0]];
-      // Every time the starting player comes back, a full cycle is complete
+      // Every time the starting player comes back, a full cycle is complete novo comit
       if (rotated[0].id === startingPlayerId.current) {
         const nextRound = currentRound + 1;
         const isGameOver = nextRound > totalRounds;
