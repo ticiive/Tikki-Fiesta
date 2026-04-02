@@ -1,5 +1,4 @@
 import type { Player } from "@/types/game";
-import { Coins, Star } from "lucide-react";
 
 interface Props {
   players: Player[];
@@ -7,28 +6,35 @@ interface Props {
 
 const InactivePlayerRow = ({ players }: Props) => {
   return (
-    <div className="h-full flex gap-3 p-3">
+    <div className="h-full flex gap-4 p-4 overflow-x-auto">
       {players.map((p) => (
         <div
           key={p.id}
-          className="flex-1 rounded-2xl border-[3px] border-cobalt bg-card p-3 flex items-center gap-3"
-          style={{ boxShadow: "var(--pop-shadow-cobalt)" }}
+          className="flex-1 min-w-[200px] rounded-[30px] border-[4px] border-[#5D3A1A] bg-[#FDF5E6] p-4 flex items-center gap-4 shadow-[4px_4px_0px_rgba(0,0,0,0.4)]"
         >
-          {/* Avatar */}
-          <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center text-2xl shrink-0">
-            🎲
+          {/* Avatar Container */}
+          <div className="flex flex-col items-center gap-2 shrink-0">
+            <div className="w-16 h-16 rounded-full border-4 border-[#8B5A2B] bg-[#EADDCA] flex items-center justify-center text-3xl shadow-sm">
+              🎲
+            </div>
+            <span className="font-extrabold text-[#2D1B0D] px-2 py-0.5 bg-black/5 rounded-lg text-sm truncate max-w-[80px]">
+              {p.label}
+            </span>
           </div>
 
-          {/* Info */}
-          <div className="flex flex-col gap-0.5">
-            <span className="font-bold text-sm text-cobalt">{p.label}</span>
-            <div className="flex items-center gap-1 text-xs font-semibold text-muted-foreground">
-              <Coins className="w-3.5 h-3.5" />
-              <span>Moedas: {p.coins}</span>
+          {/* Vertical Compact List */}
+          <div className="flex flex-col gap-2 flex-1">
+            <div className="flex items-center justify-between bg-black/5 px-2 py-1 rounded-lg">
+              <img src="/img/buzios.png" className="w-6 h-6 object-contain" alt="Búzio" />
+              <span className="font-bold text-[#2D1B0D] text-lg">{p.coins}</span>
             </div>
-            <div className="flex items-center gap-1 text-xs font-semibold text-muted-foreground">
-              <Star className="w-3.5 h-3.5" />
-              <span>Estrelas: {p.stars}</span>
+            <div className="flex items-center justify-between bg-black/5 px-2 py-1 rounded-lg">
+              <img src="/img/perola-negra.png" className="w-6 h-6 object-contain" alt="Pérola" />
+              <span className="font-bold text-[#2D1B0D] text-lg">{p.stars}</span>
+            </div>
+            <div className="flex items-center justify-between bg-black/5 px-2 py-1 rounded-lg">
+              <img src="/img/trofeu-madeira.png" className="w-6 h-6 object-contain" alt="Troféu" />
+              <span className="font-bold text-[#2D1B0D] text-lg">0</span>
             </div>
           </div>
         </div>

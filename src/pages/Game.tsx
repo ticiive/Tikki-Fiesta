@@ -70,12 +70,17 @@ const Game = () => {
   if (!location.state) return null;
 
   return (
-    <div className="h-screen w-screen flex flex-col overflow-hidden bg-background">
+    <div className="h-screen w-screen flex flex-col overflow-hidden text-[#2D1B0D] font-['Quicksand',sans-serif]">
+      {/* Island Background */}
+      <div
+        className="fixed inset-0 bg-[url('/img/fundo.png')] bg-cover bg-center z-[-1]"
+      />
+      
       {/* Top Section - 75% - Active Player */}
       <div className="h-[75%] flex flex-col p-3 pb-2">
         {/* Round indicator */}
         <div className="flex items-center justify-between px-2 mb-2">
-          <span className="text-sm font-bold text-cobalt tracking-wide">
+          <span className="text-lg font-bold text-[#FDF5E6] drop-shadow-md tracking-wide" style={{ fontFamily: 'Fredoka One, Quicksand, sans-serif' }}>
             🎲 Rodada {currentRound}/{totalRounds}
           </span>
         </div>
@@ -92,7 +97,7 @@ const Game = () => {
       </div>
 
       {/* Bottom Section - 25% - Inactive Players */}
-      <div className="h-[25%] border-t-4 border-cobalt-light/30 bg-muted/50">
+      <div className="h-[25%] border-t-8 border-[#5D3A1A]/40 bg-black/20 backdrop-blur-sm">
         <InactivePlayerRow players={inactivePlayers} />
       </div>
     </div>

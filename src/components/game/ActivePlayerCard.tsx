@@ -1,5 +1,4 @@
 import type { Player } from "@/types/game";
-import { Coins, Star, Zap, Shield, Swords } from "lucide-react";
 
 interface Props {
   player: Player;
@@ -8,93 +7,87 @@ interface Props {
   onEndTurn: () => void;
 }
 
-const CircleBtn = ({
-  label,
-  onClick,
-  size = "md",
+const InventoryRow = ({
+  icon,
+  value,
+  onAdd,
+  onRemove,
 }: {
-  label: string;
-  onClick: () => void;
-  size?: "sm" | "md";
-}) => {
-  const dim = size === "sm" ? "w-9 h-9 text-sm" : "w-11 h-11 text-base";
-  return (
-    <button
-      onClick={onClick}
-      className={`${dim} rounded-full border-2 border-secondary-foreground/30 bg-secondary-foreground/10 text-secondary-foreground font-bold hover:bg-secondary-foreground/20 active:scale-90 transition-all flex items-center justify-center`}
-    >
-      {label}
-    </button>
-  );
-};
+  icon: string;
+  value: number;
+  onAdd: () => void;
+  onRemove: () => void;
+}) => (
+  <div className="flex items-center gap-6 bg-white/40 p-3 rounded-2xl border-2 border-[#5D3A1A]">
+    <img src={icon} alt="item" className="w-12 h-12 shrink-0 object-contain drop-shadow-md" />
+    <span className="text-5xl font-extrabold min-w-[3ch] text-center text-[#2D1B0D] drop-shadow-sm">
+      {value}
+    </span>
+    <div className="flex items-center gap-4 ml-auto">
+      <button
+        onClick={onRemove}
+        className="w-12 h-12 rounded-full bg-[#fce4ec] border-4 border-[#5D3A1A] flex items-center justify-center font-black text-2xl text-[#2D1B0D] shadow-[2px_2px_0px_black] active:scale-95 transition-transform"
+      >
+        -
+      </button>
+      <button
+        onClick={onAdd}
+        className="w-12 h-12 rounded-full bg-[#e8f5e9] border-4 border-[#5D3A1A] flex items-center justify-center font-black text-2xl text-[#2D1B0D] shadow-[2px_2px_0px_black] active:scale-95 transition-transform"
+      >
+        +
+      </button>
+    </div>
+  </div>
+);
 
 const ActivePlayerCard = ({ player, onUpdateCoins, onUpdateStars, onEndTurn }: Props) => {
   return (
     <div
-      className="relative h-full rounded-3xl border-[3px] border-tangerine bg-tangerine p-4 flex gap-4"
-      style={{ boxShadow: "var(--pop-shadow-tangerine)" }}
+      className="relative h-full rounded-[40px] border-[6px] border-[#5D3A1A] bg-[#E2711D] bg-[url('/img/desenho-card-principal.png')] bg-cover bg-center p-6 flex gap-8 shadow-xl"
     >
-      {/* Left: Avatar + Action Buttons */}
-      <div className="flex flex-col items-center justify-between py-2">
-        <div className="w-16 h-16 rounded-2xl bg-secondary-foreground/20 flex items-center justify-center text-3xl">
-          🎮
+      {/* Left: Avatar + Actions */}
+      <div className="flex flex-col items-center justify-start gap-4 shrink-0">
+        {/* Avatar simulated bamboo border via multiple borders / repeating gradients on the border if possible, or just a solid color with dashes */}
+        <div 
+          className="w-40 h-40 rounded-full border-[10px] border-[#D4A373] bg-white flex items-center justify-center text-7xl shadow-[4px_4px_0px_rgba(0,0,0,0.3)] shrink-0 overflow-hidden relative"
+          style={{ borderStyle: 'dashed' /* simulates bamboo joints */ }}
+        >
+          <div className="absolute inset-0 bg-[#E9C46A] opacity-20 pointer-events-none rounded-full" />
+          <span className="relative z-10">🎮</span>
         </div>
-        <div className="flex flex-col items-center">
-          <h2 className="text-xl font-bold text-secondary-foreground mt-1">
-            {player.label}
-          </h2>
-          <p className="text-xs text-secondary-foreground/70 font-semibold">
-            Jogador Ativo
-          </p>
-        </div>
-        {/* Quick Action Buttons */}
-        <div className="flex gap-2 mt-auto">
-          {[Zap, Shield, Swords].map((Icon, i) => (
-            <button
-              key={i}
-              className="w-10 h-10 rounded-full bg-cobalt flex items-center justify-center border-2 border-primary-foreground/20 hover:scale-110 active:scale-90 transition-all"
-            >
-              <Icon className="w-4 h-4 text-primary-foreground" />
-            </button>
-          ))}
+        <h2 className="text-3xl font-extrabold text-[#FDF5E6] drop-shadow-md bg-[#2D1B0D]/80 px-4 py-1 rounded-xl">
+          {player.label}
+        </h2>
+
+        {/* 3 placeholder circular buttons */}
+        <div className="flex gap-3 mt-auto mb-2">
+          <button className="w-14 h-14 rounded-full bg-[#4A2F1D] border-2 border-[#2D1B0D] shadow-[inset_0px_4px_4px_rgba(0,0,0,0.5)] active:scale-95 transition-transform" />
+          <button className="w-14 h-14 rounded-full bg-[#4A2F1D] border-2 border-[#2D1B0D] shadow-[inset_0px_4px_4px_rgba(0,0,0,0.5)] active:scale-95 transition-transform" />
+          <button className="w-14 h-14 rounded-full bg-[#4A2F1D] border-2 border-[#2D1B0D] shadow-[inset_0px_4px_4px_rgba(0,0,0,0.5)] active:scale-95 transition-transform" />
         </div>
       </div>
 
       {/* Center: Counters */}
-      <div className="flex-1 flex flex-col justify-center gap-4">
-        {/* Coins */}
-        <div className="flex items-center gap-3">
-          <Coins className="w-8 h-8 text-secondary-foreground shrink-0" />
-          <span className="text-4xl font-bold text-secondary-foreground min-w-[3ch] text-center">
-            {player.coins}
-          </span>
-          <div className="flex items-center gap-1.5 ml-auto">
-            <CircleBtn label="-10" onClick={() => onUpdateCoins(-10)} size="sm" />
-            <CircleBtn label="-1" onClick={() => onUpdateCoins(-1)} />
-            <CircleBtn label="+1" onClick={() => onUpdateCoins(1)} />
-            <CircleBtn label="+10" onClick={() => onUpdateCoins(10)} size="sm" />
-          </div>
-        </div>
-
-        {/* Stars */}
-        <div className="flex items-center gap-3">
-          <Star className="w-8 h-8 text-secondary-foreground shrink-0" />
-          <span className="text-4xl font-bold text-secondary-foreground min-w-[3ch] text-center">
-            {player.stars}
-          </span>
-          <div className="flex items-center gap-1.5 ml-auto">
-            <CircleBtn label="-" onClick={() => onUpdateStars(-1)} />
-            <CircleBtn label="+" onClick={() => onUpdateStars(1)} />
-          </div>
-        </div>
+      <div className="flex-1 flex flex-col justify-center gap-6">
+        <InventoryRow 
+          icon="/img/buzios.png" 
+          value={player.coins} 
+          onAdd={() => onUpdateCoins(1)} 
+          onRemove={() => onUpdateCoins(-1)} 
+        />
+        <InventoryRow 
+          icon="/img/perola-negra.png" 
+          value={player.stars} 
+          onAdd={() => onUpdateStars(1)} 
+          onRemove={() => onUpdateStars(-1)} 
+        />
       </div>
 
       {/* Right: End Turn Button */}
-      <div className="flex items-end">
+      <div className="flex items-end shrink-0">
         <button
           onClick={onEndTurn}
-          className="px-5 py-3 rounded-2xl border-[3px] border-destructive bg-destructive text-destructive-foreground font-bold text-sm hover:scale-[1.03] active:scale-95 transition-all whitespace-nowrap"
-          style={{ boxShadow: "3px 3px 0px hsl(0 70% 40%)" }}
+          className="px-6 py-4 rounded-3xl border-4 border-[#2D1B0D] bg-[#FF3B30] text-white font-black text-lg hover:scale-[1.03] active:scale-95 transition-all whitespace-nowrap shadow-[4px_4px_0px_#2D1B0D]"
         >
           ENCERRAR RODADA 🔄
         </button>
