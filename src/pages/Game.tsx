@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { Player } from "@/types/game";
+import { MotionBounce } from "@/components/MotionBounce";
 import ActivePlayerCard from "@/components/game/ActivePlayerCard";
 import InactivePlayerRow from "@/components/game/InactivePlayerRow";
 
@@ -39,10 +40,14 @@ const Game = () => {
   const endTurn = () => {
     setPlayerOrder((prev) => {
       const rotated = [...prev.slice(1), prev[0]];
-      // Every time the starting player comes back, a full cycle is complete novo comit
+      // Every time the starting player comes back, a full cycle is complete
       if (rotated[0].id === startingPlayerId.current) {
         const nextRound = currentRound + 1;
         const isGameOver = nextRound > totalRounds;
+        // CRITICAL FIX: Update currentRound BEFORE navigate to prevent infinite loop
+        if (!isGameOver) {
+          setCurrentRound(nextRound);
+        }
         // Navigate to /sorteio after every cycle
         setTimeout(
           () =>
@@ -56,7 +61,6 @@ const Game = () => {
             }),
           0
         );
-        if (!isGameOver) setCurrentRound(nextRound);
         return rotated;
       }
       return rotated;
@@ -70,7 +74,7 @@ const Game = () => {
   if (!location.state) return null;
 
   return (
-    <div className="h-screen w-screen flex flex-col overflow-hidden text-[#2D1B0D] font-['Quicksand',sans-serif]">
+    <div key={currentRound} className="h-screen w-screen flex flex-col overflow-hidden text-[#2D1B0D] font-['Fredoka',sans-serif]">
       {/* Island Background */}
       <div
         className="fixed inset-0 bg-[url('/img/fundo.png')] bg-cover bg-center z-[-1]"
@@ -80,25 +84,29 @@ const Game = () => {
       <div className="h-[75%] flex flex-col p-3 pb-2">
         {/* Round indicator */}
         <div className="flex items-center justify-between px-2 mb-2">
-          <span className="text-lg font-bold text-[#FDF5E6] drop-shadow-md tracking-wide" style={{ fontFamily: 'Fredoka One, Quicksand, sans-serif' }}>
+          <span className="text-lg font-bold text-[#FDF5E6] drop-shadow-md tracking-wide" style={{ fontFamily: 'Fredoka, sans-serif' }}>
             🎲 Rodada {currentRound}/{totalRounds}
           </span>
         </div>
 
         {/* Active Player Card */}
         <div className="flex-1 min-h-0">
-          <ActivePlayerCard
-            player={activePlayer}
-            onUpdateCoins={(d) => updateActivePlayer("coins", d)}
-            onUpdateStars={(d) => updateActivePlayer("stars", d)}
-            onEndTurn={endTurn}
-          />
+          <MotionBounce delay={0.1}>
+            <ActivePlayerCard
+              player={activePlayer}
+              onUpdateCoins={(d) => updateActivePlayer("coins", d)}
+              onUpdateStars={(d) => updateActivePlayer("stars", d)}
+              onEndTurn={endTurn}
+            />
+          </MotionBounce>
         </div>
       </div>
 
       {/* Bottom Section - 25% - Inactive Players */}
       <div className="h-[25%] border-t-8 border-[#5D3A1A]/40 bg-black/20 backdrop-blur-sm">
-        <InactivePlayerRow players={inactivePlayers} />
+        <MotionBounce delay={0.2}>
+          <InactivePlayerRow players={inactivePlayers} />
+        </MotionBounce>
       </div>
     </div>
   );

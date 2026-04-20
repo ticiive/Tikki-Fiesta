@@ -14,9 +14,14 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Quicksand', 'sans-serif'],
+        sans: ['Fredoka', 'sans-serif'],
       },
       colors: {
+        coral: '#FF7F50',
+        menta: '#AAF0D1',
+        areia: '#F4E4C1',
+        turquoise: '#1FBFCF',
+        wave: '#40B0D0',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -95,10 +100,20 @@ export default {
             height: "0",
           },
         },
+        wave: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+        "fade-in-up": {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        wave: "wave 20s linear infinite",
+        "fade-in-up": "fade-in-up 0.6s ease-out",
       },
     },
   },

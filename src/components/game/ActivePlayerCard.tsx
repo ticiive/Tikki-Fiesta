@@ -26,13 +26,13 @@ const InventoryRow = ({
     <div className="flex items-center gap-4 ml-auto">
       <button
         onClick={onRemove}
-        className="w-12 h-12 rounded-full bg-[#fce4ec] border-4 border-[#5D3A1A] flex items-center justify-center font-black text-2xl text-[#2D1B0D] shadow-[2px_2px_0px_black] active:scale-95 transition-transform"
+        className="w-12 h-12 rounded-full bg-coral/80 border-4 border-[#5D3A1A] flex items-center justify-center font-black text-2xl text-white shadow-lg hover:shadow-xl hover:scale-110 active:scale-95 transition-all"
       >
         -
       </button>
       <button
         onClick={onAdd}
-        className="w-12 h-12 rounded-full bg-[#e8f5e9] border-4 border-[#5D3A1A] flex items-center justify-center font-black text-2xl text-[#2D1B0D] shadow-[2px_2px_0px_black] active:scale-95 transition-transform"
+        className="w-12 h-12 rounded-full bg-menta/80 border-4 border-[#5D3A1A] flex items-center justify-center font-black text-2xl text-[#2D1B0D] shadow-lg hover:shadow-xl hover:scale-110 active:scale-95 transition-all"
       >
         +
       </button>
@@ -87,7 +87,7 @@ const ActivePlayerCard = ({ player, onUpdateCoins, onUpdateStars, onEndTurn }: P
       <div className="flex items-end shrink-0">
         <button
           onClick={onEndTurn}
-          className="px-6 py-4 rounded-3xl border-4 border-[#2D1B0D] bg-[#FF3B30] text-white font-black text-lg hover:scale-[1.03] active:scale-95 transition-all whitespace-nowrap shadow-[4px_4px_0px_#2D1B0D]"
+          className="px-8 py-4 rounded-full bg-coral text-white font-black text-lg hover:bg-coral/90 hover:scale-110 active:scale-95 transition-all whitespace-nowrap shadow-lg hover:shadow-2xl"
         >
           ENCERRAR RODADA 🔄
         </button>

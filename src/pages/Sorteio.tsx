@@ -97,7 +97,7 @@ const Sorteio = () => {
     <div className="h-screen w-screen flex flex-col items-center justify-center overflow-hidden bg-background px-4">
       {/* Round info */}
       <div className="absolute top-4 left-4">
-        <span className="text-sm font-bold text-cobalt tracking-wide">
+        <span className="text-sm font-bold text-[#2D1B0D] tracking-wide">
           🎲 Rodada {currentRound}/{totalRounds}
         </span>
       </div>
@@ -169,17 +169,17 @@ const Sorteio = () => {
             <div className="flex flex-col items-center gap-3">
               <motion.button
                 onClick={handleStart}
-                className="px-10 py-4 rounded-2xl border-[3px] border-tangerine bg-tangerine text-secondary-foreground font-bold text-lg tracking-wide"
-                style={{ boxShadow: "var(--pop-shadow-tangerine)" }}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
+                className="px-10 py-4 rounded-full bg-coral text-white font-bold text-lg tracking-wide shadow-lg hover:shadow-2xl"
+                style={{ boxShadow: undefined }}
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.95 }}
               >
                 🎮 INICIAR MINIGAME
               </motion.button>
 
               <motion.button
                 onClick={handleSkip}
-                className="px-6 py-2 rounded-xl text-sm font-bold text-muted-foreground hover:text-cobalt transition-colors"
+                className="px-6 py-2 rounded-full text-sm font-bold bg-menta text-[#2D1B0D] hover:bg-menta/80 transition-colors shadow-md"
                 whileTap={{ scale: 0.95 }}
               >
                 {isGameOver ? "Ir para Ranking 🏆" : "Pular e Continuar ▶"}
