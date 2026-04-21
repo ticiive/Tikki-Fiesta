@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Fredoka', 'sans-serif'],
+        body: ['Quicksand', 'sans-serif'],
       },
       colors: {
         coral: '#FF7F50',

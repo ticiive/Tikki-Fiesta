@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,33 +6,33 @@
 
 @layer base {
   :root {
-    --background: 210 60% 92%;
-    --foreground: 220 40% 15%;
+    --background: 41 60% 94%;
+    --foreground: 25 60% 12%;
 
-    --card: 210 50% 97%;
-    --card-foreground: 220 40% 15%;
+    --card: 41 50% 97%;
+    --card-foreground: 25 60% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 40% 15%;
+    --popover-foreground: 25 60% 12%;
 
-    --primary: 220 75% 42%;
+    --primary: 16 100% 65%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 25 95% 55%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 153 70% 80%;
+    --secondary-foreground: 25 60% 12%;
 
-    --muted: 210 40% 88%;
-    --muted-foreground: 220 20% 40%;
+    --muted: 41 40% 88%;
+    --muted-foreground: 25 20% 40%;
 
-    --accent: 140 70% 48%;
+    --accent: 186 74% 47%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 60% 55%;
-    --input: 210 40% 85%;
-    --ring: 220 75% 42%;
+    --border: 38 45% 75%;
+    --input: 41 40% 88%;
+    --ring: 16 100% 65%;
 
     --radius: 1.25rem;
 
@@ -46,38 +46,38 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
 
     /* Pop-Tech custom tokens */
-    --cobalt: 220 75% 42%;
-    --cobalt-light: 220 60% 60%;
-    --tangerine: 25 95% 55%;
-    --tangerine-light: 25 90% 65%;
-    --neon-green: 140 70% 48%;
-    --neon-green-light: 140 65% 58%;
-    --pop-shadow-cobalt: 4px 4px 0px hsl(220 75% 32%);
-    --pop-shadow-tangerine: 4px 4px 0px hsl(25 90% 40%);
-    --pop-shadow-green: 4px 4px 0px hsl(140 65% 35%);
+    --cobalt: 186 74% 42%;
+    --cobalt-light: 186 55% 58%;
+    --tangerine: 16 100% 65%;
+    --tangerine-light: 16 90% 72%;
+    --neon-green: 153 70% 45%;
+    --neon-green-light: 153 65% 58%;
+    --pop-shadow-cobalt: 4px 4px 0px hsl(186 74% 28%);
+    --pop-shadow-tangerine: 4px 4px 0px hsl(16 90% 45%);
+    --pop-shadow-green: 4px 4px 0px hsl(153 65% 32%);
     --pop-border-width: 3px;
   }
 
   .dark {
-    --background: 220 30% 12%;
-    --foreground: 210 40% 95%;
-    --card: 220 30% 16%;
-    --card-foreground: 210 40% 95%;
-    --popover: 220 30% 16%;
-    --popover-foreground: 210 40% 95%;
-    --primary: 220 70% 55%;
+    --background: 25 40% 10%;
+    --foreground: 41 60% 90%;
+    --card: 25 35% 14%;
+    --card-foreground: 41 60% 90%;
+    --popover: 25 35% 14%;
+    --popover-foreground: 41 60% 90%;
+    --primary: 16 100% 60%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 25 90% 55%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 220 20% 22%;
-    --muted-foreground: 210 15% 60%;
-    --accent: 140 65% 45%;
+    --secondary: 153 50% 35%;
+    --secondary-foreground: 41 60% 90%;
+    --muted: 25 25% 20%;
+    --muted-foreground: 41 30% 60%;
+    --accent: 186 74% 40%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 62% 30%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 220 30% 30%;
-    --input: 220 30% 25%;
-    --ring: 220 70% 55%;
+    --destructive-foreground: 41 60% 95%;
+    --border: 25 30% 28%;
+    --input: 25 25% 22%;
+    --ring: 16 100% 60%;
   }
 }
 
