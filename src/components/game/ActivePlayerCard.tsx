@@ -53,7 +53,7 @@ const ActivePlayerCard = ({ player, onUpdateCoins, onUpdateStars, onEndTurn }: P
           style={{ borderStyle: 'dashed' /* simulates bamboo joints */ }}
         >
           <div className="absolute inset-0 bg-[#E9C46A] opacity-20 pointer-events-none rounded-full" />
-          <span className="relative z-10">🎮</span>
+          <span className="relative z-10">{player.avatar}</span>
         </div>
         <h2 className="text-3xl font-extrabold text-[#FDF5E6] drop-shadow-md bg-[#2D1B0D]/80 px-4 py-1 rounded-xl">
           {player.label}

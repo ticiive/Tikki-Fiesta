@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { Player } from "@/types/game";
+import { CHARACTER_MAP } from "@/data/characters";
 import { MotionBounce } from "@/components/MotionBounce";
 import ActivePlayerCard from "@/components/game/ActivePlayerCard";
 import InactivePlayerRow from "@/components/game/InactivePlayerRow";
@@ -12,11 +13,14 @@ const Game = () => {
     (location.state as { players: string[]; totalRounds: number }) || {};
 
   const [playerOrder, setPlayerOrder] = useState<Player[]>(() =>
-    playerLabels.map((label: string) => ({
-      id: label,
-      label,
-      coins: 0,
-      stars: 0,
+    playerLabels.map((id: string) => ({
+      id,
+      label:    CHARACTER_MAP[id]?.label    ?? id,
+      avatar:   CHARACTER_MAP[id]?.avatar   ?? '🎮',
+      color:    CHARACTER_MAP[id]?.color    ?? '#FF7F50',
+      coins:    0,
+      stars:    0,
+      trophies: 0,
     }))
   );
 

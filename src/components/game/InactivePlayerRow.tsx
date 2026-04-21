@@ -15,7 +15,7 @@ const InactivePlayerRow = ({ players }: Props) => {
           {/* Avatar Container */}
           <div className="flex flex-col items-center gap-2 shrink-0">
             <div className="w-16 h-16 rounded-full border-4 border-coral bg-menta flex items-center justify-center text-3xl shadow-md">
-              🎲
+              {p.avatar}
             </div>
             <span className="font-extrabold text-[#2D1B0D] px-2 py-0.5 bg-black/5 rounded-lg text-sm truncate max-w-[80px]">
               {p.label}
@@ -34,7 +34,7 @@ const InactivePlayerRow = ({ players }: Props) => {
             </div>
             <div className="flex items-center justify-between bg-white/50 px-2 py-1 rounded-lg">
               <img src="/img/trofeu-madeira.png" className="w-6 h-6 object-contain" alt="Troféu" />
-              <span className="font-bold text-[#2D1B0D] text-lg">0</span>
+              <span className="font-bold text-[#2D1B0D] text-lg">{p.trophies}</span>
             </div>
           </div>
         </div>

@@ -1,6 +1,9 @@
 export interface Player {
   id: string;
-  label: string;
-  coins: number;
-  stars: number;
+  label: string;      // nome visível: "Coco", "Hibisco"…
+  avatar: string;     // emoji do personagem: "🥥", "🌺"…
+  color: string;      // cor hex temática: "#8B5E34"…
+  coins: number;      // búzios
+  stars: number;      // pérolas
+  trophies: number;   // troféus
 }
