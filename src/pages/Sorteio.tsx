@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, Dices, Coins, Swords, Timer } from "lucide-react";
+import { TropicalBackground } from "@/components/layout/TropicalBackground";
 
 const MINIGAMES = [
   {
@@ -94,7 +95,8 @@ const Sorteio = () => {
   const ChosenIcon = chosenGame.icon;
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center overflow-hidden bg-background px-4">
+    <div className="h-screen w-screen flex flex-col items-center justify-center overflow-hidden px-4">
+      <TropicalBackground />
       {/* Round info */}
       <div className="absolute top-4 left-4">
         <span className="text-sm font-bold text-[#2D1B0D] tracking-wide">

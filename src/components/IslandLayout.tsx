@@ -28,7 +28,7 @@ export const IslandLayout: React.FC<IslandLayoutProps> = ({ children }) => {
             }}
           >
             {/* Inner padding container */}
-            <div className="p-6 md:p-8 h-full overflow-y-auto">
+            <div className="p-3 md:p-4 h-full overflow-y-auto">
               {children}
             </div>
           </div>

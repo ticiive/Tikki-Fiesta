@@ -1,6 +1,7 @@
 import { Trophy } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { Player } from "@/types/game";
+import { TropicalBackground } from "@/components/layout/TropicalBackground";
 
 const Ranking = () => {
   const location = useLocation();
@@ -10,7 +11,8 @@ const Ranking = () => {
   const sorted = [...players].sort((a, b) => b.stars - a.stars || b.coins - a.coins);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-5 py-6 max-w-2xl mx-auto">
+    <div className="min-h-screen flex flex-col items-center px-5 py-6 max-w-2xl mx-auto">
+      <TropicalBackground />
       <MotionBounce delay={0} className="w-full flex items-center justify-center gap-3 mb-6">
         <Trophy className="w-16 h-16 text-coral" />
         <h1 className="text-3xl font-bold text-coral">🏆 Ranking Final</h1>
