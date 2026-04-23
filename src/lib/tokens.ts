@@ -9,6 +9,7 @@ export const COLORS = {
   marromProfundo: '#2D1B0D',
   turquoise:      '#1FBFCF',
   verde:          '#2D7A4B',
+  alerta:         '#E74C3C',
 } as const;
 
 export const WOOD_BG = [

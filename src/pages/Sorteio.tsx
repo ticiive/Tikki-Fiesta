@@ -6,13 +6,43 @@ import { WoodenCard } from "@/components/ui/WoodenCard";
 import { TropicalButton } from "@/components/ui/TropicalButton";
 import { COLORS } from "@/lib/tokens";
 
+const playTique = () => {
+  try {
+    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.frequency.value = 400;
+    gain.gain.value = 0.15;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.08);
+  } catch (_) {}
+};
+
+const playReveal = () => {
+  try {
+    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const gain = ctx.createGain();
+    gain.gain.value = 0.3;
+    gain.connect(ctx.destination);
+    [523, 659, 784].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      osc.frequency.value = freq;
+      osc.connect(gain);
+      osc.start(ctx.currentTime + i * 0.12);
+      osc.stop(ctx.currentTime + i * 0.12 + 0.15);
+    });
+  } catch (_) {}
+};
+
 const MINIGAMES = [
-  { id: '1', name: 'Corrida na Praia', emoji: '🏃' },
-  { id: '2', name: 'Caça ao Tesouro',  emoji: '🗺️' },
-  { id: '3', name: 'Pesca',            emoji: '🎣' },
-  { id: '4', name: 'Surfe',            emoji: '🏄' },
-  { id: '5', name: 'Quebra-coco',      emoji: '💥' },
-  { id: '6', name: 'Nado',             emoji: '🏊' },
+  { id: '1', name: 'Corrida na Praia', emoji: '🏃', duration: 60 },
+  { id: '2', name: 'Caça ao Tesouro',  emoji: '🗺️', duration: 90 },
+  { id: '3', name: 'Pesca',            emoji: '🎣', duration: 45 },
+  { id: '4', name: 'Surfe',            emoji: '🏄', duration: 60 },
+  { id: '5', name: 'Quebra-coco',      emoji: '💥', duration: 30 },
+  { id: '6', name: 'Nado',             emoji: '🏊', duration: 60 },
 ];
 
 const Sorteio = () => {
@@ -32,9 +62,18 @@ const Sorteio = () => {
   );
 
   useEffect(() => {
-    const timer = setTimeout(() => setPhase("revealed"), 2200);
+    const timer = setTimeout(() => {
+      setPhase("revealed");
+      playReveal();
+    }, 2200);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (phase !== "shuffling") return;
+    const interval = setInterval(playTique, 300);
+    return () => clearInterval(interval);
+  }, [phase]);
 
   useEffect(() => {
     if (!location.state) navigate("/");
@@ -44,7 +83,7 @@ const Sorteio = () => {
 
   const handleStart = () => {
     navigate("/timer", {
-      state: { players, currentRound, totalRounds, isGameOver },
+      state: { players, currentRound, totalRounds, isGameOver, minigame: chosenGame },
     });
   };
 
