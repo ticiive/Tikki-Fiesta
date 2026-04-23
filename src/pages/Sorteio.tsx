@@ -1,48 +1,18 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Trophy, Dices, Coins, Swords, Timer } from "lucide-react";
 import { TropicalBackground } from "@/components/layout/TropicalBackground";
+import { WoodenCard } from "@/components/ui/WoodenCard";
+import { TropicalButton } from "@/components/ui/TropicalButton";
+import { COLORS } from "@/lib/tokens";
 
 const MINIGAMES = [
-  {
-    title: "DESAFIO DE MOEDAS",
-    icon: Coins,
-    description: "O jogador mais rápido ganha 10 moedas!",
-    bg: "bg-secondary/15",
-  },
-  {
-    title: "DUELO DE DADOS",
-    icon: Dices,
-    description: "Role os dados e torça pelo melhor resultado!",
-    bg: "bg-primary/10",
-  },
-  {
-    title: "CORRIDA CONTRA O TEMPO",
-    icon: Timer,
-    description: "Complete o desafio antes do tempo acabar!",
-    bg: "bg-accent/15",
-  },
-  {
-    title: "BATALHA ÉPICA",
-    icon: Swords,
-    description: "Enfrente seu oponente em um duelo estratégico!",
-    bg: "bg-destructive/10",
-  },
-  {
-    title: "GRANDE PRÊMIO",
-    icon: Trophy,
-    description: "Quem acertar leva 5 estrelas de bônus!",
-    bg: "bg-secondary/20",
-  },
-];
-
-const CARD_COLORS = [
-  "border-cobalt",
-  "border-tangerine",
-  "border-neon-green",
-  "border-cobalt-light",
-  "border-tangerine-light",
+  { id: '1', name: 'Corrida na Praia', emoji: '🏃' },
+  { id: '2', name: 'Caça ao Tesouro',  emoji: '🗺️' },
+  { id: '3', name: 'Pesca',            emoji: '🎣' },
+  { id: '4', name: 'Surfe',            emoji: '🏄' },
+  { id: '5', name: 'Quebra-coco',      emoji: '💥' },
+  { id: '6', name: 'Nado',             emoji: '🏊' },
 ];
 
 const Sorteio = () => {
@@ -92,20 +62,24 @@ const Sorteio = () => {
     }
   };
 
-  const ChosenIcon = chosenGame.icon;
-
   return (
     <div className="h-screen w-screen flex flex-col items-center justify-center overflow-hidden px-4">
       <TropicalBackground />
-      {/* Round info */}
+
+      {/* Badge de rodada */}
       <div className="absolute top-4 left-4">
-        <span className="text-sm font-bold text-[#2D1B0D] tracking-wide">
+        <span
+          className="text-sm font-bold tracking-wide"
+          style={{ fontFamily: 'Fredoka, sans-serif', color: COLORS.marromProfundo }}
+        >
           🎲 Rodada {currentRound}/{totalRounds}
         </span>
       </div>
 
       <AnimatePresence mode="wait">
         {phase === "shuffling" ? (
+
+          /* ── Fase 1: cards embaralhando ─────────────────────────────── */
           <motion.div
             key="shuffle"
             className="relative w-64 h-40"
@@ -115,27 +89,26 @@ const Sorteio = () => {
             {[0, 1, 2, 3, 4].map((i) => (
               <motion.div
                 key={i}
-                className={`absolute inset-0 rounded-2xl border-[4px] ${CARD_COLORS[i]} bg-card shadow-lg`}
-                style={{ zIndex: 5 - i }}
+                style={{ position: 'absolute', inset: 0, zIndex: 5 - i }}
                 animate={{
-                  x: [0, (i % 2 === 0 ? 1 : -1) * 80, 0, (i % 2 === 0 ? -1 : 1) * 60, 0],
+                  x:      [0, (i % 2 === 0 ? 1 : -1) * 80, 0, (i % 2 === 0 ? -1 : 1) * 60, 0],
                   rotate: [0, (i % 2 === 0 ? 8 : -8), 0, (i % 2 === 0 ? -5 : 5), 0],
-                  y: [0, -10 * (i % 3), 5, -8, 0],
+                  y:      [0, -10 * (i % 3), 5, -8, 0],
                 }}
-                transition={{
-                  duration: 0.6,
-                  repeat: 3,
-                  delay: i * 0.05,
-                  ease: "easeInOut",
-                }}
+                transition={{ duration: 0.6, repeat: 3, delay: i * 0.05, ease: "easeInOut" }}
               >
-                <div className="w-full h-full flex items-center justify-center">
-                  <Dices className="w-12 h-12 text-cobalt-light opacity-40" />
-                </div>
+                <WoodenCard variant="card" irregularCorners style={{ height: '100%' }}>
+                  <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: '2rem', opacity: 0.4 }}>🃏</span>
+                  </div>
+                </WoodenCard>
               </motion.div>
             ))}
           </motion.div>
+
         ) : (
+
+          /* ── Fase 2: card revelado + botões ─────────────────────────── */
           <motion.div
             key="revealed"
             className="flex flex-col items-center gap-6"
@@ -143,51 +116,48 @@ const Sorteio = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
-            {/* Revealed card */}
-            <motion.div
-              className={`relative w-72 sm:w-80 rounded-3xl border-[4px] border-foreground/80 ${chosenGame.bg} bg-card p-6 flex flex-col items-center gap-4`}
-              style={{ boxShadow: "6px 6px 0px hsl(var(--foreground) / 0.15)" }}
-              initial={{ rotateY: 90 }}
-              animate={{ rotateY: 0 }}
-              transition={{ delay: 0.1, duration: 0.4 }}
-            >
+            {/* perspective no pai para o rotateY funcionar corretamente */}
+            <div className="w-72 sm:w-80" style={{ perspective: '600px' }}>
               <motion.div
-                animate={{ scale: [1, 1.15, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
+                initial={{ rotateY: 90 }}
+                animate={{ rotateY: 0 }}
+                transition={{ delay: 0.1, duration: 0.4 }}
               >
-                <ChosenIcon className="w-16 h-16 text-tangerine" />
+                <WoodenCard variant="card" irregularCorners>
+                  <div className="p-6 flex flex-col items-center gap-4">
+                    <motion.div
+                      animate={{ scale: [1, 1.15, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                      style={{ fontSize: '4rem', lineHeight: 1 }}
+                    >
+                      {chosenGame.emoji}
+                    </motion.div>
+                    <h2
+                      className="text-2xl sm:text-3xl font-bold text-center tracking-tight"
+                      style={{
+                        fontFamily: 'Fredoka, sans-serif',
+                        color: '#FDF5E6',
+                        textShadow: '0 1px 3px rgba(0,0,0,0.5)',
+                      }}
+                    >
+                      {chosenGame.name}
+                    </h2>
+                  </div>
+                </WoodenCard>
               </motion.div>
+            </div>
 
-              <h2 className="text-2xl sm:text-3xl font-bold text-cobalt text-center tracking-tight">
-                {chosenGame.title}
-              </h2>
-
-              <p className="text-base text-muted-foreground font-semibold text-center leading-snug">
-                {chosenGame.description}
-              </p>
-            </motion.div>
-
-            {/* Action buttons */}
+            {/* Botões de ação */}
             <div className="flex flex-col items-center gap-3">
-              <motion.button
-                onClick={handleStart}
-                className="px-10 py-4 rounded-full bg-coral text-white font-bold text-lg tracking-wide shadow-lg hover:shadow-2xl"
-                style={{ boxShadow: undefined }}
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <TropicalButton variant="primary" size="lg" onClick={handleStart}>
                 🎮 INICIAR MINIGAME
-              </motion.button>
-
-              <motion.button
-                onClick={handleSkip}
-                className="px-6 py-2 rounded-full text-sm font-bold bg-menta text-[#2D1B0D] hover:bg-menta/80 transition-colors shadow-md"
-                whileTap={{ scale: 0.95 }}
-              >
-                {isGameOver ? "Ir para Ranking 🏆" : "Pular e Continuar ▶"}
-              </motion.button>
+              </TropicalButton>
+              <TropicalButton variant="secondary" size="md" onClick={handleSkip}>
+                {isGameOver ? 'Ir para Ranking 🏆' : 'Pular e Continuar ▶'}
+              </TropicalButton>
             </div>
           </motion.div>
+
         )}
       </AnimatePresence>
     </div>
