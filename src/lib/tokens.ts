@@ -10,6 +10,10 @@ export const COLORS = {
   turquoise:      '#1FBFCF',
   verde:          '#2D7A4B',
   alerta:         '#E74C3C',
+  ouro:           '#FFD700',
+  prata:          '#C0C0C0',
+  bronze:         '#CD7F32',
+  cremeClaro:     '#FDF5E6',
 } as const;
 
 export const WOOD_BG = [

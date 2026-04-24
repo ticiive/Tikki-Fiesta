@@ -71,16 +71,16 @@ const Index = () => {
                   cursor: 'pointer',
                 }}
               >
+                <motion.div
+                  animate={{ scale: isSelected ? 1.08 : 1, rotate: isSelected ? 0 : tilt }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                  style={{ height: '100%' }}
+                >
                 <WoodenCard
                   variant="card"
                   irregularCorners
                   ringColor={isSelected ? char.color : undefined}
-                  style={{
-                    height: '100%',
-                    transform: isSelected
-                      ? 'rotate(0deg) scale(1.08)'
-                      : `rotate(${tilt}deg) scale(1)`,
-                  }}
+                  style={{ height: '100%' }}
                 >
                   <div
                     style={{
@@ -123,6 +123,7 @@ const Index = () => {
                     </span>
                   </div>
                 </WoodenCard>
+                </motion.div>
               </button>
             );
           })}

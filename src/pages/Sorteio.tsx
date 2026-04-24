@@ -6,34 +6,34 @@ import { WoodenCard } from "@/components/ui/WoodenCard";
 import { TropicalButton } from "@/components/ui/TropicalButton";
 import { COLORS } from "@/lib/tokens";
 
-const playTique = () => {
+const playPlim = (freq: number, duration: number, volume: number) => {
   try {
     const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.frequency.value = 400;
-    gain.gain.value = 0.15;
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.08);
+    const now = ctx.currentTime;
+    [freq, freq * 2].forEach((f, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = f;
+      const vol = volume * (i === 0 ? 1 : 0.3);
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(vol, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + duration);
+    });
   } catch (_) {}
 };
 
+const playTique = () => playPlim(880, 0.15, 0.1);
+
 const playReveal = () => {
-  try {
-    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-    const gain = ctx.createGain();
-    gain.gain.value = 0.3;
-    gain.connect(ctx.destination);
-    [523, 659, 784].forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      osc.frequency.value = freq;
-      osc.connect(gain);
-      osc.start(ctx.currentTime + i * 0.12);
-      osc.stop(ctx.currentTime + i * 0.12 + 0.15);
-    });
-  } catch (_) {}
+  playPlim(523, 0.4, 0.25);
+  setTimeout(() => playPlim(659, 0.4, 0.25), 90);
+  setTimeout(() => playPlim(784, 0.5, 0.3),  180);
+  setTimeout(() => playPlim(1047, 0.6, 0.35), 270);
 };
 
 const MINIGAMES = [
@@ -71,7 +71,7 @@ const Sorteio = () => {
 
   useEffect(() => {
     if (phase !== "shuffling") return;
-    const interval = setInterval(playTique, 300);
+    const interval = setInterval(playTique, 400);
     return () => clearInterval(interval);
   }, [phase]);
 
@@ -128,7 +128,7 @@ const Sorteio = () => {
             {[0, 1, 2, 3, 4].map((i) => (
               <motion.div
                 key={i}
-                style={{ position: 'absolute', inset: 0, zIndex: 5 - i }}
+                style={{ position: 'absolute', inset: 0, zIndex: 5 - i, willChange: 'transform' }}
                 animate={{
                   x:      [0, (i % 2 === 0 ? 1 : -1) * 80, 0, (i % 2 === 0 ? -1 : 1) * 60, 0],
                   rotate: [0, (i % 2 === 0 ? 8 : -8), 0, (i % 2 === 0 ? -5 : 5), 0],

@@ -42,8 +42,8 @@ const Timer = () => {
   const numberColor = isUrgent ? COLORS.alerta : COLORS.marromProfundo;
 
   const goNext = () =>
-    navigate("/game", {
-      state: { players: players?.map((p: any) => p.label || p), totalRounds, currentRound },
+    navigate("/ranking-minigame", {
+      state: { players, currentRound, totalRounds, isGameOver },
     });
 
   useEffect(() => {

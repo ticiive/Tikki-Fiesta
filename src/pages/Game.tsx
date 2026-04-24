@@ -50,23 +50,21 @@ const Counter = ({
 const Game = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { players: playerLabels = ["P1", "P2", "P3"], totalRounds = 3 } =
-    (location.state as { players: string[]; totalRounds: number }) || {};
+  const { players: incoming = ["P1", "P2", "P3"], totalRounds = 3, currentRound: initialRound = 1 } =
+    (location.state as { players: (string | Player)[]; totalRounds: number; currentRound?: number }) || {};
 
   const [playerOrder, setPlayerOrder] = useState<Player[]>(() =>
-    playerLabels.map((id: string) => ({
-      id,
-      label:    CHARACTER_MAP[id]?.label    ?? id,
-      avatar:   CHARACTER_MAP[id]?.avatar   ?? '🎮',
-      color:    CHARACTER_MAP[id]?.color    ?? '#FF7F50',
-      coins:    0,
-      stars:    0,
-      trophies: 0,
-    }))
+    (incoming as any[]).map((p) =>
+      typeof p === 'string'
+        ? { id: p, label: CHARACTER_MAP[p]?.label ?? p, avatar: CHARACTER_MAP[p]?.avatar ?? '🎮', color: CHARACTER_MAP[p]?.color ?? '#FF7F50', coins: 0, stars: 0, trophies: 0 }
+        : p as Player
+    )
   );
 
-  const [currentRound, setCurrentRound] = useState(1);
-  const startingPlayerId = useRef(playerLabels[0]);
+  const [currentRound, setCurrentRound] = useState(initialRound);
+  const startingPlayerId = useRef(
+    typeof incoming[0] === 'string' ? incoming[0] : (incoming[0] as Player).id
+  );
 
   const activePlayer = playerOrder[0];
   const inactivePlayers = playerOrder.slice(1);

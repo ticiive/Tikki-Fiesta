@@ -35,7 +35,7 @@ export const WoodenCard = ({ variant, ringColor, irregularCorners, children, cla
     boxShadow,
     outline:      ringColor ? `3px solid ${ringColor}` : 'none',
     outlineOffset: ringColor ? '-3px' : '0',
-    transition:   'outline 300ms ease, box-shadow 300ms ease, transform 300ms ease',
+    transition:   'outline 300ms ease, box-shadow 300ms ease',
     ...style,
   };
 

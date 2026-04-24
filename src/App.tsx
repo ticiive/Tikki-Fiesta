@@ -8,6 +8,7 @@ import Game from "./pages/Game";
 import Sorteio from "./pages/Sorteio";
 import Timer from "./pages/Timer";
 import Ranking from "./pages/Ranking";
+import RankingMinigame from "./pages/RankingMinigame";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/sorteio" element={<Sorteio />} />
           <Route path="/timer" element={<Timer />} />
           <Route path="/ranking" element={<Ranking />} />
+          <Route path="/ranking-minigame" element={<RankingMinigame />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
