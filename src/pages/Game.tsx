@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import type { Player } from "@/types/game";
 import { CHARACTER_MAP } from "@/data/characters";
 import { TropicalBackground } from "@/components/layout/TropicalBackground";
+import { COLORS } from "@/lib/tokens";
 
 const WOOD_BG = [
   'linear-gradient(135deg, rgba(93,58,26,0.4) 0%, transparent 40%)',
@@ -31,7 +32,7 @@ const Counter = ({
     <button
       onClick={onRemove}
       className="w-9 h-9 rounded-full flex items-center justify-center font-black text-lg text-white shrink-0 transition-transform active:scale-90"
-      style={{ background: '#FF7F50', border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
+      style={{ background: COLORS.coral, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
     >−</button>
     <span
       className="min-w-[2rem] text-center text-2xl font-bold"
@@ -56,7 +57,7 @@ const Game = () => {
   const [playerOrder, setPlayerOrder] = useState<Player[]>(() =>
     (incoming as any[]).map((p) =>
       typeof p === 'string'
-        ? { id: p, label: CHARACTER_MAP[p]?.label ?? p, avatar: CHARACTER_MAP[p]?.avatar ?? '🎮', color: CHARACTER_MAP[p]?.color ?? '#FF7F50', coins: 0, stars: 0, trophies: 0 }
+        ? { id: p, label: CHARACTER_MAP[p]?.label ?? p, avatar: CHARACTER_MAP[p]?.avatar ?? '🎮', color: CHARACTER_MAP[p]?.color ?? COLORS.coral, coins: 0, stars: 0, trophies: 0 }
         : p as Player
     )
   );
@@ -195,7 +196,7 @@ const Game = () => {
             onClick={endTurn}
             className="self-end px-5 rounded-full font-bold text-sm text-white shadow-md transition-all hover:scale-105 active:scale-95"
             style={{
-              background: '#FF7F50',
+              background: COLORS.coral,
               border: '3px solid #5D3A1A',
               boxShadow: '3px 3px 0 #3D2010',
               fontFamily: 'Fredoka, sans-serif',

@@ -21,13 +21,18 @@ const Index = () => {
   const [selectedPlayers, setSelectedPlayers] = useState<string[]>([]);
   const [selectedRounds, setSelectedRounds] = useState<number | null>(null);
 
+  const MAX_PLAYERS = 4;
+
   const togglePlayer = (id: string) => {
-    setSelectedPlayers((prev) =>
-      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
-    );
+    setSelectedPlayers((prev) => {
+      if (prev.includes(id)) return prev.filter((p) => p !== id);
+      if (prev.length >= MAX_PLAYERS) return prev;
+      return [...prev, id];
+    });
   };
 
-  const canStart = selectedPlayers.length >= 2 && selectedRounds !== null;
+  const canStart = selectedPlayers.length >= 2 && selectedPlayers.length <= MAX_PLAYERS && selectedRounds !== null;
+  const atLimit = selectedPlayers.length >= MAX_PLAYERS;
 
   const handleStart = () => {
     if (!canStart) return;
@@ -40,7 +45,7 @@ const Index = () => {
 
       <WoodenPanel className="max-w-6xl mx-auto">
         <h1
-          className="text-center text-4xl font-bold mb-8"
+          className="text-center text-3xl md:text-4xl font-bold mb-2"
           style={{
             fontFamily: 'Fredoka, sans-serif',
             color: '#2D1B0D',
@@ -49,17 +54,32 @@ const Index = () => {
         >
           Escolha seus personagens 🎲
         </h1>
+        <p
+          className="text-center mb-6"
+          style={{
+            fontFamily: 'Fredoka, sans-serif',
+            fontWeight: 600,
+            fontSize: '1rem',
+            color: atLimit ? '#2D7A4B' : '#2D1B0D',
+            opacity: 0.75,
+          }}
+        >
+          {selectedPlayers.length}/{MAX_PLAYERS} jogadores selecionados
+          {atLimit ? ' ✓' : ''}
+        </p>
 
         {/* ── Grid 3×2 de personagens ──────────────────────────────────── */}
-        <div className="grid grid-cols-3 gap-5 mb-8">
+        <div className="grid grid-cols-3 gap-4 mb-8">
           {visibleCharacters.map((char) => {
             const isSelected = selectedPlayers.includes(char.id);
+            const isDisabled = atLimit && !isSelected;
             const tilt = CARD_TILTS[char.id] ?? 0;
 
             return (
               <button
                 key={char.id}
                 onClick={() => togglePlayer(char.id)}
+                disabled={isDisabled}
                 style={{
                   width: '100%',
                   aspectRatio: '1',
@@ -68,7 +88,9 @@ const Index = () => {
                   background: 'none',
                   border: 'none',
                   padding: 0,
-                  cursor: 'pointer',
+                  cursor: isDisabled ? 'not-allowed' : 'pointer',
+                  opacity: isDisabled ? 0.45 : 1,
+                  transition: 'opacity 300ms ease',
                 }}
               >
                 <motion.div

@@ -193,16 +193,6 @@ const Timer = () => {
               </div>
             </div>
 
-            {/* Texto decorativo */}
-            <p style={{
-              fontFamily: "Fredoka, sans-serif",
-              fontSize: "1.15rem",
-              color: COLORS.marromProfundo,
-              opacity: 0.65,
-            }}>
-              Preparem-se...
-            </p>
-
             {/* Botão pular (teste) */}
             <TropicalButton variant="secondary" size="sm" onClick={goNext}>
               ⏭️ Pular Timer

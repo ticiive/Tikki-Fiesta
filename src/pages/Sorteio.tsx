@@ -37,12 +37,78 @@ const playReveal = () => {
 };
 
 const MINIGAMES = [
-  { id: '1', name: 'Corrida na Praia', emoji: '🏃', duration: 60 },
-  { id: '2', name: 'Caça ao Tesouro',  emoji: '🗺️', duration: 90 },
-  { id: '3', name: 'Pesca',            emoji: '🎣', duration: 45 },
-  { id: '4', name: 'Surfe',            emoji: '🏄', duration: 60 },
-  { id: '5', name: 'Quebra-coco',      emoji: '💥', duration: 30 },
-  { id: '6', name: 'Nado',             emoji: '🏊', duration: 60 },
+  {
+    id: '1', name: 'Corrida na Praia', emoji: '🏃', duration: 60,
+    description: 'Corra pela areia quente e chegue primeiro ao coqueiro da vitória!',
+    objetivo: 'Ser o primeiro jogador a atravessar a linha de chegada marcada no coqueiro.',
+    regras: [
+      'Cada jogador escolhe uma raia de 20 metros na areia da praia.',
+      'Ao sinal do cronômetro, todos partem ao mesmo tempo.',
+      'Não é permitido empurrar, obstruir ou sair da própria raia.',
+      'O primeiro a tocar no coqueiro marcado vence a rodada.',
+      'Em caso de empate visual, o menor tempo no cronômetro desempata.',
+    ],
+  },
+  {
+    id: '2', name: 'Caça ao Tesouro', emoji: '🗺️', duration: 90,
+    description: 'Siga as pistas espalhadas pela ilha e encontre o tesouro escondido!',
+    objetivo: 'Encontrar o tesouro enterrado na praia seguindo o mapa de pistas.',
+    regras: [
+      'Cada jogador recebe um mapa com 3 pistas sequenciais.',
+      'As pistas devem ser lidas em ordem — não pode pular etapas.',
+      'O tesouro de cada jogador está em um local exclusivo na ilha.',
+      'Não é permitido espionar o mapa ou as pistas dos adversários.',
+      'Quem gritar "ACHEI!" dentro do tempo com o tesouro em mãos vence.',
+    ],
+  },
+  {
+    id: '3', name: 'Pesca', emoji: '🎣', duration: 45,
+    description: 'Lance sua linha nas águas cristalinas e capture o peixe mais pesado!',
+    objetivo: 'Pescar o maior número de pontos dentro do tempo limite.',
+    regras: [
+      'Cada jogador usa uma vara de pesca com isca de coco ralado.',
+      'Os peixes valem: sardinha 1pt, peixe-palhaço 3pt, atum 5pt.',
+      'Não é permitido usar redes — apenas a vara individual.',
+      'Peixes menores que 10cm devem ser devolvidos ao mar.',
+      'Ganha quem acumular mais pontos ao soar o cronômetro.',
+    ],
+  },
+  {
+    id: '4', name: 'Surfe', emoji: '🏄', duration: 60,
+    description: 'Domine as ondas tropicais e mostre o estilo de verdadeiro surfista da ilha!',
+    objetivo: 'Conseguir a maior pontuação dos juízes surfando as ondas do desafio.',
+    regras: [
+      'Cada jogador tem direito a 3 ondas durante a prova.',
+      'A pontuação vai de 1 a 10 por onda, avaliando equilíbrio e estilo.',
+      'Cair da prancha desconta 2 pontos da nota daquela onda.',
+      'A onda mais alta da sessão vale pontuação em dobro.',
+      'A soma das 3 ondas determina o vencedor.',
+    ],
+  },
+  {
+    id: '5', name: 'Quebra-coco', emoji: '💥', duration: 30,
+    description: 'Quebre o maior número de cocos e vença na força bruta tropical!',
+    objetivo: 'Quebrar mais cocos do que os adversários dentro de 30 segundos.',
+    regras: [
+      'Os cocos ficam enfileirados em cima de uma pedra plana na praia.',
+      'Cada jogador usa apenas as próprias mãos — sem ferramentas.',
+      'Coco partido ao meio conta 1 ponto; coco em pedaços conta 2 pontos.',
+      'Não é permitido usar os pés ou jogar o coco contra pedras.',
+      'Ganha quem tiver mais pontos ao fim dos 30 segundos.',
+    ],
+  },
+  {
+    id: '6', name: 'Nado', emoji: '🏊', duration: 60,
+    description: 'Mergulhe nas águas turquesa e nade até a boia mais distante!',
+    objetivo: 'Completar o percurso de natação até a boia e voltar no menor tempo.',
+    regras: [
+      'O percurso é de 50 metros ida e volta até a boia amarela.',
+      'Qualquer estilo de nado é permitido: crawl, costas, peito ou borboleta.',
+      'Não é permitido tocar o fundo ou usar apoios no caminho.',
+      'Virar na boia sem tocá-la resulta em penalidade de 5 segundos.',
+      'Ganha quem retornar à linha de largada em menor tempo.',
+    ],
+  },
 ];
 
 const Sorteio = () => {
@@ -56,9 +122,13 @@ const Sorteio = () => {
       isGameOver: boolean;
     }) || {};
 
-  const [phase, setPhase] = useState<"shuffling" | "revealed">("shuffling");
+  const preservedMinigame = (location.state as any)?.preservedMinigame;
+
+  const [phase, setPhase] = useState<"shuffling" | "revealed">(
+    preservedMinigame ? "revealed" : "shuffling"
+  );
   const [chosenGame] = useState(
-    () => MINIGAMES[Math.floor(Math.random() * MINIGAMES.length)]
+    () => preservedMinigame ?? MINIGAMES[Math.floor(Math.random() * MINIGAMES.length)]
   );
 
   useEffect(() => {
@@ -87,18 +157,10 @@ const Sorteio = () => {
     });
   };
 
-  const handleSkip = () => {
-    if (isGameOver) {
-      navigate("/ranking", { state: { players } });
-    } else {
-      navigate("/game", {
-        state: {
-          players: players.map((p: any) => p.label || p),
-          totalRounds,
-          currentRound,
-        },
-      });
-    }
+  const handleComoJogar = () => {
+    navigate("/como-jogar", {
+      state: { minigame: chosenGame, players, currentRound, totalRounds, isGameOver },
+    });
   };
 
   return (
@@ -156,31 +218,84 @@ const Sorteio = () => {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             {/* perspective no pai para o rotateY funcionar corretamente */}
-            <div className="w-72 sm:w-80" style={{ perspective: '600px' }}>
+            <div className="w-72 sm:w-80" style={{ perspective: '600px', overflow: 'visible' }}>
               <motion.div
                 initial={{ rotateY: 90 }}
                 animate={{ rotateY: 0 }}
                 transition={{ delay: 0.1, duration: 0.4 }}
               >
                 <WoodenCard variant="card" irregularCorners>
-                  <div className="p-6 flex flex-col items-center gap-4">
-                    <motion.div
-                      animate={{ scale: [1, 1.15, 1] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                      style={{ fontSize: '4rem', lineHeight: 1 }}
-                    >
-                      {chosenGame.emoji}
-                    </motion.div>
+
+                  {/* ── Decorativos nos cantos do card ─────────────────── */}
+                  {/* TL — folha de palmeira */}
+                  <div className="absolute select-none" style={{ top: -15, left: -15, zIndex: 10, pointerEvents: 'none', transform: 'rotate(-15deg)', opacity: 0.9 }}>
+                    <svg width="55" height="65" viewBox="0 0 80 95" fill="none">
+                      <path d="M12,85 Q-8,45 38,5 Q55,32 50,62 Q36,78 12,85 Z" fill="#2D6B31" />
+                      <path d="M12,85 Q28,44 38,5" stroke="#1B4D1E" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M22,65 Q35,50 42,30" stroke="#1B4D1E" strokeWidth="1" opacity="0.6" />
+                      <path d="M18,72 Q30,55 37,38" stroke="#1B4D1E" strokeWidth="1" opacity="0.5" />
+                    </svg>
+                  </div>
+                  {/* TR — flor hibisco */}
+                  <div className="absolute select-none" style={{ top: -18, right: -15, zIndex: 10, pointerEvents: 'none', transform: 'rotate(20deg)', opacity: 0.9 }}>
+                    <svg width="52" height="52" viewBox="0 0 68 68" fill="none">
+                      {([0, 72, 144, 216, 288] as number[]).map((deg, i) => (
+                        <ellipse key={i} cx="34" cy="16" rx="8" ry="16" fill="#E8476A" opacity="0.92"
+                          transform={`rotate(${deg} 34 34)`} />
+                      ))}
+                      <circle cx="34" cy="34" r="7" fill="#FFD700" />
+                      <circle cx="34" cy="34" r="4" fill="#FFA500" />
+                      <circle cx="34" cy="34" r="2" fill="#FF6B00" />
+                    </svg>
+                  </div>
+                  {/* BL — concha */}
+                  <div className="absolute select-none" style={{ bottom: -10, left: -10, zIndex: 10, pointerEvents: 'none', transform: 'rotate(-10deg)', opacity: 0.9 }}>
+                    <svg width="44" height="48" viewBox="0 0 52 56" fill="none">
+                      <path d="M26,52 Q6,46 3,30 Q0,14 15,6 Q30,0 42,12 Q52,24 47,38 Q42,50 30,52 Q22,53 17,46 Q12,39 16,30 Q20,22 27,23 Q34,24 35,32 Q36,39 29,41 Z"
+                        fill="#D4A373" stroke="#A07850" strokeWidth="1.5" />
+                      <path d="M26,48 Q10,42 8,28 Q6,16 18,10" stroke="#A07850" strokeWidth="1" fill="none" opacity="0.5" />
+                      <path d="M26,44 Q14,39 13,28 Q12,19 22,15" stroke="#A07850" strokeWidth="0.8" fill="none" opacity="0.4" />
+                    </svg>
+                  </div>
+                  {/* BR — folhinhas */}
+                  <div className="absolute select-none" style={{ bottom: -12, right: -10, zIndex: 10, pointerEvents: 'none', transform: 'rotate(15deg)', opacity: 0.9 }}>
+                    <svg width="44" height="40" viewBox="0 0 58 52" fill="none">
+                      <path d="M5,42 Q8,10 32,4 Q26,26 5,42 Z" fill="#5CB85C" />
+                      <path d="M5,42 Q18,18 32,4" stroke="#3A8A3A" strokeWidth="1.2" fill="none" />
+                      <path d="M18,48 Q28,18 52,12 Q44,34 18,48 Z" fill="#4CAE4C" />
+                      <path d="M18,48 Q36,26 52,12" stroke="#3A8A3A" strokeWidth="1.2" fill="none" />
+                    </svg>
+                  </div>
+
+                  <div className="p-4 flex flex-col items-center gap-3">
                     <h2
-                      className="text-2xl sm:text-3xl font-bold text-center tracking-tight"
+                      className="font-bold text-center tracking-tight"
                       style={{
                         fontFamily: 'Fredoka, sans-serif',
+                        fontSize: 'clamp(1.2rem, 3.5vw, 1.8rem)',
                         color: '#FDF5E6',
                         textShadow: '0 1px 3px rgba(0,0,0,0.5)',
                       }}
                     >
                       {chosenGame.name}
                     </h2>
+                    <motion.div
+                      animate={{ scale: [1, 1.15, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                      style={{ fontSize: 'clamp(3rem, 10vw, 5rem)', lineHeight: 1 }}
+                    >
+                      {chosenGame.emoji}
+                    </motion.div>
+                    <p style={{
+                      fontFamily: 'Quicksand, sans-serif',
+                      fontSize: 'clamp(0.85rem, 2vw, 1rem)',
+                      color: COLORS.marromProfundo,
+                      textAlign: 'center',
+                      lineHeight: 1.4,
+                      opacity: 0.85,
+                    }}>
+                      {chosenGame.description}
+                    </p>
                   </div>
                 </WoodenCard>
               </motion.div>
@@ -191,8 +306,8 @@ const Sorteio = () => {
               <TropicalButton variant="primary" size="lg" onClick={handleStart}>
                 🎮 INICIAR MINIGAME
               </TropicalButton>
-              <TropicalButton variant="secondary" size="md" onClick={handleSkip}>
-                {isGameOver ? 'Ir para Ranking 🏆' : 'Pular e Continuar ▶'}
+              <TropicalButton variant="secondary" size="md" onClick={handleComoJogar}>
+                📖 Como Jogar?
               </TropicalButton>
             </div>
           </motion.div>
