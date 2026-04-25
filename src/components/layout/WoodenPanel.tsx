@@ -4,8 +4,9 @@ import { WOOD_BG, WOOD_INSET_MAIN } from '@/lib/tokens';
 
 interface WoodenPanelProps {
   children: ReactNode;
-  className?: string; // posicionamento externo: max-w, mx-auto, margens, etc.
-  compact?: boolean;  // padding interno reduzido — para HUDs e headers de jogo
+  className?: string;   // posicionamento externo: max-w, mx-auto, margens, etc.
+  compact?: boolean;    // padding interno reduzido — para HUDs e headers de jogo
+  fillHeight?: boolean; // content div vira flex-col h-full para justify-between funcionar
 }
 
 
@@ -18,7 +19,7 @@ interface WoodenPanelProps {
  *   e) Decorativos SVG com offsets negativos → quebram borda propositalmente
  *   f) Elipses SVG (nós de madeira) z-0 atrás do conteúdo → imperfeição natural
  */
-export const WoodenPanel: React.FC<WoodenPanelProps> = ({ children, className, compact }) => {
+export const WoodenPanel: React.FC<WoodenPanelProps> = ({ children, className, compact, fillHeight }) => {
   return (
     <div
       className={cn('relative', className)}
@@ -108,7 +109,10 @@ export const WoodenPanel: React.FC<WoodenPanelProps> = ({ children, className, c
       </div>
 
       {/* Área de conteúdo — padding generoso, acima dos nós de madeira */}
-      <div className={compact ? 'relative p-3 md:p-4' : 'relative p-8 md:p-10'} style={{ zIndex: 1 }}>
+      <div
+        className={compact ? 'relative p-3 md:p-4' : cn('relative p-8 md:p-10', fillHeight && 'flex flex-col')}
+        style={{ zIndex: 1, ...(fillHeight ? { height: '100%' } : {}) }}
+      >
         {children}
       </div>
     </div>

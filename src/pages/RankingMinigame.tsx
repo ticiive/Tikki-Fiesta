@@ -119,7 +119,7 @@ const RankingMinigame = () => {
                         {idx + 1}º
                       </span>
                       <span style={{ fontFamily: 'Fredoka, sans-serif', fontSize: '0.65rem', color: badge.text, opacity: 0.9, marginTop: 1 }}>
-                        +{reward}🐚
+                        +{reward}🥥
                       </span>
                     </div>
 

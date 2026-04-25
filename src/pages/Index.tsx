@@ -40,10 +40,11 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen px-[5%] py-[5vh] relative overflow-x-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 md:px-[5%] py-4 md:py-[5vh] relative overflow-x-hidden">
       <TropicalBackground />
 
-      <WoodenPanel className="max-w-6xl mx-auto">
+      <WoodenPanel fillHeight className="max-w-6xl w-full min-h-[85vh] md:min-h-0">
+        <div className="flex flex-col flex-1 justify-between gap-2">
         <h1
           className="text-center text-3xl md:text-4xl font-bold mb-2"
           style={{
@@ -83,7 +84,7 @@ const Index = () => {
                 style={{
                   width: '100%',
                   aspectRatio: '1',
-                  maxWidth: 160,
+                  maxWidth: 'clamp(80px, 22vw, 180px)',
                   justifySelf: 'center',
                   background: 'none',
                   border: 'none',
@@ -202,6 +203,7 @@ const Index = () => {
             {canStart ? '🎮 Iniciar Partida' : 'Selecione 2+ jogadores e rodadas'}
           </TropicalButton>
         </motion.div>
+        </div>
       </WoodenPanel>
     </div>
   );

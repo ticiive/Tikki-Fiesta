@@ -28,7 +28,7 @@ const Counter = ({
     className="flex items-center gap-2 bg-white/40 rounded-xl px-3 py-2"
     style={{ border: '1.5px solid #5D3A1A' }}
   >
-    <img src={icon} alt="" className="w-6 h-6 shrink-0 object-contain" />
+    <span className="text-2xl shrink-0 leading-none">{icon}</span>
     <button
       onClick={onRemove}
       className="w-9 h-9 rounded-full flex items-center justify-center font-black text-lg text-white shrink-0 transition-transform active:scale-90"
@@ -181,13 +181,13 @@ const Game = () => {
         {/* Direita: contadores + botão */}
         <div className="flex-1 flex flex-col justify-center gap-3 min-w-0">
           <Counter
-            icon="/img/buzios.png"
+            icon="🥥"
             value={activePlayer.coins}
             onAdd={() => updateActivePlayer("coins", 1)}
             onRemove={() => updateActivePlayer("coins", -1)}
           />
           <Counter
-            icon="/img/perola-negra.png"
+            icon="🗿"
             value={activePlayer.stars}
             onAdd={() => updateActivePlayer("stars", 1)}
             onRemove={() => updateActivePlayer("stars", -1)}
@@ -234,7 +234,7 @@ const Game = () => {
                   {p.label}
                 </span>
                 <span className="text-xs" style={{ color: 'rgba(244,228,193,0.8)', fontFamily: 'Quicksand, sans-serif' }}>
-                  🐚{p.coins} · 🫧{p.stars} · 🏆{p.trophies}
+                  🥥{p.coins} · 🗿{p.stars} · 🏆{p.trophies}
                 </span>
               </div>
             </div>

@@ -1,5 +1,5 @@
 export const COLORS = {
-  coral:          '#FF6B9D',
+  coral:          '#E91E4D',
   menta:          '#AAF0D1',
   areia:          '#F4E4C1',
   areiaEscura:    '#E8D5A8',

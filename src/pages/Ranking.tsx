@@ -18,7 +18,11 @@ const Ranking = () => {
   const navigate  = useNavigate();
 
   const players: Player[] = (location.state as any)?.players ?? [];
-  const sorted = [...players].sort((a, b) => b.coins - a.coins);
+  const sorted = [...players].sort((a, b) => {
+    if (b.stars !== a.stars) return b.stars - a.stars;
+    if (b.coins !== a.coins) return b.coins - a.coins;
+    return b.trophies - a.trophies;
+  });
   const winner = sorted[0];
   const others = sorted.slice(1);
 
@@ -44,11 +48,11 @@ const Ranking = () => {
         </h1>
 
         {/* Conteúdo principal: winner + others */}
-        <div className="flex flex-col md:flex-row gap-3 mb-3">
+        <div className="flex flex-col items-center gap-3 mb-3">
 
           {/* Card do vencedor */}
           {winner && (
-            <div className="md:flex-1">
+            <div className="w-full max-w-xs sm:max-w-sm">
               <WoodenCard variant="card" irregularCorners ringColor={winner.color}>
                 <div className="flex flex-col items-center gap-1" style={{ padding: 'clamp(0.5rem, 2vw, 1rem)' }}>
                   <span style={{
@@ -83,7 +87,7 @@ const Ranking = () => {
                     color: COLORS.areia,
                     opacity: 0.9,
                   }}>
-                    🐚 {winner.coins} · ⚪ {winner.stars} · 🏆 {winner.trophies}
+                    🥥 {winner.coins} · 🗿 {winner.stars} · 🏆 {winner.trophies}
                   </span>
                 </div>
               </WoodenCard>
@@ -92,37 +96,39 @@ const Ranking = () => {
 
           {/* Cards dos demais jogadores */}
           {others.length > 0 && (
-            <div className="flex flex-col gap-2 md:flex-1">
+            <div className="flex flex-wrap justify-center gap-2 w-full">
               {others.map((p, i) => {
                 const badge = POSITION_BADGES[i] ?? POSITION_BADGES[2];
                 return (
-                  <WoodenCard key={p.id} variant="card" ringColor={p.color}>
-                    <div style={{ display: 'flex', alignItems: 'center', padding: 'clamp(0.3rem, 1vw, 0.55rem) 0.75rem', gap: '0.5rem' }}>
-                      <div style={{
-                        width: 42,
-                        flexShrink: 0,
-                        background: badge.bg,
-                        borderRadius: '0.4rem',
-                        padding: '0.2rem',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        border: `2px solid ${COLORS.madeiraEscura}`,
-                        boxShadow: '2px 2px 0 rgba(45,27,13,0.4)',
-                      }}>
-                        <span style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: 'clamp(0.8rem, 2vw, 1rem)', color: badge.text, lineHeight: 1 }}>
-                          {i + 2}º
+                  <div key={p.id} style={{ flex: '0 1 260px' }}>
+                    <WoodenCard variant="card" ringColor={p.color}>
+                      <div style={{ display: 'flex', alignItems: 'center', padding: 'clamp(0.3rem, 1vw, 0.55rem) 0.75rem', gap: '0.5rem' }}>
+                        <div style={{
+                          width: 42,
+                          flexShrink: 0,
+                          background: badge.bg,
+                          borderRadius: '0.4rem',
+                          padding: '0.2rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          border: `2px solid ${COLORS.madeiraEscura}`,
+                          boxShadow: '2px 2px 0 rgba(45,27,13,0.4)',
+                        }}>
+                          <span style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: 'clamp(0.8rem, 2vw, 1rem)', color: badge.text, lineHeight: 1 }}>
+                            {i + 2}º
+                          </span>
+                        </div>
+                        <span style={{ fontSize: 'clamp(1.3rem, 3vw, 1.7rem)', lineHeight: 1, flexShrink: 0 }}>{p.avatar}</span>
+                        <span style={{ flex: 1, fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: 'clamp(0.85rem, 2vw, 1.05rem)', color: COLORS.cremeClaro, textShadow: `0 1px 2px rgba(45,27,13,0.5)` }}>
+                          {p.label}
+                        </span>
+                        <span style={{ fontFamily: 'Fredoka, sans-serif', fontSize: 'clamp(0.65rem, 1.5vw, 0.8rem)', color: COLORS.areia, opacity: 0.85, whiteSpace: 'nowrap' }}>
+                          🥥{p.coins} · 🗿{p.stars}
                         </span>
                       </div>
-                      <span style={{ fontSize: 'clamp(1.3rem, 3vw, 1.7rem)', lineHeight: 1, flexShrink: 0 }}>{p.avatar}</span>
-                      <span style={{ flex: 1, fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: 'clamp(0.85rem, 2vw, 1.05rem)', color: COLORS.cremeClaro, textShadow: `0 1px 2px rgba(45,27,13,0.5)` }}>
-                        {p.label}
-                      </span>
-                      <span style={{ fontFamily: 'Fredoka, sans-serif', fontSize: 'clamp(0.65rem, 1.5vw, 0.8rem)', color: COLORS.areia, opacity: 0.85, whiteSpace: 'nowrap' }}>
-                        🐚{p.coins} · ⚪{p.stars}
-                      </span>
-                    </div>
-                  </WoodenCard>
+                    </WoodenCard>
+                  </div>
                 );
               })}
             </div>
