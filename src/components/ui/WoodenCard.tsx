@@ -9,9 +9,10 @@ interface WoodenCardProps {
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
+  stretch?: boolean; // inner content div vira flex-1 flex-col pra preencher altura do card
 }
 
-export const WoodenCard = ({ variant, ringColor, irregularCorners, children, className, style }: WoodenCardProps) => {
+export const WoodenCard = ({ variant, ringColor, irregularCorners, children, className, style, stretch }: WoodenCardProps) => {
   const isMain = variant === 'main';
 
   const projectedShadow = isMain
@@ -40,8 +41,8 @@ export const WoodenCard = ({ variant, ringColor, irregularCorners, children, cla
   };
 
   return (
-    <div className={cn('relative', className)} style={cardStyle}>
-      <div className="relative" style={{ zIndex: 1 }}>
+    <div className={cn('relative', stretch && 'flex flex-col', className)} style={cardStyle}>
+      <div className={cn('relative', stretch && 'flex-1 flex flex-col')} style={{ zIndex: 1 }}>
         {children}
       </div>
     </div>

@@ -7,7 +7,7 @@ export const COLORS = {
   madeiraMedia:   '#8B5E34',
   madeiraClara:   '#A0693E',
   marromProfundo: '#2D1B0D',
-  turquoise:      '#1FBFCF',
+  turquoise:      '#2EC4B6',
   verde:          '#2D7A4B',
   alerta:         '#E74C3C',
   ouro:           '#FFD700',
