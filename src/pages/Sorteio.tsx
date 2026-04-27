@@ -293,6 +293,11 @@ const Sorteio = () => {
                       textAlign: 'center',
                       lineHeight: 1.4,
                       opacity: 0.85,
+                      background: 'linear-gradient(180deg, #F8E9C9 0%, #F0DAB5 50%, #F4E4C1 100%)',
+                      boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.6), inset 0 -1px 2px rgba(120,80,40,0.1)',
+                      borderRadius: '14px',
+                      padding: '8px 12px',
+                      margin: '0 8px',
                     }}>
                       {chosenGame.description}
                     </p>

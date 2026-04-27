@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MusicProvider } from "@/contexts/MusicContext";
 import { BackgroundMusic } from "@/components/BackgroundMusic";
+import { GlobalConfigButton } from "@/components/GlobalConfigButton";
 import Index from "./pages/Index";
 import Game from "./pages/Game";
 import Sorteio from "./pages/Sorteio";
@@ -24,6 +25,7 @@ const App = () => (
         <Sonner />
         <BackgroundMusic />
         <BrowserRouter basename={import.meta.env.BASE_URL}>
+          <GlobalConfigButton />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/game" element={<Game />} />

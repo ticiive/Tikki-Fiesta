@@ -6,7 +6,6 @@ import { TropicalBackground } from "@/components/layout/TropicalBackground";
 import { WoodenPanel } from "@/components/layout/WoodenPanel";
 import { WoodenCard } from "@/components/ui/WoodenCard";
 import { TropicalButton } from "@/components/ui/TropicalButton";
-import { ConfiguracoesModal } from "@/components/ConfiguracoesModal";
 import { CHARACTERS } from "@/data/characters";
 
 const roundOptions = [3, 5, 10];
@@ -21,7 +20,6 @@ const Index = () => {
   const navigate = useNavigate();
   const [selectedPlayers, setSelectedPlayers] = useState<string[]>([]);
   const [selectedRounds, setSelectedRounds] = useState<number | null>(null);
-  const [showConfig, setShowConfig] = useState(false);
 
   const MAX_PLAYERS = 4;
 
@@ -46,16 +44,6 @@ const Index = () => {
       <TropicalBackground />
 
       <WoodenPanel fillHeight className="max-w-6xl w-full min-h-[85vh] md:min-h-0">
-        {/* Botão de configurações */}
-        <button
-          aria-label="Configurações"
-          onClick={() => setShowConfig(true)}
-          className="absolute top-3 right-3 text-3xl cursor-pointer leading-none select-none hover:opacity-75 transition-opacity"
-          style={{ zIndex: 20, background: 'none', border: 'none', padding: '4px' }}
-        >
-          ⚙️
-        </button>
-
         <div className="flex flex-col flex-1 justify-between gap-2">
         <h1
           className="text-center text-3xl md:text-4xl font-bold mb-2"
@@ -217,8 +205,6 @@ const Index = () => {
         </motion.div>
         </div>
       </WoodenPanel>
-
-      <ConfiguracoesModal isOpen={showConfig} onClose={() => setShowConfig(false)} />
     </div>
   );
 };

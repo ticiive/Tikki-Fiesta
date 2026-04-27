@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { useMusic } from "@/contexts/MusicContext";
@@ -15,10 +15,10 @@ export const ConfiguracoesModal = ({ isOpen, onClose }: ConfiguracoesModalProps)
   return (
     <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
       <DialogContent
-        className="max-w-sm w-[92vw] p-0 border-0 bg-transparent shadow-none overflow-visible"
+        className="max-w-sm w-[92vw] p-0 border-0 bg-transparent shadow-none overflow-visible [&>button]:hidden"
         style={{ borderRadius: '28px 36px 24px 40px' }}
       >
-        {/* WoodenPanel inline — evita importar WoodenPanel e perder border-radius do DialogContent */}
+        {/* WoodenPanel inline */}
         <div
           style={{
             borderRadius: '28px 36px 24px 40px',
@@ -38,6 +38,38 @@ export const ConfiguracoesModal = ({ isOpen, onClose }: ConfiguracoesModalProps)
             position: 'relative',
           }}
         >
+          {/* Botão X customizado */}
+          <DialogClose asChild>
+            <button
+              aria-label="Fechar configurações"
+              style={{
+                position: 'absolute',
+                top: 12,
+                right: 12,
+                width: 34,
+                height: 34,
+                borderRadius: '50%',
+                background: COLORS.areia,
+                border: `2px solid ${COLORS.madeiraEscura}`,
+                color: COLORS.marromProfundo,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '14px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'transform 150ms ease, background 150ms ease',
+                zIndex: 10,
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; e.currentTarget.style.background = COLORS.areiaEscura; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.background = COLORS.areia; }}
+              onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.93)'; }}
+              onMouseUp={(e)   => { e.currentTarget.style.transform = 'scale(1.1)'; }}
+            >
+              ✕
+            </button>
+          </DialogClose>
+
           {/* Título */}
           <DialogTitle
             className="text-center mb-5"
