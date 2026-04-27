@@ -4,7 +4,6 @@ import { useMusic } from "@/contexts/MusicContext";
 export const BackgroundMusic = () => {
   const { musicEnabled, volume } = useMusic();
   const audioRef = useRef<HTMLAudioElement>(null);
-  const hasInteracted = useRef(false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -21,29 +20,28 @@ export const BackgroundMusic = () => {
       return;
     }
 
-    if (hasInteracted.current) {
+    const tryPlay = () => {
       audio.play().catch(() => {});
-      return;
-    }
-
-    const handleFirstInteraction = () => {
-      hasInteracted.current = true;
-      if (musicEnabled) audio.play().catch(() => {});
     };
 
-    window.addEventListener("click", handleFirstInteraction, { once: true });
-    window.addEventListener("touchstart", handleFirstInteraction, { once: true });
+    tryPlay();
+
+    const events = ["click", "touchstart", "keydown"] as const;
+    const handler = () => {
+      tryPlay();
+      events.forEach((e) => window.removeEventListener(e, handler));
+    };
+    events.forEach((e) => window.addEventListener(e, handler));
 
     return () => {
-      window.removeEventListener("click", handleFirstInteraction);
-      window.removeEventListener("touchstart", handleFirstInteraction);
+      events.forEach((e) => window.removeEventListener(e, handler));
     };
   }, [musicEnabled]);
 
   return (
     <audio
       ref={audioRef}
-      src="/audio/background-music.mp3"
+      src={`${import.meta.env.BASE_URL}audio/background-music.mp3`}
       loop
       preload="none"
       onError={() => {}}
