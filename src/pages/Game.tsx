@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 import type { Player } from "@/types/game";
 import { CHARACTER_MAP } from "@/data/characters";
 import { TropicalBackground } from "@/components/layout/TropicalBackground";
 import { WoodenPanel } from "@/components/layout/WoodenPanel";
 import { WoodenCard } from "@/components/ui/WoodenCard";
 import { COLORS } from "@/lib/tokens";
+import { RoubarModal } from "@/components/RoubarModal";
 
 
 // ── Contador compacto [ícone] [−] [número] [+] ──────────────────────────────
@@ -77,6 +79,8 @@ const Game = () => {
   const startingPlayerId = useRef(
     typeof incoming[0] === 'string' ? incoming[0] : (incoming[0] as Player).id
   );
+  const [hasStolenThisTurn, setHasStolenThisTurn] = useState(false);
+  const [isRoubarOpen, setIsRoubarOpen] = useState(false);
 
   const activePlayer = playerOrder[0];
   const inactivePlayers = playerOrder.slice(1);
@@ -92,7 +96,34 @@ const Game = () => {
     });
   };
 
+  const handleSteal = (targetId: string, action: 'cocos' | 'tikki') => {
+    const target = playerOrder.find(p => p.id === targetId);
+    if (!target) return;
+
+    if (action === 'cocos') {
+      const roll = Math.floor(Math.random() * 19) + 12;
+      const stolen = Math.min(roll, target.coins);
+      setPlayerOrder(prev => prev.map((p, i) => {
+        if (i === 0) return { ...p, coins: p.coins + stolen };
+        if (p.id === targetId) return { ...p, coins: Math.max(0, p.coins - stolen) };
+        return p;
+      }));
+      toast.success(`🥥 Roubou ${stolen} cocos de ${target.label}!`);
+    } else {
+      if (playerOrder[0].coins < 35 || target.stars <= 0) return;
+      setPlayerOrder(prev => prev.map((p, i) => {
+        if (i === 0) return { ...p, stars: p.stars + 1, coins: Math.max(0, p.coins - 35) };
+        if (p.id === targetId) return { ...p, stars: Math.max(0, p.stars - 1) };
+        return p;
+      }));
+      toast.success(`🗿 Roubou 1 tikki de ${target.label}!`);
+    }
+
+    setHasStolenThisTurn(true);
+  };
+
   const endTurn = () => {
+    setHasStolenThisTurn(false);
     setPlayerOrder((prev) => {
       const rotated = [...prev.slice(1), prev[0]];
       if (rotated[0].id === startingPlayerId.current) {
@@ -201,21 +232,50 @@ const Game = () => {
                   onAdd={() => updateActivePlayer("stars", 1)}
                   onRemove={() => updateActivePlayer("stars", -1)}
                 />
-                <button
-                  onClick={endTurn}
-                  className="self-end px-5 rounded-full font-bold text-sm text-white shadow-md transition-all hover:scale-105 active:scale-95"
-                  style={{
-                    background: COLORS.coral,
-                    border: `3px solid ${COLORS.madeiraEscura}`,
-                    boxShadow: '3px 3px 0 #3D2010',
-                    fontFamily: 'Fredoka, sans-serif',
-                    maxWidth: 200,
-                    paddingTop: '6px',
-                    paddingBottom: '6px',
-                  }}
-                >
-                  Encerrar turno 🔄
-                </button>
+                <div className="self-end flex items-center gap-2">
+                  {/* Botão Roubar */}
+                  <button
+                    onClick={() => setIsRoubarOpen(true)}
+                    disabled={hasStolenThisTurn}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95${!hasStolenThisTurn ? ' hover:scale-105' : ''}`}
+                    style={{
+                      background: `linear-gradient(145deg, ${COLORS.madeiraClara}, ${COLORS.madeiraMedia})`,
+                      border: `3px solid ${COLORS.madeiraEscura}`,
+                      boxShadow: hasStolenThisTurn ? 'none' : '3px 3px 0 #3D2010',
+                      opacity: hasStolenThisTurn ? 0.5 : 1,
+                      cursor: hasStolenThisTurn ? 'not-allowed' : 'pointer',
+                    }}
+                  >
+                    <img
+                      src={`${import.meta.env.BASE_URL}icone-roubar.png`}
+                      alt=""
+                      width={24}
+                      height={24}
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = 'none';
+                        const fallback = e.currentTarget.parentElement?.querySelector<HTMLElement>('.steal-fallback');
+                        if (fallback) fallback.style.display = 'inline';
+                      }}
+                    />
+                    <span className="steal-fallback" style={{ display: 'none', fontSize: '1.25rem', lineHeight: 1 }}>🏴</span>
+                  </button>
+                  {/* Botão Encerrar turno */}
+                  <button
+                    onClick={endTurn}
+                    className="px-5 rounded-full font-bold text-sm text-white shadow-md transition-all hover:scale-105 active:scale-95"
+                    style={{
+                      background: COLORS.coral,
+                      border: `3px solid ${COLORS.madeiraEscura}`,
+                      boxShadow: '3px 3px 0 #3D2010',
+                      fontFamily: 'Fredoka, sans-serif',
+                      maxWidth: 200,
+                      paddingTop: '6px',
+                      paddingBottom: '6px',
+                    }}
+                  >
+                    Encerrar turno 🔄
+                  </button>
+                </div>
               </div>
             </div>
           </WoodenCard>
@@ -255,6 +315,13 @@ const Game = () => {
 
         </div>
       </WoodenPanel>
+      <RoubarModal
+        isOpen={isRoubarOpen}
+        onClose={() => setIsRoubarOpen(false)}
+        attacker={activePlayer}
+        targets={inactivePlayers}
+        onSteal={handleSteal}
+      />
     </div>
   );
 };
