@@ -8,16 +8,25 @@ interface CharacterAvatarProps {
   };
   size?: number;
   className?: string;
+  fill?: boolean;
 }
 
-export const CharacterAvatar = ({ player, size = 48, className }: CharacterAvatarProps) => {
+export const CharacterAvatar = ({ player, size = 48, className, fill = false }: CharacterAvatarProps) => {
   const [showFallback, setShowFallback] = useState(false);
 
   if (!player.image || showFallback) {
     return (
       <span
         className={className}
-        style={{
+        style={fill ? {
+          fontSize: 'clamp(2rem, 8vw, 5rem)',
+          lineHeight: 1,
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          height: '100%',
+        } : {
           fontSize: size * 0.7,
           lineHeight: 1,
           display: 'inline-flex',
@@ -36,11 +45,14 @@ export const CharacterAvatar = ({ player, size = 48, className }: CharacterAvata
     <img
       src={`${import.meta.env.BASE_URL}${player.image}`}
       alt={player.label}
-      width={size}
-      height={size}
+      {...(fill ? {} : { width: size, height: size })}
       className={className}
       onError={() => setShowFallback(true)}
-      style={{
+      style={fill ? {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+      } : {
         width: size,
         height: size,
         borderRadius: '50%',

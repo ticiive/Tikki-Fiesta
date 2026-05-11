@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { UserPlus } from "lucide-react";
 import { TropicalBackground } from "@/components/layout/TropicalBackground";
 import { WoodenPanel } from "@/components/layout/WoodenPanel";
 import { WoodenCard } from "@/components/ui/WoodenCard";
@@ -70,8 +69,8 @@ const Index = () => {
           {atLimit ? ' ✓' : ''}
         </p>
 
-        {/* ── Grid 3×2 de personagens ──────────────────────────────────── */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        {/* ── Grid responsivo de personagens ───────────────────────────── */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
           {visibleCharacters.map((char) => {
             const isSelected = selectedPlayers.includes(char.id);
             const isDisabled = atLimit && !isSelected;
@@ -84,9 +83,7 @@ const Index = () => {
                 disabled={isDisabled}
                 style={{
                   width: '100%',
-                  aspectRatio: '1',
-                  maxWidth: 'clamp(80px, 22vw, 180px)',
-                  justifySelf: 'center',
+                  aspectRatio: '0.75',
                   background: 'none',
                   border: 'none',
                   padding: 0,
@@ -100,53 +97,56 @@ const Index = () => {
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                   style={{ height: '100%' }}
                 >
-                <WoodenCard
-                  variant="card"
-                  irregularCorners
-                  ringColor={isSelected ? char.color : undefined}
-                  style={{ height: '100%' }}
-                >
-                  <div
-                    style={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 8,
-                      padding: '0.5rem',
-                    }}
+                  <WoodenCard
+                    variant="card"
+                    irregularCorners
+                    ringColor={isSelected ? char.color : undefined}
+                    style={{ height: '100%' }}
                   >
                     <div
                       style={{
-                        width: 56, height: 56,
-                        borderRadius: '50%',
-                        border: `3px solid ${char.color}`,
-                        boxShadow: isSelected ? `0 0 10px ${char.color}88` : 'none',
+                        height: '100%',
                         display: 'flex',
+                        flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        overflow: 'hidden',
-                        background: isSelected ? `${char.color}22` : 'rgba(255,255,255,0.12)',
-                        transition: 'all 300ms ease',
+                        gap: 6,
+                        padding: '0.35rem',
                       }}
                     >
-                      {isSelected ? <CharacterAvatar player={char} size={56} /> : <UserPlus size={26} color={char.color} />}
+                      {/* Avatar — ocupa 88% da largura do card */}
+                      <div
+                        style={{
+                          width: '88%',
+                          aspectRatio: '1',
+                          borderRadius: '50%',
+                          overflow: 'hidden',
+                          border: `3px solid ${char.color}`,
+                          boxShadow: isSelected ? `0 0 14px ${char.color}88` : 'none',
+                          background: isSelected ? `${char.color}22` : 'rgba(255,255,255,0.12)',
+                          transition: 'box-shadow 300ms ease, background 300ms ease',
+                          flexShrink: 0,
+                        }}
+                      >
+                        <CharacterAvatar player={char} fill />
+                      </div>
+                      {/* Nome */}
+                      <span
+                        style={{
+                          fontFamily: 'Fredoka, sans-serif',
+                          fontWeight: 700,
+                          fontSize: 'clamp(0.75rem, 2vw, 1rem)',
+                          color: isSelected ? char.color : '#FDF5E6',
+                          textShadow: '1px 1px 0 rgba(0,0,0,0.5)',
+                          transition: 'color 300ms ease',
+                          textAlign: 'center',
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        {char.label}
+                      </span>
                     </div>
-                    <span
-                      style={{
-                        fontFamily: 'Fredoka, sans-serif',
-                        fontWeight: 700,
-                        fontSize: '1rem',
-                        color: isSelected ? char.color : '#FDF5E6',
-                        textShadow: '1px 1px 0 rgba(0,0,0,0.5)',
-                        transition: 'color 300ms ease',
-                      }}
-                    >
-                      {char.label}
-                    </span>
-                  </div>
-                </WoodenCard>
+                  </WoodenCard>
                 </motion.div>
               </button>
             );
