@@ -6,6 +6,7 @@ import { WoodenCard } from "@/components/ui/WoodenCard";
 import { TropicalButton } from "@/components/ui/TropicalButton";
 import { COLORS } from "@/lib/tokens";
 import type { Player } from "@/types/game";
+import { CharacterAvatar } from "@/components/CharacterAvatar";
 
 const POSITION_BADGES = [
   { bg: COLORS.prata,       text: COLORS.marromProfundo },
@@ -65,13 +66,12 @@ const Ranking = () => {
                   }}>
                     👑 CAMPEÃO!
                   </span>
-                  <motion.span
+                  <motion.div
                     animate={{ scale: [1, 1.08, 1] }}
                     transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-                    style={{ fontSize: 'clamp(2.2rem, 5vw, 3.5rem)', lineHeight: 1, display: 'block' }}
                   >
-                    {winner.avatar}
-                  </motion.span>
+                    <CharacterAvatar player={winner} size={72} />
+                  </motion.div>
                   <span style={{
                     fontFamily: 'Fredoka, sans-serif',
                     fontWeight: 700,
@@ -119,7 +119,7 @@ const Ranking = () => {
                             {i + 2}º
                           </span>
                         </div>
-                        <span style={{ fontSize: 'clamp(1.3rem, 3vw, 1.7rem)', lineHeight: 1, flexShrink: 0 }}>{p.avatar}</span>
+                        <CharacterAvatar player={p} size={44} className="shrink-0" />
                         <span style={{ flex: 1, fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: 'clamp(0.85rem, 2vw, 1.05rem)', color: COLORS.cremeClaro, textShadow: `0 1px 2px rgba(45,27,13,0.5)` }}>
                           {p.label}
                         </span>

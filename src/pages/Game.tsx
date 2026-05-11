@@ -9,6 +9,7 @@ import { WoodenPanel } from "@/components/layout/WoodenPanel";
 import { WoodenCard } from "@/components/ui/WoodenCard";
 import { COLORS } from "@/lib/tokens";
 import { RoubarModal } from "@/components/RoubarModal";
+import { CharacterAvatar } from "@/components/CharacterAvatar";
 
 
 // ── Contador compacto [ícone] [−] [número] [+] ──────────────────────────────
@@ -70,7 +71,7 @@ const Game = () => {
   const [playerOrder, setPlayerOrder] = useState<Player[]>(() =>
     (incoming as any[]).map((p) =>
       typeof p === 'string'
-        ? { id: p, label: CHARACTER_MAP[p]?.label ?? p, avatar: CHARACTER_MAP[p]?.avatar ?? '🎮', color: CHARACTER_MAP[p]?.color ?? COLORS.coral, coins: 0, stars: 0, trophies: 0 }
+        ? { id: p, label: CHARACTER_MAP[p]?.label ?? p, avatar: CHARACTER_MAP[p]?.avatar ?? '🎮', image: CHARACTER_MAP[p]?.image, color: CHARACTER_MAP[p]?.color ?? COLORS.coral, coins: 0, stars: 0, trophies: 0 }
         : p as Player
     )
   );
@@ -201,14 +202,14 @@ const Game = () => {
               {/* Esquerda: avatar + nome */}
               <div className="flex md:flex-col items-center justify-center gap-3 shrink-0 md:min-w-[120px]">
                 <div
-                  className="rounded-full flex items-center justify-center text-5xl md:text-6xl p-2 shrink-0"
+                  className="rounded-full flex items-center justify-center overflow-hidden shrink-0"
                   style={{
                     border: `4px solid ${activePlayer.color}`,
                     background: `${activePlayer.color}22`,
                     boxShadow: `0 0 12px ${activePlayer.color}66`,
                   }}
                 >
-                  {activePlayer.avatar}
+                  <CharacterAvatar player={activePlayer} size={72} />
                 </div>
                 <span
                   className="font-bold text-lg text-center"
@@ -294,7 +295,7 @@ const Game = () => {
                 >
                   <WoodenCard variant="card" stretch className="flex-1 min-h-0">
                     <div className="flex items-center gap-3 px-3 h-full">
-                      <span className="text-2xl shrink-0">{p.avatar}</span>
+                      <CharacterAvatar player={p} size={32} className="shrink-0" />
                       <div className="flex flex-col min-w-0">
                         <span
                           className="font-bold text-xs truncate"

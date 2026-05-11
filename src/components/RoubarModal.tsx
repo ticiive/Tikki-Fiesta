@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import type { Player } from "@/types/game";
 import { COLORS, WOOD_BG, WOOD_INSET_MAIN } from "@/lib/tokens";
+import { CharacterAvatar } from "@/components/CharacterAvatar";
 
 interface RoubarModalProps {
   isOpen: boolean;
@@ -102,7 +103,7 @@ export const RoubarModal = ({ isOpen, onClose, attacker, targets, onSteal }: Rou
                       cursor: 'pointer',
                     }}
                   >
-                    <span className="text-3xl">{target.avatar}</span>
+                    <CharacterAvatar player={target} size={48} className="shrink-0" />
                     <div className="flex flex-col items-start min-w-0 flex-1">
                       <span style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, color: COLORS.marromProfundo, fontSize: '1.05rem' }}>
                         {target.label}
@@ -125,7 +126,7 @@ export const RoubarModal = ({ isOpen, onClose, attacker, targets, onSteal }: Rou
                     border: `2px solid ${selectedTarget.color}`,
                   }}
                 >
-                  <span className="text-2xl">{selectedTarget.avatar}</span>
+                  <CharacterAvatar player={selectedTarget} size={36} className="shrink-0" />
                   <span style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, color: COLORS.marromProfundo, flex: 1 }}>
                     {selectedTarget.label}
                   </span>

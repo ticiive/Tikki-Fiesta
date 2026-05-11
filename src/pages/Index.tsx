@@ -7,6 +7,7 @@ import { WoodenPanel } from "@/components/layout/WoodenPanel";
 import { WoodenCard } from "@/components/ui/WoodenCard";
 import { TropicalButton } from "@/components/ui/TropicalButton";
 import { CHARACTERS } from "@/data/characters";
+import { CharacterAvatar } from "@/components/CharacterAvatar";
 
 const roundOptions = [3, 5, 10];
 
@@ -125,12 +126,12 @@ const Index = () => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '1.8rem',
+                        overflow: 'hidden',
                         background: isSelected ? `${char.color}22` : 'rgba(255,255,255,0.12)',
                         transition: 'all 300ms ease',
                       }}
                     >
-                      {isSelected ? char.avatar : <UserPlus size={26} color={char.color} />}
+                      {isSelected ? <CharacterAvatar player={char} size={56} /> : <UserPlus size={26} color={char.color} />}
                     </div>
                     <span
                       style={{

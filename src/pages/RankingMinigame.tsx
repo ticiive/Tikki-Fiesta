@@ -7,6 +7,7 @@ import { WoodenCard } from "@/components/ui/WoodenCard";
 import { TropicalButton } from "@/components/ui/TropicalButton";
 import { COLORS } from "@/lib/tokens";
 import type { Player } from "@/types/game";
+import { CharacterAvatar } from "@/components/CharacterAvatar";
 
 const REWARDS = [5, 3, 1, 0];
 
@@ -132,7 +133,7 @@ const RankingMinigame = () => {
                           padding: 'clamp(0.3rem, 1vh, 0.6rem) 0.75rem',
                           gap: '0.5rem',
                         }}>
-                          <span style={{ fontSize: 'clamp(1.5rem, 4vh, 2rem)', lineHeight: 1, flexShrink: 0 }}>{player.avatar}</span>
+                          <CharacterAvatar player={player} size={40} className="shrink-0" />
                           <span style={{ flex: 1, fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: 'clamp(0.9rem, 2.5vh, 1.2rem)', color: '#FDF5E6', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
                             {player.label}
                           </span>
