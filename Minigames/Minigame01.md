@@ -57,12 +57,6 @@ Cada um pega 1 cor. Todas as 4 cores em jogo.
 
 ---
 
-## 🎁 Bônus: Tikkube de Ouro
-
-Se algum jogador acertar **TODOS os 6 Tikkubes** da sua cor no cesto, ganha **+1 coco extra** pelo desempenho perfeito! 🏅
-
----
-
 ## ⚖️ Desempate
 
 Em caso de empate (mesma quantidade de Tikkubes no cesto):
@@ -84,9 +78,3 @@ Em caso de empate (mesma quantidade de Tikkubes no cesto):
 
 ---
 
-## 🎬 Por que é divertido
-
-✨ **Todos jogam ao mesmo tempo** = caos visual e sonoro, todo mundo gritando, Tikkubes voando
-✨ **Identidade pela cor** = cada jogador vê na hora se tá indo bem (cesto dominado pela sua cor!)
-✨ **25s passa rápido** = decisão instantânea, sem ficar pensando demais
-✨ **Visual claro do resultado** = cesto cheio de cores diferentes mostra quem ganhou só de olhar
