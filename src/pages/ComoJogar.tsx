@@ -18,6 +18,7 @@ const ComoJogar = () => {
         duration: number;
         description: string;
         objetivo: string;
+        materials?: string;
         regras: string[];
       };
       players: any[];
@@ -95,6 +96,14 @@ const ComoJogar = () => {
             {sectionTitle('🎯 Objetivo')}
             {bodyText(minigame.objetivo)}
           </div>
+
+          {/* Materiais */}
+          {minigame.materials && (
+            <div>
+              {sectionTitle('🧩 Materiais')}
+              {bodyText(minigame.materials)}
+            </div>
+          )}
 
           {/* Regras */}
           <div>

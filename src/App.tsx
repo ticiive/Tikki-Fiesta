@@ -13,6 +13,7 @@ import Timer from "./pages/Timer";
 import Ranking from "./pages/Ranking";
 import RankingMinigame from "./pages/RankingMinigame";
 import ComoJogar from "./pages/ComoJogar";
+import CorDaSorte from "./pages/CorDaSorte";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/ranking-minigame" element={<RankingMinigame />} />
             <Route path="/como-jogar" element={<ComoJogar />} />
+            <Route path="/cor-da-sorte" element={<CorDaSorte />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -38,76 +38,67 @@ const playReveal = () => {
 
 const MINIGAMES = [
   {
-    id: '1', name: 'Corrida na Praia', emoji: '🏃', duration: 60,
-    description: 'Corra pela areia quente e chegue primeiro ao coqueiro da vitória!',
-    objetivo: 'Ser o primeiro jogador a atravessar a linha de chegada marcada no coqueiro.',
+    id: 'tikki-strike',
+    name: 'Tikki Strike',
+    emoji: '🎯',
+    duration: 25,
+    description: 'Acerte o máximo de Tikkubes da sua cor no cesto!',
+    objetivo: 'Todos arremessam Tikkubes ao mesmo tempo. Quem encestar mais da sua cor vence.',
+    materials: '24 Tikkubes (6 de cada cor: 🟦🟥🟩🟨) + Tampa da Caixa',
     regras: [
-      'Cada jogador escolhe uma raia de 20 metros na areia da praia.',
-      'Ao sinal do cronômetro, todos partem ao mesmo tempo.',
-      'Não é permitido empurrar, obstruir ou sair da própria raia.',
-      'O primeiro a tocar no coqueiro marcado vence a rodada.',
-      'Em caso de empate visual, o menor tempo no cronômetro desempata.',
+      'Coloque a Tampa da Caixa no chão (vira cesto)',
+      'Marque uma linha 2-3 passos atrás',
+      'Cada jogador escolhe 1 cor e pega seus 6 Tikkubes daquela cor',
+      'Quando o timer começar, TODOS arremessam ao mesmo tempo',
+      'Arremesse um por vez (sem amontoar)',
+      'Vale qualquer técnica: por cima, por baixo, debaixo da perna',
+      'Tikkube fora do cesto é perdido',
+      'Quem acertar mais Tikkubes da sua cor vence',
     ],
+    type: 'physical',
   },
   {
-    id: '2', name: 'Caça ao Tesouro', emoji: '🗺️', duration: 90,
-    description: 'Siga as pistas espalhadas pela ilha e encontre o tesouro escondido!',
-    objetivo: 'Encontrar o tesouro enterrado na praia seguindo o mapa de pistas.',
+    id: 'cor-e-letra',
+    name: 'Cor & Letra',
+    emoji: '🃏',
+    duration: 60,
+    description: 'A cor sai do dado, mas a LETRA é o que importa!',
+    objetivo: 'Corra para pegar a carta cujo objeto começa com a letra da cor sorteada.',
+    materials: '12 Cartas-Coco (8 jogáveis + 4 armadilhas) + Dado de cores',
     regras: [
-      'Cada jogador recebe um mapa com 3 pistas sequenciais.',
-      'As pistas devem ser lidas em ordem — não pode pular etapas.',
-      'O tesouro de cada jogador está em um local exclusivo na ilha.',
-      'Não é permitido espionar o mapa ou as pistas dos adversários.',
-      'Quem gritar "ACHEI!" dentro do tempo com o tesouro em mãos vence.',
+      'Espalhe as 12 cartas viradas pra cima',
+      'Líder rola o dado — cor sorteada vira a "cor da rodada"',
+      'Todos correm pra pegar a carta cujo OBJETO começa com a letra dessa cor',
+      'A: Areia, Abacaxi | V: Vulcão, Vela | R: Remo, Rede | L: Limão, Lagarto',
+      'Acertou: +1 ponto. Errou: -1 ponto',
+      'Armadilhas (não valem): Barco, Coco, Dado, Peixe',
+      'A cor visual da carta NÃO bate com a letra (parte da pegadinha!)',
+      'Quem fizer mais pontos em 60s vence',
+      'Bônus: 3 acertos seguidos = +1 coco extra',
     ],
+    type: 'physical',
   },
   {
-    id: '3', name: 'Pesca', emoji: '🎣', duration: 45,
-    description: 'Lance sua linha nas águas cristalinas e capture o peixe mais pesado!',
-    objetivo: 'Pescar o maior número de pontos dentro do tempo limite.',
+    id: 'cor-da-sorte',
+    name: 'Cor da Sorte',
+    emoji: '🎲',
+    duration: 90,
+    description: 'Aposte Tikkubes em uma cor e dobre se acertar!',
+    objetivo: 'Apostar secretamente em 3 rolagens. Quem tiver mais Tikkubes no final vence.',
+    materials: '24 Tikkubes + Dado de cores',
     regras: [
-      'Cada jogador usa uma vara de pesca com isca de coco ralado.',
-      'Os peixes valem: sardinha 1pt, peixe-palhaço 3pt, atum 5pt.',
-      'Não é permitido usar redes — apenas a vara individual.',
-      'Peixes menores que 10cm devem ser devolvidos ao mar.',
-      'Ganha quem acumular mais pontos ao soar o cronômetro.',
+      'Cada jogador começa com 3 Tikkubes da Banca (pilha central)',
+      'Rodada tem 3 rolagens. Em cada uma:',
+      '1) Cada jogador aposta secretamente no app (escolhe cor + quantidade)',
+      '2) App revela apostas de todos ao mesmo tempo',
+      '3) Líder rola o dado físico',
+      '4) Quem acertou: recupera apostados + ganha 1 Tikkube extra por cada apostado (DOBRA)',
+      '5) Quem errou: perde os apostados para a Banca',
+      'Quem tem MAIS Tikkubes no final vence',
+      'Bônus: apostar TODOS Tikkubes e ganhar = +1 coco extra',
     ],
-  },
-  {
-    id: '4', name: 'Surfe', emoji: '🏄', duration: 60,
-    description: 'Domine as ondas tropicais e mostre o estilo de verdadeiro surfista da ilha!',
-    objetivo: 'Conseguir a maior pontuação dos juízes surfando as ondas do desafio.',
-    regras: [
-      'Cada jogador tem direito a 3 ondas durante a prova.',
-      'A pontuação vai de 1 a 10 por onda, avaliando equilíbrio e estilo.',
-      'Cair da prancha desconta 2 pontos da nota daquela onda.',
-      'A onda mais alta da sessão vale pontuação em dobro.',
-      'A soma das 3 ondas determina o vencedor.',
-    ],
-  },
-  {
-    id: '5', name: 'Quebra-coco', emoji: '💥', duration: 30,
-    description: 'Quebre o maior número de cocos e vença na força bruta tropical!',
-    objetivo: 'Quebrar mais cocos do que os adversários dentro de 30 segundos.',
-    regras: [
-      'Os cocos ficam enfileirados em cima de uma pedra plana na praia.',
-      'Cada jogador usa apenas as próprias mãos — sem ferramentas.',
-      'Coco partido ao meio conta 1 ponto; coco em pedaços conta 2 pontos.',
-      'Não é permitido usar os pés ou jogar o coco contra pedras.',
-      'Ganha quem tiver mais pontos ao fim dos 30 segundos.',
-    ],
-  },
-  {
-    id: '6', name: 'Nado', emoji: '🏊', duration: 60,
-    description: 'Mergulhe nas águas turquesa e nade até a boia mais distante!',
-    objetivo: 'Completar o percurso de natação até a boia e voltar no menor tempo.',
-    regras: [
-      'O percurso é de 50 metros ida e volta até a boia amarela.',
-      'Qualquer estilo de nado é permitido: crawl, costas, peito ou borboleta.',
-      'Não é permitido tocar o fundo ou usar apoios no caminho.',
-      'Virar na boia sem tocá-la resulta em penalidade de 5 segundos.',
-      'Ganha quem retornar à linha de largada em menor tempo.',
-    ],
+    type: 'interactive',
+    appScreen: '/cor-da-sorte',
   },
 ];
 
@@ -152,9 +143,15 @@ const Sorteio = () => {
   if (!location.state) return null;
 
   const handleStart = () => {
-    navigate("/timer", {
-      state: { players, currentRound, totalRounds, isGameOver, minigame: chosenGame },
-    });
+    if ((chosenGame as any).type === 'interactive' && (chosenGame as any).appScreen) {
+      navigate((chosenGame as any).appScreen, {
+        state: { players, currentRound, totalRounds, isGameOver, minigame: chosenGame },
+      });
+    } else {
+      navigate("/timer", {
+        state: { players, currentRound, totalRounds, isGameOver, minigame: chosenGame },
+      });
+    }
   };
 
   const handleComoJogar = () => {
