@@ -44,7 +44,7 @@ const ComoJogar = () => {
       fontFamily: 'Fredoka, sans-serif',
       fontWeight: 700,
       fontSize: '1.05rem',
-      color: COLORS.coral,
+      color: '#000000',
       marginBottom: '0.25rem',
     }}>
       {text}

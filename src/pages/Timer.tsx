@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { TropicalBackground } from "@/components/layout/TropicalBackground";
 import { WoodenCard } from "@/components/ui/WoodenCard";
@@ -34,7 +34,9 @@ const Timer = () => {
 
   const duration = minigame?.duration ?? 30;
   const [timeLeft, setTimeLeft] = useState(duration);
+  const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const isPausedRef = useRef(false);
 
   const isUrgent = timeLeft <= 10;
   const dashOffset = CIRCUMFERENCE * (1 - timeLeft / duration);
@@ -50,8 +52,15 @@ const Timer = () => {
     if (!location.state) navigate("/");
   }, [location.state, navigate]);
 
+  const handleTogglePause = useCallback(() => {
+    const next = !isPausedRef.current;
+    isPausedRef.current = next;
+    setIsPaused(next);
+  }, []);
+
   useEffect(() => {
     intervalRef.current = setInterval(() => {
+      if (isPausedRef.current) return;
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(intervalRef.current!);
@@ -178,20 +187,44 @@ const Timer = () => {
 
               <div
                 className="absolute inset-0 flex items-center justify-center"
-                style={{ animation: isUrgent ? "pulse-scale 1s ease-in-out infinite" : "none" }}
+                style={{ animation: isUrgent && !isPaused ? "pulse-scale 1s ease-in-out infinite" : "none" }}
               >
-                <span style={{
-                  fontFamily: "Fredoka, sans-serif",
-                  fontWeight: 700,
-                  fontSize: "clamp(48px, 10vh, 90px)",
-                  lineHeight: 1,
-                  color: numberColor,
-                  transition: "color 0.3s ease",
-                }}>
-                  {label}
-                </span>
+                <div className="flex flex-col items-center" style={{ gap: 2 }}>
+                  <span style={{
+                    fontFamily: "Fredoka, sans-serif",
+                    fontWeight: 700,
+                    fontSize: "clamp(48px, 10vh, 90px)",
+                    lineHeight: 1,
+                    color: isPaused ? COLORS.madeiraMedia : numberColor,
+                    transition: "color 0.3s ease",
+                  }}>
+                    {label}
+                  </span>
+                  {isPaused && (
+                    <span style={{
+                      fontFamily: "Fredoka, sans-serif",
+                      fontSize: "clamp(0.7rem, 2vw, 0.9rem)",
+                      color: COLORS.madeiraMedia,
+                      fontWeight: 700,
+                      letterSpacing: '0.05em',
+                    }}>
+                      PAUSADO
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
+
+            {/* Botão pausar — só aparece no Cor & Letra */}
+            {minigame?.id === 'cor-e-letra' && (
+              <TropicalButton
+                variant={isPaused ? "primary" : "secondary"}
+                size="sm"
+                onClick={handleTogglePause}
+              >
+                {isPaused ? "▶️ Continuar" : "⏸️ Pausar pra embaralhar"}
+              </TropicalButton>
+            )}
 
             {/* Botão pular (teste) */}
             <TropicalButton variant="secondary" size="sm" onClick={goNext}>
