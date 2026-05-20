@@ -15,7 +15,7 @@ Após o sinal de início:
 3.  O **Defensor** não pode tocar na base ou no pino após o início do jogo.
 4.  **Regra Crucial:** Se o pino for derrubado por **qualquer motivo** (impacto direto, queda da estrutura, vento ou toque acidental do defensor) após o início, o jogo acaba imediatamente e o defensor perde.
 
-## 🏆 Goal
+## 🏆 Objetivo
 *   **Vitória do Defensor:** Se todas as 6 bolinhas forem arremessadas e o pino continuar de pé.
 *   **Vitória dos Atacantes:** Se o pino for derrubado antes das bolinhas acabarem.
 
