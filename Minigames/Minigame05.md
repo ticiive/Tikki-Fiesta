@@ -1,4 +1,4 @@
-# 🗣️ [Nome do Minijogo]
+# 🗣️ Capitão Mandou, e o Marujo, Sim Senhor
 > **Tipo:** Comunicação / Dedução
 > **Tempo:** 30 segundos para escolha + rodadas de dicas
 > **Jogadores:** 4 (2 duplas)
