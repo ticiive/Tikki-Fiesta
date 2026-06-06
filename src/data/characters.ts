@@ -11,7 +11,7 @@ export const CHARACTER_MAP: Record<string, Character> = {
   P3: { label: 'Bata-Pim',   avatar: '🌴',    color: '#5BA661', image: 'personagens/indigena.png'     },
   P4: { label: 'John',       avatar: '📷',    color: '#FFB627', image: 'personagens/turista.png'      },
   P5: { label: 'Don Ramone', avatar: '🦈',    color: '#5DA0CD', image: 'personagens/tubarao.png'      },
-  P6: { label: 'Luna',       avatar: '⭐',    color: '#9B59B6', image: 'personagens/personagem6.jpeg' },
+  P6: { label: 'Luna',       avatar: '⭐',    color: '#9B59B6', image: 'personagens/luna.jpeg' },
 };
 
 // Lista ordenada — usada na tela de Configuração para renderizar os 6 cards de seleção
