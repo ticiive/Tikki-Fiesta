@@ -1,21 +1,20 @@
-# 🧠 Resposta Proibida
+# 🏗️ Pilha Pirata
 
-> **Tipo:** Comunicação / Criatividade  
-> **Tempo:** 30 segundos  
-> **Jogadores:** 2-4 (em duplas)  
-> **Material:** App com timer ⏱️ + Lista de categorias 📋
+> **Tipo:** Destreza / Equilíbrio sob Pressão
+> **Tempo:** 30 segundos (todos jogam ao mesmo tempo!)
+> **Jogadores:** 2-4
+> **Material:** 24 Tikkubes (6 de cada cor: 🟦🟥🟩🟨) + App com timer ⏱️
 
 ---
 
 ## 🛠️ Setup (15 segundos)
 
-1. Divida os jogadores em **duplas**
-2. Em cada dupla, defina quem será o **Dica-Mestre** 🗣️ e quem será o **Adivinhador** 🤔
-3. Sorteie uma **categoria com quantidade** para a dupla da vez:
-   - "Cite 5 filmes de ação" 🎬
-   - "Cite 4 times de futebol" ⚽
-   - "Cite 3 países da América do Sul" 🌎
-   - "Cite 5 frutas" 🍎
+1. Dividam os **24 Tikkubes** em partes iguais:
+   - 🎲 **2 jogadores** → 12 Tikkubes cada (qualquer cor)
+   - 🎲 **3 jogadores** → 6 Tikkubes cada (sobram 6 no centro como "reserva do tesouro")
+   - 🎲 **4 jogadores** → 6 Tikkubes cada (uma cor por jogador, fica mais bonito!)
+2. Cada jogador faz uma **pilha bagunçada** dos seus Tikkubes na frente dele (NÃO pode começar empilhado)
+3. Todos posicionam **uma das mãos para trás** — só vale empilhar com **UMA mão**
 4. Prepare o **timer de 30 segundos** no app
 
 ---
@@ -24,20 +23,19 @@
 
 Quando o app começar o timer de **30 segundos**:
 
-- O **Dica-Mestre** precisa fazer o Adivinhador acertar as respostas
-- **REGRA DE OURO:** o Dica-Mestre **NÃO pode falar a resposta direta!**
-- Só pode dar **dicas indiretas**:
-   - ✅ "Tem um leão nesse filme…" (para O Rei Leão)
-   - ✅ "Ganhou Oscar recentemente…" (para Oppenheimer)
-   - ❌ ~~"Rei Leão"~~ — PROIBIDO!
-- O **Adivinhador** pode chutar quantas vezes quiser
-- A cada acerto, o Dica-Mestre passa pra próxima resposta
+- **TODOS empilham ao mesmo tempo**, construindo a torre mais alta que conseguirem
+- Vale apenas **UMA mão** — a outra fica nas costas o tempo todo
+- A torre tem que ficar **de pé sozinha**: nada de segurar ou escorar na mesa, copo, ou em outro jogador
+- Se a sua torre **cair**, sem problema: levante os Tikkubes e **recomece** (mas perde tempo!)
+- Quando o timer acabar, **tire a mão imediatamente** e não toque mais na torre
 
 ---
 
 ## 🏆 Goal
 
-A dupla deve acertar o **máximo de respostas possível** dentro dos 30 segundos!
+**Quando o timer acabar:** a torre que estiver **de pé e mais alta** (mais Tikkubes empilhados) vence!
+
+⚠️ Torre que estava caindo no segundo final e desabou = conta a altura que **sobrou em pé**.
 
 ---
 
@@ -45,39 +43,42 @@ A dupla deve acertar o **máximo de respostas possível** dentro dos 30 segundos
 
 | Resultado | Pontos |
 |---|---|
-| ✔️ Resposta acertada pela dupla | **+2 pontos** cada |
-| ❌ Resposta não acertada | **0 pontos** |
-| 🚫 Dica-Mestre falou a resposta direta | **Perde TODOS os pontos da rodada** |
+| 🥇 Torre mais alta de pé | **20 pontos** |
+| 🥈 2ª torre mais alta | **12 pontos** |
+| 🥉 3ª torre mais alta | **8 pontos** |
+| 4ª torre | **4 pontos** |
+| 💥 Torre totalmente no chão no fim | **0 pontos** |
 
 ---
 
 ## 👥 Variações por número de jogadores
 
 ### 🎲 2 jogadores
-Formam 1 dupla. Jogam juntos contra o desafio. **Meta:** acertar o máximo para somar pontos.
+Duelo de mãos firmes! Com 12 Tikkubes cada, dá pra fazer torres bem altas. **Vencedor:** torre de pé mais alta.
 
 ### 🎲 3 jogadores
-1 dupla joga + 1 jogador fiscaliza. Na próxima rodada, rotaciona. **Ranking:** dupla com mais pontos acumulados vence.
+Os 6 Tikkubes da reserva central viram **bônus**: quem terminar a própria torre primeiro pode roubar da reserva pra subir ainda mais. **Ranking:** 1º, 2º e 3º por altura.
 
 ### 🎲 4 jogadores
-2 duplas se enfrentam, cada uma na sua vez. **Vencedor:** dupla com mais pontos.
+Cada um com sua cor — vira uma corrida colorida. **Ranking:** 1º, 2º, 3º e 4º por altura.
 
 ---
 
 ## ⚖️ Desempate
 
-Em caso de empate entre duplas:
+Em caso de empate (torres com a mesma altura de pé):
 
-1. Uma **nova categoria** é sorteada
-2. O timer é reduzido para **15 segundos**
-3. A dupla que acertar mais vence
-4. Se empatar de novo, repete o desempate
+1. Os empatados pegam **3 Tikkubes** cada
+2. Timer relâmpago de **10 segundos**
+3. Quem empilhar os 3 (de pé) primeiro vence
+4. Se ambos caírem ou ambos conseguirem junto, repete o desempate
 
 ---
 
 ## 💡 Dicas pros jogadores
 
-- 🎭 **Seja criativo nas dicas**: quanto mais indireta, mais divertido fica
-- 🏃 **Adivinhador: chute rápido**: não tenha medo de errar, não perde ponto
-- 🤐 **Dica-Mestre: cuidado!**: falar a resposta direta zera TUDO
-- 🔗 **Use associações**: cores, sons, sentimentos, pessoas famosas ligadas à resposta
+- 🧱 **Base larga primeiro**: encaixar bem os primeiros cubos segura a torre toda
+- 🐢 **Devagar sobe mais alto**: pressa derruba — coloque cada cubo com calma
+- 👀 **Não olhe pros adversários**: a tentação de comparar faz a mão tremer
+- ✋ **Uma mão só**: treine encaixar com a ponta dos dedos, não com a palma
+- ⏰ **Nos últimos 5 segundos, congele**: às vezes parar de mexer garante a torre de pé
