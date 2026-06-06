@@ -87,7 +87,7 @@ const Ranking = () => {
                     color: COLORS.areia,
                     opacity: 0.9,
                   }}>
-                    🥥 {winner.coins} · 🗿 {winner.stars} · 🏆 {winner.trophies}
+                    🥥 {winner.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block w-4 h-4 object-contain" style={{ verticalAlign: 'middle' }} /> {winner.stars} · 🏆 {winner.trophies}
                   </span>
                 </div>
               </WoodenCard>
@@ -124,7 +124,7 @@ const Ranking = () => {
                           {p.label}
                         </span>
                         <span style={{ fontFamily: 'Fredoka, sans-serif', fontSize: 'clamp(0.65rem, 1.5vw, 0.8rem)', color: COLORS.areia, opacity: 0.85, whiteSpace: 'nowrap' }}>
-                          🥥{p.coins} · 🗿{p.stars}
+                          🥥{p.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block w-4 h-4 object-contain" style={{ verticalAlign: 'middle' }} />{p.stars}
                         </span>
                       </div>
                     </WoodenCard>

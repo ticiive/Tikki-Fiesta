@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import type { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
@@ -21,7 +22,7 @@ const Counter = ({
   hideRemove,
   disabledAdd,
 }: {
-  icon: string;
+  icon: ReactNode;
   value: number;
   onAdd: () => void;
   onRemove: () => void;
@@ -258,7 +259,7 @@ const Game = () => {
                   onRemove={() => updateActivePlayer("coins", -1)}
                 />
                 <Counter
-                  icon="🗿"
+                  icon={<img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" className="w-8 h-8 object-contain shrink-0" />}
                   value={activePlayer.stars}
                   onAdd={handleBuyTikki}
                   onRemove={() => {}}
@@ -336,7 +337,7 @@ const Game = () => {
                           {p.label}
                         </span>
                         <span className="text-xs" style={{ color: `${COLORS.areia}CC`, fontFamily: 'Quicksand, sans-serif' }}>
-                          🥥{p.coins} · 🗿{p.stars}
+                          🥥{p.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block w-3.5 h-3.5 object-contain" style={{ verticalAlign: 'middle' }} />{p.stars}
                         </span>
                       </div>
                     </div>
@@ -380,7 +381,9 @@ const Game = () => {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ fontSize: '3rem', lineHeight: 1, marginBottom: '0.5rem' }}>🗿</div>
+            <div style={{ marginBottom: '0.5rem' }}>
+              <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" className="w-16 h-16 object-contain mx-auto" />
+            </div>
             <h2 style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: '1.4rem', color: '#2D1B0D', marginBottom: '0.5rem' }}>
               Comprar Máscara Tikki?
             </h2>
