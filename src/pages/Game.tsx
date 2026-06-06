@@ -259,7 +259,7 @@ const Game = () => {
                   onRemove={() => updateActivePlayer("coins", -1)}
                 />
                 <Counter
-                  icon={<img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" className="w-10 h-10 object-contain shrink-0" />}
+                  icon={<img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" style={{ height: '2.5rem', width: 'auto' }} className="shrink-0" />}
                   value={activePlayer.stars}
                   onAdd={handleBuyTikki}
                   onRemove={() => {}}
@@ -337,7 +337,7 @@ const Game = () => {
                           {p.label}
                         </span>
                         <span className="text-xs" style={{ color: `${COLORS.areia}CC`, fontFamily: 'Quicksand, sans-serif' }}>
-                          🥥{p.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block w-5 h-5 object-contain" style={{ verticalAlign: 'middle' }} />{p.stars}
+                          🥥{p.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block" style={{ height: '1.1rem', width: 'auto', verticalAlign: 'middle' }} />{p.stars}
                         </span>
                       </div>
                     </div>
@@ -382,7 +382,7 @@ const Game = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <div style={{ marginBottom: '0.5rem' }}>
-              <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" className="w-16 h-16 object-contain mx-auto" />
+              <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" className="mx-auto" style={{ height: '5rem', width: 'auto' }} />
             </div>
             <h2 style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: '1.4rem', color: '#2D1B0D', marginBottom: '0.5rem' }}>
               Comprar Máscara Tikki?
