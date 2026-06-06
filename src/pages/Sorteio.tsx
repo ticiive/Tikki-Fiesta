@@ -188,9 +188,15 @@ const Sorteio = () => {
 
   if (!location.state) return null;
 
+  // When we've exhausted all minigames, start a fresh cycle with only the new pick
+  const wasReset = !preservedMinigame &&
+    MINIGAMES.filter(m => !playedMinigames.includes(m.id)).length === 0;
+
   const updatedPlayed = preservedMinigame
     ? playedMinigames
-    : [...playedMinigames, chosenGame.id];
+    : wasReset
+      ? [chosenGame.id]
+      : [...playedMinigames, chosenGame.id];
 
   const handleStart = () => {
     if ((chosenGame as any).type === 'interactive' && (chosenGame as any).appScreen) {
