@@ -1,4 +1,4 @@
-# 🌀 Minigame: Invasão de Cores
+# 🌀 Minigame: Furacão Cores
 **Tipo:** Agilidade / Atenção  
 **Tempo:** 45 segundos  
 **Jogadores:** 2–4 (todos jogam ao mesmo tempo!)  
