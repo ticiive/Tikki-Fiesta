@@ -259,7 +259,7 @@ const Game = () => {
                   onRemove={() => updateActivePlayer("coins", -1)}
                 />
                 <Counter
-                  icon={<img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" className="w-8 h-8 object-contain shrink-0" />}
+                  icon={<img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" className="w-10 h-10 object-contain shrink-0" />}
                   value={activePlayer.stars}
                   onAdd={handleBuyTikki}
                   onRemove={() => {}}
@@ -337,7 +337,7 @@ const Game = () => {
                           {p.label}
                         </span>
                         <span className="text-xs" style={{ color: `${COLORS.areia}CC`, fontFamily: 'Quicksand, sans-serif' }}>
-                          🥥{p.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block w-3.5 h-3.5 object-contain" style={{ verticalAlign: 'middle' }} />{p.stars}
+                          🥥{p.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block w-5 h-5 object-contain" style={{ verticalAlign: 'middle' }} />{p.stars}
                         </span>
                       </div>
                     </div>

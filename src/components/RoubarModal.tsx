@@ -109,7 +109,7 @@ export const RoubarModal = ({ isOpen, onClose, attacker, targets, onSteal }: Rou
                         {target.label}
                       </span>
                       <span style={{ fontFamily: 'Quicksand, sans-serif', fontSize: '0.78rem', color: COLORS.marromProfundo, opacity: 0.65 }}>
-                        🥥 {target.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block w-3.5 h-3.5 object-contain" style={{ verticalAlign: 'middle' }} /> {target.stars}
+                        🥥 {target.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block w-5 h-5 object-contain" style={{ verticalAlign: 'middle' }} /> {target.stars}
                       </span>
                     </div>
                     <span style={{ fontSize: '1.2rem', color: COLORS.marromProfundo, opacity: 0.4 }}>›</span>
@@ -131,7 +131,7 @@ export const RoubarModal = ({ isOpen, onClose, attacker, targets, onSteal }: Rou
                     {selectedTarget.label}
                   </span>
                   <span style={{ fontFamily: 'Quicksand, sans-serif', fontSize: '0.78rem', color: COLORS.marromProfundo, opacity: 0.65 }}>
-                    🥥 {selectedTarget.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block w-3.5 h-3.5 object-contain" style={{ verticalAlign: 'middle' }} /> {selectedTarget.stars}
+                    🥥 {selectedTarget.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block w-5 h-5 object-contain" style={{ verticalAlign: 'middle' }} /> {selectedTarget.stars}
                   </span>
                 </div>
 
@@ -166,7 +166,7 @@ export const RoubarModal = ({ isOpen, onClose, attacker, targets, onSteal }: Rou
                     cursor: (attacker.coins < 35 || selectedTarget.stars === 0) ? 'not-allowed' : 'pointer',
                   }}
                 >
-                  <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block w-5 h-5 object-contain" style={{ verticalAlign: 'middle' }} /> Roubar Tikki (-35 🥥)
+                  <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block w-7 h-7 object-contain" style={{ verticalAlign: 'middle' }} /> Roubar Tikki (-35 🥥)
                   {attacker.coins < 35 && (
                     <span style={{ fontSize: '0.72rem', display: 'block', fontWeight: 500, opacity: 0.9 }}>
                       Cocos insuficientes
