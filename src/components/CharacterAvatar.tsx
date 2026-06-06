@@ -52,13 +52,11 @@ export const CharacterAvatar = ({ player, size = 48, className, fill = false }: 
         width: '100%',
         height: '100%',
         objectFit: 'cover',
-        objectPosition: player.image === 'personagens/tubarao.png' ? 'center 10%' : 'center',
       } : {
         width: size,
         height: size,
         borderRadius: '50%',
         objectFit: 'cover',
-        objectPosition: player.image === 'personagens/tubarao.png' ? 'center 10%' : 'center',
         flexShrink: 0,
       }}
     />
