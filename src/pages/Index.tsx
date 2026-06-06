@@ -8,7 +8,7 @@ import { TropicalButton } from "@/components/ui/TropicalButton";
 import { CHARACTERS } from "@/data/characters";
 import { CharacterAvatar } from "@/components/CharacterAvatar";
 
-const roundOptions = [3, 5, 10];
+const roundOptions = [8, 12, 15];
 
 const CARD_TILTS: Record<string, number> = {
   P1: -3, P2: 2, P3: -1, P4: 4, P5: -2, P6: 3,
@@ -19,7 +19,7 @@ const visibleCharacters = CHARACTERS.slice(0, 6);
 const Index = () => {
   const navigate = useNavigate();
   const [selectedPlayers, setSelectedPlayers] = useState<string[]>([]);
-  const [selectedRounds, setSelectedRounds] = useState<number | null>(null);
+  const [selectedRounds, setSelectedRounds] = useState<number | null>(12);
 
   const MAX_PLAYERS = 4;
 

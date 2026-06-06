@@ -9,7 +9,7 @@ const ComoJogar = () => {
   const location = useLocation();
   const navigate  = useNavigate();
 
-  const { minigame, players, currentRound, totalRounds, isGameOver } =
+  const { minigame, players, currentRound, totalRounds, isGameOver, playedMinigames = [] } =
     (location.state as {
       minigame: {
         id: string;
@@ -25,6 +25,7 @@ const ComoJogar = () => {
       currentRound: number;
       totalRounds: number;
       isGameOver: boolean;
+      playedMinigames?: string[];
     }) || {};
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const ComoJogar = () => {
 
   const handleVoltar = () => {
     navigate("/sorteio", {
-      state: { players, currentRound, totalRounds, isGameOver, preservedMinigame: minigame },
+      state: { players, currentRound, totalRounds, isGameOver, preservedMinigame: minigame, playedMinigames },
     });
   };
 
@@ -55,7 +56,8 @@ const ComoJogar = () => {
     <p style={{
       fontFamily: 'Quicksand, sans-serif',
       fontSize: '0.95rem',
-      color: COLORS.marromProfundo,
+      color: '#FDF5E6',
+      textShadow: '0 1px 2px rgba(0,0,0,0.4)',
       lineHeight: 1.5,
     }}>
       {text}
@@ -112,7 +114,7 @@ const ComoJogar = () => {
               {minigame.regras.map((regra, i) => (
                 <li key={i} style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
                   <span style={{ color: COLORS.coral, fontWeight: 700, flexShrink: 0, marginTop: '0.05rem' }}>🌴</span>
-                  <span style={{ fontFamily: 'Quicksand, sans-serif', fontSize: '0.9rem', color: COLORS.marromProfundo, lineHeight: 1.45 }}>
+                  <span style={{ fontFamily: 'Quicksand, sans-serif', fontSize: '0.9rem', color: '#FDF5E6', textShadow: '0 1px 2px rgba(0,0,0,0.4)', lineHeight: 1.45 }}>
                     {regra}
                   </span>
                 </li>

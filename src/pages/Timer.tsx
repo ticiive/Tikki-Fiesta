@@ -23,13 +23,14 @@ const Timer = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { players, currentRound, totalRounds, isGameOver, minigame } =
+  const { players, currentRound, totalRounds, isGameOver, minigame, playedMinigames = [] } =
     (location.state as {
       players: any[];
       currentRound: number;
       totalRounds: number;
       isGameOver: boolean;
       minigame?: { id: string; name: string; emoji: string; duration: number };
+      playedMinigames?: string[];
     }) || {};
 
   const duration = minigame?.duration ?? 30;
@@ -45,7 +46,7 @@ const Timer = () => {
 
   const goNext = () =>
     navigate("/ranking-minigame", {
-      state: { players, currentRound, totalRounds, isGameOver },
+      state: { players, currentRound, totalRounds, isGameOver, playedMinigames },
     });
 
   useEffect(() => {

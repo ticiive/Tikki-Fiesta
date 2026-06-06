@@ -18,11 +18,15 @@ const Counter = ({
   value,
   onAdd,
   onRemove,
+  hideRemove,
+  disabledAdd,
 }: {
   icon: string;
   value: number;
   onAdd: () => void;
   onRemove: () => void;
+  hideRemove?: boolean;
+  disabledAdd?: boolean;
 }) => (
   <div
     className="flex items-center gap-2 rounded-xl px-3 py-2"
@@ -43,11 +47,13 @@ const Counter = ({
     }}
   >
     <span className="text-2xl shrink-0 leading-none">{icon}</span>
-    <button
-      onClick={onRemove}
-      className="w-9 h-9 rounded-full flex items-center justify-center font-black text-lg text-white shrink-0 transition-transform active:scale-90"
-      style={{ background: COLORS.turquoise, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
-    >−</button>
+    {!hideRemove && (
+      <button
+        onClick={onRemove}
+        className="w-9 h-9 rounded-full flex items-center justify-center font-black text-lg text-white shrink-0 transition-transform active:scale-90"
+        style={{ background: COLORS.turquoise, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
+      >−</button>
+    )}
     <span
       className="min-w-[2rem] text-center text-2xl font-bold"
       style={{ fontFamily: 'Fredoka, sans-serif', color: '#F4E4C1', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
@@ -56,8 +62,16 @@ const Counter = ({
     </span>
     <button
       onClick={onAdd}
+      disabled={disabledAdd}
       className="w-9 h-9 rounded-full flex items-center justify-center font-black text-lg shrink-0 transition-transform active:scale-90"
-      style={{ background: COLORS.coral, border: '2px solid #5D3A1A', color: '#ffffff', fontFamily: 'Fredoka, sans-serif' }}
+      style={{
+        background: disabledAdd ? '#999' : COLORS.coral,
+        border: '2px solid #5D3A1A',
+        color: '#ffffff',
+        fontFamily: 'Fredoka, sans-serif',
+        cursor: disabledAdd ? 'not-allowed' : 'pointer',
+        opacity: disabledAdd ? 0.5 : 1,
+      }}
     >+</button>
   </div>
 );
@@ -65,13 +79,13 @@ const Counter = ({
 const Game = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { players: incoming = ["P1", "P2", "P3"], totalRounds = 3, currentRound: initialRound = 1 } =
-    (location.state as { players: (string | Player)[]; totalRounds: number; currentRound?: number }) || {};
+  const { players: incoming = ["P1", "P2", "P3"], totalRounds = 3, currentRound: initialRound = 1, playedMinigames: incomingPlayed = [] } =
+    (location.state as { players: (string | Player)[]; totalRounds: number; currentRound?: number; playedMinigames?: string[] }) || {};
 
   const [playerOrder, setPlayerOrder] = useState<Player[]>(() =>
     (incoming as any[]).map((p) =>
       typeof p === 'string'
-        ? { id: p, label: CHARACTER_MAP[p]?.label ?? p, avatar: CHARACTER_MAP[p]?.avatar ?? '🎮', image: CHARACTER_MAP[p]?.image, color: CHARACTER_MAP[p]?.color ?? COLORS.coral, coins: 0, stars: 0, trophies: 0 }
+        ? { id: p, label: CHARACTER_MAP[p]?.label ?? p, avatar: CHARACTER_MAP[p]?.avatar ?? '🎮', image: CHARACTER_MAP[p]?.image, color: CHARACTER_MAP[p]?.color ?? COLORS.coral, coins: 10, stars: 0, trophies: 0 }
         : p as Player
     )
   );
@@ -82,6 +96,8 @@ const Game = () => {
   );
   const [hasStolenThisTurn, setHasStolenThisTurn] = useState(false);
   const [isRoubarOpen, setIsRoubarOpen] = useState(false);
+  const [isBuyTikkiOpen, setIsBuyTikkiOpen] = useState(false);
+  const playedMinigames = useRef<string[]>(incomingPlayed);
 
   const activePlayer = playerOrder[0];
   const inactivePlayers = playerOrder.slice(1);
@@ -141,6 +157,7 @@ const Game = () => {
                 currentRound: isGameOver ? currentRound : nextRound,
                 totalRounds,
                 isGameOver,
+                playedMinigames: playedMinigames.current,
               },
             }),
           0
@@ -149,6 +166,19 @@ const Game = () => {
       }
       return rotated;
     });
+  };
+
+  const handleBuyTikki = () => {
+    if (activePlayer.coins >= 20) setIsBuyTikkiOpen(true);
+  };
+
+  const handleConfirmBuyTikki = () => {
+    setPlayerOrder((prev) => {
+      const updated = [...prev];
+      updated[0] = { ...updated[0], stars: updated[0].stars + 1, coins: Math.max(0, updated[0].coins - 20) };
+      return updated;
+    });
+    setIsBuyTikkiOpen(false);
   };
 
   useEffect(() => {
@@ -230,8 +260,10 @@ const Game = () => {
                 <Counter
                   icon="🗿"
                   value={activePlayer.stars}
-                  onAdd={() => updateActivePlayer("stars", 1)}
-                  onRemove={() => updateActivePlayer("stars", -1)}
+                  onAdd={handleBuyTikki}
+                  onRemove={() => {}}
+                  hideRemove
+                  disabledAdd={activePlayer.coins < 20}
                 />
                 <div className="self-end flex items-center gap-2">
                   {/* Botão Roubar */}
@@ -323,6 +355,65 @@ const Game = () => {
         targets={inactivePlayers}
         onSteal={handleSteal}
       />
+
+      {/* ── Modal: comprar Tikki (Máscara Tikki) ─────────────────────── */}
+      {isBuyTikkiOpen && (
+        <div
+          style={{
+            position: 'fixed', inset: 0, zIndex: 50,
+            background: 'rgba(0,0,0,0.65)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '1rem',
+          }}
+          onClick={() => setIsBuyTikkiOpen(false)}
+        >
+          <div
+            style={{
+              background: 'linear-gradient(180deg, #F8E9C9 0%, #F0DAB5 100%)',
+              border: '3px solid #5D3A1A',
+              borderRadius: '20px',
+              padding: '1.5rem',
+              maxWidth: '360px',
+              width: '100%',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+              textAlign: 'center',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ fontSize: '3rem', lineHeight: 1, marginBottom: '0.5rem' }}>🗿</div>
+            <h2 style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: '1.4rem', color: '#2D1B0D', marginBottom: '0.5rem' }}>
+              Comprar Máscara Tikki?
+            </h2>
+            <p style={{ fontFamily: 'Quicksand, sans-serif', fontSize: '1rem', color: '#5D3A1A', marginBottom: '1.25rem' }}>
+              Custa <strong>20 🥥 cocos</strong>.<br />
+              Você tem <strong>{activePlayer.coins} 🥥</strong>.
+            </p>
+            <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+              <button
+                onClick={() => setIsBuyTikkiOpen(false)}
+                style={{
+                  fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: '1rem',
+                  padding: '0.5rem 1.25rem', borderRadius: '999px',
+                  background: '#ccc', border: '2px solid #5D3A1A', cursor: 'pointer', color: '#2D1B0D',
+                }}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleConfirmBuyTikki}
+                style={{
+                  fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: '1rem',
+                  padding: '0.5rem 1.25rem', borderRadius: '999px',
+                  background: COLORS.coral, border: '2px solid #5D3A1A', cursor: 'pointer', color: '#fff',
+                  boxShadow: '3px 3px 0 #3D2010',
+                }}
+              >
+                ✅ Confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

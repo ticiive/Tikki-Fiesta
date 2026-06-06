@@ -23,12 +23,13 @@ const RankingMinigame = () => {
   const navigate       = useNavigate();
   const constraintsRef = useRef<HTMLDivElement>(null);
 
-  const { players, currentRound, totalRounds, isGameOver } =
+  const { players, currentRound, totalRounds, isGameOver, playedMinigames = [] } =
     (location.state as {
       players: Player[];
       currentRound: number;
       totalRounds: number;
       isGameOver: boolean;
+      playedMinigames?: string[];
     }) || {};
 
   const [order, setOrder] = useState<Player[]>(players ?? []);
@@ -47,7 +48,7 @@ const RankingMinigame = () => {
     if (isGameOver) {
       navigate("/ranking", { state: { players: updated } });
     } else {
-      navigate("/game", { state: { players: updated, totalRounds, currentRound } });
+      navigate("/game", { state: { players: updated, totalRounds, currentRound, playedMinigames } });
     }
   };
 

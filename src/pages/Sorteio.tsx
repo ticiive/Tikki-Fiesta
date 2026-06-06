@@ -103,17 +103,57 @@ const MINIGAMES = [
     type: 'interactive',
     appScreen: '/cor-da-sorte',
   },
+  {
+    id: 'bingo-das-cores',
+    name: 'Bingo das Cores',
+    emoji: '🎰',
+    duration: 60,
+    description: 'Complete uma fileira no seu cartão de cores antes dos outros!',
+    objetivo: 'Preencher primeiro uma fileira (horizontal, vertical ou diagonal) no seu cartão de Bingo de cores.',
+    materials: 'Cartões de Bingo de cores + Dado de 6 cores + Marcadores (Tikkubes)',
+    regras: [
+      'Cada jogador recebe um cartão de Bingo de cores (5×5)',
+      'Jogadores se revezam rolando o dado de cores',
+      'Quem tiver aquela cor no cartão marca com um Tikkube',
+      'Qualquer jogador pode rolar o dado na sua vez',
+      'Primeiro a completar uma fileira (horizontal, vertical ou diagonal) grita TIKKI BINGO!',
+      'Vence quem completar a fileira primeiro',
+      'Desempate: quem tiver mais fileiras completas ao fim do tempo vence',
+    ],
+    type: 'physical',
+  },
+  {
+    id: 'tikkube-quente',
+    name: 'Tikkube Quente',
+    emoji: '🔥',
+    duration: 60,
+    description: 'A música toca e o Tikkube passa de mão em mão. Quando parar, a cor na tela define quem perde!',
+    objetivo: 'Não segurar o Tikkube quando a música parar na sua cor!',
+    materials: '1 Tikkube de qualquer cor + APP',
+    regras: [
+      'Um jogador segura o Tikkube quando a música começa',
+      'Enquanto a música toca, passe o Tikkube para o jogador ao lado',
+      'Quando a música parar, o app mostra uma cor',
+      'Quem estiver segurando o Tikkube E for o personagem da cor mostrada perde 1 Tikkube',
+      'Se ninguém for da cor mostrada, ninguém perde — pressione Continuar',
+      'Pressione Continuar para a música tocar novamente',
+      'Encerre o minigame quando quiser — quem tiver mais Tikkubes vence',
+    ],
+    type: 'interactive',
+    appScreen: '/tikkube-quente',
+  },
 ];
 
 const Sorteio = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { players, currentRound, totalRounds, isGameOver } =
+  const { players, currentRound, totalRounds, isGameOver, playedMinigames = [] } =
     (location.state as {
       players: any[];
       currentRound: number;
       totalRounds: number;
       isGameOver: boolean;
+      playedMinigames?: string[];
     }) || {};
 
   const preservedMinigame = (location.state as any)?.preservedMinigame;
@@ -121,9 +161,12 @@ const Sorteio = () => {
   const [phase, setPhase] = useState<"shuffling" | "revealed">(
     preservedMinigame ? "revealed" : "shuffling"
   );
-  const [chosenGame] = useState(
-    () => preservedMinigame ?? MINIGAMES[Math.floor(Math.random() * MINIGAMES.length)]
-  );
+  const [chosenGame] = useState(() => {
+    if (preservedMinigame) return preservedMinigame;
+    const available = MINIGAMES.filter(m => !playedMinigames.includes(m.id));
+    const pool = available.length > 0 ? available : MINIGAMES;
+    return pool[Math.floor(Math.random() * pool.length)];
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -145,21 +188,25 @@ const Sorteio = () => {
 
   if (!location.state) return null;
 
+  const updatedPlayed = preservedMinigame
+    ? playedMinigames
+    : [...playedMinigames, chosenGame.id];
+
   const handleStart = () => {
     if ((chosenGame as any).type === 'interactive' && (chosenGame as any).appScreen) {
       navigate((chosenGame as any).appScreen, {
-        state: { players, currentRound, totalRounds, isGameOver, minigame: chosenGame },
+        state: { players, currentRound, totalRounds, isGameOver, minigame: chosenGame, playedMinigames: updatedPlayed },
       });
     } else {
       navigate("/timer", {
-        state: { players, currentRound, totalRounds, isGameOver, minigame: chosenGame },
+        state: { players, currentRound, totalRounds, isGameOver, minigame: chosenGame, playedMinigames: updatedPlayed },
       });
     }
   };
 
   const handleComoJogar = () => {
     navigate("/como-jogar", {
-      state: { minigame: chosenGame, players, currentRound, totalRounds, isGameOver },
+      state: { minigame: chosenGame, players, currentRound, totalRounds, isGameOver, playedMinigames: updatedPlayed },
     });
   };
 

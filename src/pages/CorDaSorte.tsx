@@ -217,12 +217,13 @@ const CorDaSorte = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { players, currentRound, totalRounds, isGameOver } =
+  const { players, currentRound, totalRounds, isGameOver, playedMinigames = [] } =
     (location.state as {
       players: Player[];
       currentRound: number;
       totalRounds: number;
       isGameOver: boolean;
+      playedMinigames?: string[];
     }) || {};
 
   /* ── Estado principal ── */
@@ -268,7 +269,7 @@ const CorDaSorte = () => {
   };
 
   const handleIrProRanking = () => {
-    navigate('/ranking-minigame', { state: { players, currentRound, totalRounds, isGameOver } });
+    navigate('/ranking-minigame', { state: { players, currentRound, totalRounds, isGameOver, playedMinigames } });
   };
 
   /* ── Handlers de desempate ── */
