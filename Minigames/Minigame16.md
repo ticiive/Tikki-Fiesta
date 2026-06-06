@@ -9,7 +9,7 @@
 
 ## 🛠 Setup
 1.  **Escolha de Cores:** Cada jogador escolhe uma cor e pega seus **6 Tikkubes** correspondentes.
-2.  **Arena:** Cada jogador coloca **1 Tikkube** da sua cor em uma area livre na mesa.
+2.  **Arena:** Determine uma area da mesa onde será a arena. Cada jogador coloca **1 Tikkube** da sua cor em uma area livre da arena.
 3.  **Linha de Lançamento:** Todos os jogadores devem ficar a uma distância de ** 2 passos** da mesa.
 4.  **Ordem de Jogo:** Sorteie quem começa e defina a ordem dos próximos jogadores no sentido horário.
 
