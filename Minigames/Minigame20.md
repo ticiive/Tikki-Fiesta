@@ -1,4 +1,4 @@
-# 🔤 Alfabeto de Tikkubes
+# 🔤 Alfabeto de Tikkicubes
 **Tipo:** Raciocínio Rápido / Estratégia / Apostas  
 **Tempo:** Rodadas rápidas (uma por jogador)  
 **Jogadores:** 2–4  
