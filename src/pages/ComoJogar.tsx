@@ -45,7 +45,8 @@ const ComoJogar = () => {
       fontFamily: 'Fredoka, sans-serif',
       fontWeight: 700,
       fontSize: '1.05rem',
-      color: '#000000',
+      color: '#FFFFFF',
+      textShadow: '0 1px 2px rgba(0,0,0,0.5)',
       marginBottom: '0.25rem',
     }}>
       {text}
@@ -56,7 +57,7 @@ const ComoJogar = () => {
     <p style={{
       fontFamily: 'Quicksand, sans-serif',
       fontSize: '0.95rem',
-      color: '#FDF5E6',
+      color: '#FFFFFF',
       textShadow: '0 1px 2px rgba(0,0,0,0.4)',
       lineHeight: 1.5,
     }}>
@@ -114,7 +115,7 @@ const ComoJogar = () => {
               {minigame.regras.map((regra, i) => (
                 <li key={i} style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
                   <span style={{ color: COLORS.coral, fontWeight: 700, flexShrink: 0, marginTop: '0.05rem' }}>🌴</span>
-                  <span style={{ fontFamily: 'Quicksand, sans-serif', fontSize: '0.9rem', color: '#FDF5E6', textShadow: '0 1px 2px rgba(0,0,0,0.4)', lineHeight: 1.45 }}>
+                  <span style={{ fontFamily: 'Quicksand, sans-serif', fontSize: '0.9rem', color: '#FFFFFF', textShadow: '0 1px 2px rgba(0,0,0,0.4)', lineHeight: 1.45 }}>
                     {regra}
                   </span>
                 </li>
