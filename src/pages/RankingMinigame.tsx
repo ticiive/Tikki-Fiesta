@@ -121,7 +121,7 @@ const RankingMinigame = () => {
                         {idx + 1}º
                       </span>
                       <span style={{ fontFamily: 'Fredoka, sans-serif', fontSize: '0.65rem', color: badge.text, opacity: 0.9, marginTop: 1 }}>
-                        +{reward}🥥
+                        +{reward}<img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '0.65rem', width: 'auto', verticalAlign: 'middle' }} />
                       </span>
                     </div>
 

@@ -37,8 +37,8 @@ export const IslandLayout: React.FC<IslandLayoutProps> = ({ children }) => {
 
       {/* Floating decorative elements - top corners */}
       <div className="fixed top-8 left-8 z-20 opacity-60">
-        <div className="text-5xl animate-bounce" style={{ animationDelay: '0s' }}>
-          🥥
+        <div className="animate-bounce" style={{ animationDelay: '0s' }}>
+          <img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" style={{ height: '3rem', width: 'auto' }} />
         </div>
       </div>
       <div className="fixed top-12 right-8 z-20 opacity-60">

@@ -253,7 +253,7 @@ const Game = () => {
               {/* Direita: contadores + botão */}
               <div className="flex-1 flex flex-col justify-center gap-3 min-w-0">
                 <Counter
-                  icon="🥥"
+                  icon={<img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="Coco" style={{ height: '2.5rem', width: 'auto' }} className="shrink-0" />}
                   value={activePlayer.coins}
                   onAdd={() => updateActivePlayer("coins", 1)}
                   onRemove={() => updateActivePlayer("coins", -1)}
@@ -280,18 +280,7 @@ const Game = () => {
                       cursor: hasStolenThisTurn ? 'not-allowed' : 'pointer',
                     }}
                   >
-                    <img
-                      src={`${import.meta.env.BASE_URL}icone-roubar.png`}
-                      alt=""
-                      width={24}
-                      height={24}
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).style.display = 'none';
-                        const fallback = e.currentTarget.parentElement?.querySelector<HTMLElement>('.steal-fallback');
-                        if (fallback) fallback.style.display = 'inline';
-                      }}
-                    />
-                    <span className="steal-fallback" style={{ display: 'none', fontSize: '1.25rem', lineHeight: 1 }}>🏴</span>
+                    <img src={`${import.meta.env.BASE_URL}img/bandeira.png`} alt="" style={{ height: '1.5rem', width: 'auto' }} />
                   </button>
                   {/* Botão Encerrar turno */}
                   <button
@@ -337,7 +326,7 @@ const Game = () => {
                           {p.label}
                         </span>
                         <span className="text-xs" style={{ color: `${COLORS.areia}CC`, fontFamily: 'Quicksand, sans-serif' }}>
-                          🥥{p.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block" style={{ height: '1.1rem', width: 'auto', verticalAlign: 'middle' }} />{p.stars}
+                          <img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '1.1rem', width: 'auto', verticalAlign: 'middle' }} />{p.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block" style={{ height: '1.1rem', width: 'auto', verticalAlign: 'middle' }} />{p.stars}
                         </span>
                       </div>
                     </div>
@@ -388,8 +377,8 @@ const Game = () => {
               Comprar Máscara Tikki?
             </h2>
             <p style={{ fontFamily: 'Quicksand, sans-serif', fontSize: '1rem', color: '#5D3A1A', marginBottom: '1.25rem' }}>
-              Custa <strong>20 🥥 cocos</strong>.<br />
-              Você tem <strong>{activePlayer.coins} 🥥</strong>.
+              Custa <strong>20 <img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '1rem', width: 'auto', verticalAlign: 'middle' }} /> cocos</strong>.<br />
+              Você tem <strong>{activePlayer.coins} <img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '1rem', width: 'auto', verticalAlign: 'middle' }} /></strong>.
             </p>
             <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
               <button
