@@ -23,7 +23,7 @@ const Timer = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { players, currentRound, totalRounds, isGameOver, minigame, playedMinigames = [] } =
+  const { players, currentRound, totalRounds, isGameOver, minigame, playedMinigames = [], embateContext } =
     (location.state as {
       players: any[];
       currentRound: number;
@@ -31,6 +31,7 @@ const Timer = () => {
       isGameOver: boolean;
       minigame?: { id: string; name: string; emoji: string; duration: number };
       playedMinigames?: string[];
+      embateContext?: { challengerId: string; opponentId: string; betAmount: number };
     }) || {};
 
   const duration = minigame?.duration ?? 30;
@@ -44,10 +45,17 @@ const Timer = () => {
   const arcColor = isUrgent ? COLORS.alerta : COLORS.coral;
   const numberColor = isUrgent ? COLORS.alerta : COLORS.marromProfundo;
 
-  const goNext = () =>
-    navigate("/ranking-minigame", {
-      state: { players, currentRound, totalRounds, isGameOver, playedMinigames },
-    });
+  const goNext = () => {
+    if (embateContext) {
+      navigate("/embate-resultado", {
+        state: { players, currentRound, totalRounds, playedMinigames, embateContext },
+      });
+    } else {
+      navigate("/ranking-minigame", {
+        state: { players, currentRound, totalRounds, isGameOver, playedMinigames },
+      });
+    }
+  };
 
   useEffect(() => {
     if (!location.state) navigate("/");

@@ -10,6 +10,9 @@ import { WoodenPanel } from "@/components/layout/WoodenPanel";
 import { WoodenCard } from "@/components/ui/WoodenCard";
 import { COLORS } from "@/lib/tokens";
 import { RoubarModal } from "@/components/RoubarModal";
+import { EmbateModal } from "@/components/EmbateModal";
+import { SurpresaModal } from "@/components/SurpresaModal";
+import type { SurpresaEffect } from "@/components/SurpresaModal";
 import { CharacterAvatar } from "@/components/CharacterAvatar";
 
 
@@ -97,6 +100,8 @@ const Game = () => {
   );
   const [hasStolenThisTurn, setHasStolenThisTurn] = useState(false);
   const [isRoubarOpen, setIsRoubarOpen] = useState(false);
+  const [isEmbateOpen, setIsEmbateOpen] = useState(false);
+  const [isSurpresaOpen, setIsSurpresaOpen] = useState(false);
   const [isBuyTikkiOpen, setIsBuyTikkiOpen] = useState(false);
   const playedMinigames = useRef<string[]>(incomingPlayed);
 
@@ -138,6 +143,50 @@ const Game = () => {
     }
 
     setHasStolenThisTurn(true);
+  };
+
+  const startEmbate = (opponentId: string, betAmount: number) => {
+    navigate("/sorteio", {
+      state: {
+        players: playerOrder,
+        currentRound,
+        totalRounds,
+        isGameOver: false,
+        playedMinigames: playedMinigames.current,
+        embateContext: { challengerId: activePlayer.id, opponentId, betAmount },
+      },
+    });
+  };
+
+  const handleSurpresaEffect = (effect: SurpresaEffect) => {
+    switch (effect.type) {
+      case 'gain_coins':
+        updateActivePlayer('coins', effect.amount);
+        toast.success(`🎁 +${effect.amount} cocos!`);
+        break;
+      case 'gain_item':
+        toast.success(`🎁 Você ganhou: ${effect.item}!`, { duration: 4000 });
+        break;
+      case 'steal': {
+        const target = playerOrder.find(p => p.id === effect.targetId);
+        if (!target) break;
+        const stolen = Math.min(effect.amount, target.coins);
+        setPlayerOrder(prev => prev.map((p, i) => {
+          if (i === 0) return { ...p, coins: p.coins + stolen };
+          if (p.id === effect.targetId) return { ...p, coins: Math.max(0, p.coins - stolen) };
+          return p;
+        }));
+        toast.success(`🎁 Surpresa: roubou ${stolen} cocos de ${target.label}!`);
+        break;
+      }
+      case 'lose_coins':
+        updateActivePlayer('coins', -effect.amount);
+        toast.error(`💀 AZAR! Perdeu ${effect.amount} cocos!`);
+        break;
+      case 'lucky':
+        toast.success(`🍀 SORTE! Role os dados novamente!`, { duration: 4000 });
+        break;
+    }
   };
 
   const endTurn = () => {
@@ -282,6 +331,34 @@ const Game = () => {
                   >
                     <img src={`${import.meta.env.BASE_URL}img/bandeira.png`} alt="" style={{ height: '1.5rem', width: 'auto' }} />
                   </button>
+                  {/* Botão Embate */}
+                  <button
+                    onClick={() => setIsEmbateOpen(true)}
+                    disabled={inactivePlayers.length === 0}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95${inactivePlayers.length > 0 ? ' hover:scale-105' : ''}`}
+                    title="Embate"
+                    style={{
+                      background: `linear-gradient(145deg, ${COLORS.madeiraClara}, ${COLORS.madeiraMedia})`,
+                      border: `3px solid ${COLORS.madeiraEscura}`,
+                      boxShadow: inactivePlayers.length === 0 ? 'none' : '3px 3px 0 #3D2010',
+                      opacity: inactivePlayers.length === 0 ? 0.5 : 1,
+                      cursor: inactivePlayers.length === 0 ? 'not-allowed' : 'pointer',
+                      fontSize: '1.2rem',
+                    }}
+                  >⚔️</button>
+                  {/* Botão Surpresa */}
+                  <button
+                    onClick={() => setIsSurpresaOpen(true)}
+                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+                    title="Surpresa"
+                    style={{
+                      background: `linear-gradient(145deg, ${COLORS.madeiraClara}, ${COLORS.madeiraMedia})`,
+                      border: `3px solid ${COLORS.madeiraEscura}`,
+                      boxShadow: '3px 3px 0 #3D2010',
+                      fontSize: '1.2rem',
+                      cursor: 'pointer',
+                    }}
+                  >🎁</button>
                   {/* Botão Encerrar turno */}
                   <button
                     onClick={endTurn}
@@ -344,6 +421,20 @@ const Game = () => {
         attacker={activePlayer}
         targets={inactivePlayers}
         onSteal={handleSteal}
+      />
+      <EmbateModal
+        isOpen={isEmbateOpen}
+        onClose={() => setIsEmbateOpen(false)}
+        challenger={activePlayer}
+        targets={inactivePlayers}
+        onConfirm={startEmbate}
+      />
+      <SurpresaModal
+        isOpen={isSurpresaOpen}
+        onClose={() => setIsSurpresaOpen(false)}
+        activePlayer={activePlayer}
+        otherPlayers={inactivePlayers}
+        onEffect={handleSurpresaEffect}
       />
 
       {/* ── Modal: comprar Tikki (Máscara Tikki) ─────────────────────── */}

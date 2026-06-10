@@ -167,6 +167,7 @@ const MINIGAMES = [
     name: 'Capitão Mandou',
     emoji: '🗣️',
     duration: 0,
+    minPlayers: 4,
     description: 'Dois ajudantes de duplas rivais escolhem juntos a palavra secreta. Suas duplas competem para adivinhar!',
     objetivo: 'A dupla que adivinhar a palavra primeiro vence. (Ideal para 4 jogadores)',
     materials: 'Nenhum!',
@@ -284,6 +285,7 @@ const MINIGAMES = [
     name: 'Batata Quente das Categorias',
     emoji: '🍠',
     duration: 0,
+    minPlayers: 3,
     description: 'A Batata Quente circula e quem a segurar precisa falar uma palavra da categoria imediatamente!',
     objetivo: 'Ser o último jogador de pé. Travar ou errar a categoria te elimina!',
     materials: 'Um objeto qualquer como "Batata Quente"',
@@ -451,12 +453,21 @@ const Sorteio = () => {
     }) || {};
 
   const preservedMinigame = (location.state as any)?.preservedMinigame;
+  const embateContext = (location.state as any)?.embateContext as
+    | { challengerId: string; opponentId: string; betAmount: number }
+    | undefined;
 
   const [phase, setPhase] = useState<"shuffling" | "revealed">(
     preservedMinigame ? "revealed" : "shuffling"
   );
   const [chosenGame] = useState(() => {
     if (preservedMinigame) return preservedMinigame;
+    if (embateContext) {
+      const embatePool = MINIGAMES.filter(
+        m => (m as any).type === 'physical' && ((m as any).minPlayers ?? 2) <= 2
+      );
+      return embatePool[Math.floor(Math.random() * embatePool.length)];
+    }
     const available = MINIGAMES.filter(m => !playedMinigames.includes(m.id));
     const pool = available.length > 0 ? available : MINIGAMES;
     return pool[Math.floor(Math.random() * pool.length)];
@@ -483,30 +494,32 @@ const Sorteio = () => {
   if (!location.state) return null;
 
   // When we've exhausted all minigames, start a fresh cycle with only the new pick
-  const wasReset = !preservedMinigame &&
+  const wasReset = !preservedMinigame && !embateContext &&
     MINIGAMES.filter(m => !playedMinigames.includes(m.id)).length === 0;
 
-  const updatedPlayed = preservedMinigame
-    ? playedMinigames
-    : wasReset
-      ? [chosenGame.id]
-      : [...playedMinigames, chosenGame.id];
+  const updatedPlayed = embateContext
+    ? playedMinigames  // don't track embate minigames in regular play history
+    : preservedMinigame
+      ? playedMinigames
+      : wasReset
+        ? [chosenGame.id]
+        : [...playedMinigames, chosenGame.id];
 
   const handleStart = () => {
     if ((chosenGame as any).type === 'interactive' && (chosenGame as any).appScreen) {
       navigate((chosenGame as any).appScreen, {
-        state: { players, currentRound, totalRounds, isGameOver, minigame: chosenGame, playedMinigames: updatedPlayed },
+        state: { players, currentRound, totalRounds, isGameOver, minigame: chosenGame, playedMinigames: updatedPlayed, embateContext },
       });
     } else {
       navigate("/timer", {
-        state: { players, currentRound, totalRounds, isGameOver, minigame: chosenGame, playedMinigames: updatedPlayed },
+        state: { players, currentRound, totalRounds, isGameOver, minigame: chosenGame, playedMinigames: updatedPlayed, embateContext },
       });
     }
   };
 
   const handleComoJogar = () => {
     navigate("/como-jogar", {
-      state: { minigame: chosenGame, players, currentRound, totalRounds, isGameOver, playedMinigames: updatedPlayed },
+      state: { minigame: chosenGame, players, currentRound, totalRounds, isGameOver, playedMinigames: updatedPlayed, embateContext },
     });
   };
 
@@ -514,13 +527,13 @@ const Sorteio = () => {
     <div className="h-screen w-screen flex flex-col items-center justify-center overflow-hidden px-4">
       <TropicalBackground />
 
-      {/* Badge de rodada */}
+      {/* Badge de rodada / embate */}
       <div className="absolute top-4 left-4">
         <span
           className="text-sm font-bold tracking-wide"
           style={{ fontFamily: 'Fredoka, sans-serif', color: COLORS.marromProfundo }}
         >
-          🎲 Rodada {currentRound}/{totalRounds}
+          {embateContext ? '⚔️ EMBATE' : `🎲 Rodada ${currentRound}/${totalRounds}`}
         </span>
       </div>
 

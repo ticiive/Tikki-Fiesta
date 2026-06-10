@@ -15,6 +15,7 @@ import RankingMinigame from "./pages/RankingMinigame";
 import ComoJogar from "./pages/ComoJogar";
 import CorDaSorte from "./pages/CorDaSorte";
 import TikkubeQuente from "./pages/TikkubeQuente";
+import EmbateResultado from "./pages/EmbateResultado";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/como-jogar" element={<ComoJogar />} />
             <Route path="/cor-da-sorte" element={<CorDaSorte />} />
             <Route path="/tikkube-quente" element={<TikkubeQuente />} />
+            <Route path="/embate-resultado" element={<EmbateResultado />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -9,7 +9,7 @@ const ComoJogar = () => {
   const location = useLocation();
   const navigate  = useNavigate();
 
-  const { minigame, players, currentRound, totalRounds, isGameOver, playedMinigames = [] } =
+  const { minigame, players, currentRound, totalRounds, isGameOver, playedMinigames = [], embateContext } =
     (location.state as {
       minigame: {
         id: string;
@@ -26,6 +26,7 @@ const ComoJogar = () => {
       totalRounds: number;
       isGameOver: boolean;
       playedMinigames?: string[];
+      embateContext?: { challengerId: string; opponentId: string; betAmount: number };
     }) || {};
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const ComoJogar = () => {
 
   const handleVoltar = () => {
     navigate("/sorteio", {
-      state: { players, currentRound, totalRounds, isGameOver, preservedMinigame: minigame, playedMinigames },
+      state: { players, currentRound, totalRounds, isGameOver, preservedMinigame: minigame, playedMinigames, embateContext },
     });
   };
 
