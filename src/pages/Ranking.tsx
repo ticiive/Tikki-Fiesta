@@ -87,7 +87,7 @@ const Ranking = () => {
                     color: COLORS.areia,
                     opacity: 0.9,
                   }}>
-                    <img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '1.3rem', width: 'auto', verticalAlign: 'middle' }} /> {winner.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block" style={{ height: '1.3rem', width: 'auto', verticalAlign: 'middle' }} /> {winner.stars} · 🏆 {winner.trophies}
+                    <img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '1.3rem', width: 'auto', verticalAlign: 'middle' }} /> {winner.coins} · <img src={`${import.meta.env.BASE_URL}img/trofeu-madeira.png`} alt="" className="inline-block" style={{ height: '1.3rem', width: 'auto', verticalAlign: 'middle' }} /> {winner.stars} · 🏆 {winner.trophies}
                   </span>
                 </div>
               </WoodenCard>
@@ -124,7 +124,7 @@ const Ranking = () => {
                           {p.label}
                         </span>
                         <span style={{ fontFamily: 'Fredoka, sans-serif', fontSize: 'clamp(0.65rem, 1.5vw, 0.8rem)', color: COLORS.areia, opacity: 0.85, whiteSpace: 'nowrap' }}>
-                          <img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '1.3rem', width: 'auto', verticalAlign: 'middle' }} />{p.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block" style={{ height: '1.3rem', width: 'auto', verticalAlign: 'middle' }} />{p.stars}
+                          <img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '1.3rem', width: 'auto', verticalAlign: 'middle' }} />{p.coins} · <img src={`${import.meta.env.BASE_URL}img/trofeu-madeira.png`} alt="" className="inline-block" style={{ height: '1.3rem', width: 'auto', verticalAlign: 'middle' }} />{p.stars}
                         </span>
                       </div>
                     </WoodenCard>

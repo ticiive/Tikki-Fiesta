@@ -308,7 +308,7 @@ const Game = () => {
                   onRemove={() => updateActivePlayer("coins", -1)}
                 />
                 <Counter
-                  icon={<img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" style={{ height: '2.5rem', width: 'auto' }} className="shrink-0" />}
+                  icon={<img src={`${import.meta.env.BASE_URL}img/trofeu-madeira.png`} alt="Tikki" style={{ height: '2.5rem', width: 'auto' }} className="shrink-0" />}
                   value={activePlayer.stars}
                   onAdd={handleBuyTikki}
                   onRemove={() => {}}
@@ -343,9 +343,10 @@ const Game = () => {
                       boxShadow: inactivePlayers.length === 0 ? 'none' : '3px 3px 0 #3D2010',
                       opacity: inactivePlayers.length === 0 ? 0.5 : 1,
                       cursor: inactivePlayers.length === 0 ? 'not-allowed' : 'pointer',
-                      fontSize: '1.2rem',
                     }}
-                  >⚔️</button>
+                  >
+                    <img src={`${import.meta.env.BASE_URL}img/embate.png`} alt="Embate" style={{ height: '1.5rem', width: 'auto' }} />
+                  </button>
                   {/* Botão Surpresa */}
                   <button
                     onClick={() => setIsSurpresaOpen(true)}
@@ -355,10 +356,11 @@ const Game = () => {
                       background: `linear-gradient(145deg, ${COLORS.madeiraClara}, ${COLORS.madeiraMedia})`,
                       border: `3px solid ${COLORS.madeiraEscura}`,
                       boxShadow: '3px 3px 0 #3D2010',
-                      fontSize: '1.2rem',
                       cursor: 'pointer',
                     }}
-                  >🎁</button>
+                  >
+                    <img src={`${import.meta.env.BASE_URL}img/surpresa.png`} alt="Surpresa" style={{ height: '1.5rem', width: 'auto' }} />
+                  </button>
                   {/* Botão Encerrar turno */}
                   <button
                     onClick={endTurn}
@@ -403,7 +405,7 @@ const Game = () => {
                           {p.label}
                         </span>
                         <span className="text-xs" style={{ color: `${COLORS.areia}CC`, fontFamily: 'Quicksand, sans-serif' }}>
-                          <img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '1.1rem', width: 'auto', verticalAlign: 'middle' }} />{p.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block" style={{ height: '1.1rem', width: 'auto', verticalAlign: 'middle' }} />{p.stars}
+                          <img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '1.1rem', width: 'auto', verticalAlign: 'middle' }} />{p.coins} · <img src={`${import.meta.env.BASE_URL}img/trofeu-madeira.png`} alt="" className="inline-block" style={{ height: '1.1rem', width: 'auto', verticalAlign: 'middle' }} />{p.stars}
                         </span>
                       </div>
                     </div>
@@ -462,7 +464,7 @@ const Game = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <div style={{ marginBottom: '0.5rem' }}>
-              <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" className="mx-auto" style={{ height: '5rem', width: 'auto' }} />
+              <img src={`${import.meta.env.BASE_URL}img/trofeu-madeira.png`} alt="Tikki" className="mx-auto" style={{ height: '5rem', width: 'auto' }} />
             </div>
             <h2 style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: '1.4rem', color: '#2D1B0D', marginBottom: '0.5rem' }}>
               Comprar Máscara Tikki?
