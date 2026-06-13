@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      screens: {
+        short: { raw: '(max-height: 500px)' },
+      },
       fontFamily: {
         sans: ['Fredoka', 'sans-serif'],
         body: ['Quicksand', 'sans-serif'],

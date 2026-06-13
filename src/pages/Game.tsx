@@ -37,7 +37,7 @@ const Counter = ({
   disabledAdd?: boolean;
 }) => (
   <div
-    className="flex items-center gap-2 rounded-xl px-3 py-2 w-full"
+    className="flex items-center gap-1.5 rounded-xl px-2 py-2 short:py-1 w-full"
     style={{
       border: '1.5px solid #5D3A1A',
       background: `
@@ -54,23 +54,35 @@ const Counter = ({
       boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.6), inset 0 -1px 2px rgba(120,80,40,0.1)',
     }}
   >
-    {onRemoveBig && (
-      <button
-        onClick={onRemoveBig}
-        className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm text-white shrink-0 transition-transform active:scale-90"
-        style={{ background: COLORS.alerta, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
-      >−3</button>
+    {/* ±3 agrupados no canto esquerdo */}
+    {(onRemoveBig || onAddBig) && (
+      <div className="flex gap-1 shrink-0">
+        {onRemoveBig && (
+          <button
+            onClick={onRemoveBig}
+            className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white shrink-0 transition-transform active:scale-90"
+            style={{ background: COLORS.alerta, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
+          >−3</button>
+        )}
+        {onAddBig && (
+          <button
+            onClick={onAddBig}
+            className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white shrink-0 transition-transform active:scale-90"
+            style={{ background: COLORS.verde, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
+          >+3</button>
+        )}
+      </div>
     )}
-    <span className="text-2xl shrink-0 leading-none">{icon}</span>
+    <span className="shrink-0 leading-none">{icon}</span>
     {!hideRemove && (
       <button
         onClick={onRemove}
-        className="w-9 h-9 rounded-full flex items-center justify-center font-black text-lg text-white shrink-0 transition-transform active:scale-90"
+        className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg text-white shrink-0 transition-transform active:scale-90"
         style={{ background: COLORS.turquoise, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
       >−</button>
     )}
     <span
-      className="flex-1 text-center text-2xl font-bold"
+      className="flex-1 text-center text-2xl short:text-xl font-bold"
       style={{ fontFamily: 'Fredoka, sans-serif', color: '#F4E4C1', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
     >
       {value}
@@ -78,7 +90,7 @@ const Counter = ({
     <button
       onClick={onAdd}
       disabled={disabledAdd}
-      className="w-9 h-9 rounded-full flex items-center justify-center font-black text-lg shrink-0 transition-transform active:scale-90"
+      className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg shrink-0 transition-transform active:scale-90"
       style={{
         background: disabledAdd ? '#999' : COLORS.coral,
         border: '2px solid #5D3A1A',
@@ -88,13 +100,6 @@ const Counter = ({
         opacity: disabledAdd ? 0.5 : 1,
       }}
     >+</button>
-    {onAddBig && (
-      <button
-        onClick={onAddBig}
-        className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm text-white shrink-0 transition-transform active:scale-90"
-        style={{ background: COLORS.verde, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
-      >+3</button>
-    )}
   </div>
 );
 
@@ -296,21 +301,23 @@ const Game = () => {
             style={{ flex: '55 1 0px' }}
             stretch
           >
-            <div className="flex flex-col sm:flex-row gap-4 p-3 h-full">
+            <div className="flex flex-col sm:flex-row gap-3 p-3 short:p-2 h-full">
               {/* Esquerda: avatar + nome */}
-              <div className="flex sm:flex-col items-center justify-center gap-3 shrink-0 sm:min-w-[140px]">
+              <div className="flex sm:flex-col items-center justify-center gap-2 shrink-0 sm:min-w-[80px]">
                 <div
-                  className="rounded-full flex items-center justify-center overflow-hidden shrink-0"
+                  className="rounded-full overflow-hidden shrink-0"
                   style={{
+                    width: 'clamp(52px, 16vh, 88px)',
+                    height: 'clamp(52px, 16vh, 88px)',
                     border: `4px solid ${activePlayer.color}`,
                     background: `${activePlayer.color}22`,
                     boxShadow: `0 0 12px ${activePlayer.color}66`,
                   }}
                 >
-                  <CharacterAvatar player={activePlayer} size={88} />
+                  <CharacterAvatar player={activePlayer} fill />
                 </div>
                 <span
-                  className="font-bold text-lg text-center"
+                  className="font-bold text-base text-center short:hidden"
                   style={{ color: COLORS.areia, textShadow: '0 1px 3px rgba(0,0,0,0.6)' }}
                 >
                   {activePlayer.label}
@@ -318,9 +325,9 @@ const Game = () => {
               </div>
 
               {/* Direita: contadores + botão */}
-              <div className="flex-1 flex flex-col justify-center gap-3 min-w-0">
+              <div className="flex-1 flex flex-col justify-center gap-2 short:gap-1 min-w-0">
                 <Counter
-                  icon={<img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="Coco" style={{ height: '2.5rem', width: 'auto' }} className="shrink-0" />}
+                  icon={<img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="Coco" style={{ height: 'clamp(1.75rem, 5.5vh, 2.5rem)', width: 'auto' }} />}
                   value={activePlayer.coins}
                   onRemoveBig={() => updateActivePlayer("coins", -3)}
                   onRemove={() => updateActivePlayer("coins", -1)}
@@ -328,7 +335,7 @@ const Game = () => {
                   onAddBig={() => updateActivePlayer("coins", 3)}
                 />
                 <Counter
-                  icon={<img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" style={{ height: '2.5rem', width: 'auto' }} className="shrink-0" />}
+                  icon={<img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" style={{ height: 'clamp(1.75rem, 5.5vh, 2.5rem)', width: 'auto' }} />}
                   value={activePlayer.stars}
                   onAdd={handleBuyTikki}
                   onRemove={() => {}}
@@ -384,14 +391,12 @@ const Game = () => {
                   {/* Encerrar turno */}
                   <button
                     onClick={endTurn}
-                    className="px-5 rounded-full font-bold text-sm text-white shadow-md transition-all hover:scale-105 active:scale-95"
+                    className="h-10 px-4 short:px-3 rounded-full font-bold text-sm short:text-xs text-white transition-all hover:scale-105 active:scale-95"
                     style={{
                       background: COLORS.coral,
                       border: `3px solid ${COLORS.madeiraEscura}`,
                       boxShadow: '3px 3px 0 #3D2010',
                       fontFamily: 'Fredoka, sans-serif',
-                      paddingTop: '6px',
-                      paddingBottom: '6px',
                     }}
                   >
                     Encerrar turno 🔄
@@ -414,8 +419,10 @@ const Game = () => {
                   style={{ willChange: 'transform' }}
                 >
                   <WoodenCard variant="card" stretch className="flex-1 min-h-0">
-                    <div className="flex items-center gap-3 px-3 h-full">
-                      <CharacterAvatar player={p} size={32} className="shrink-0" />
+                    <div className="flex items-center gap-2 px-2 h-full">
+                      <div className="shrink-0 rounded-full overflow-hidden" style={{ width: 'clamp(24px, 6vh, 32px)', height: 'clamp(24px, 6vh, 32px)' }}>
+                        <CharacterAvatar player={p} fill />
+                      </div>
                       <div className="flex flex-col min-w-0">
                         <span
                           className="font-bold text-xs truncate"
