@@ -33,7 +33,7 @@ const Counter = ({
   disabledAdd?: boolean;
 }) => (
   <div
-    className="flex items-center gap-2 rounded-xl px-3 py-2"
+    className="flex items-center gap-2 rounded-xl px-3 py-2 w-full"
     style={{
       border: '1.5px solid #5D3A1A',
       background: `
@@ -59,7 +59,7 @@ const Counter = ({
       >−</button>
     )}
     <span
-      className="min-w-[2rem] text-center text-2xl font-bold"
+      className="flex-1 text-center text-2xl font-bold"
       style={{ fontFamily: 'Fredoka, sans-serif', color: '#F4E4C1', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
     >
       {value}
@@ -278,9 +278,9 @@ const Game = () => {
             style={{ flex: '55 1 0px' }}
             stretch
           >
-            <div className="flex flex-col md:flex-row gap-4 p-3 h-full">
+            <div className="flex flex-col sm:flex-row gap-4 p-3 h-full">
               {/* Esquerda: avatar + nome */}
-              <div className="flex md:flex-col items-center justify-center gap-3 shrink-0 md:min-w-[120px]">
+              <div className="flex sm:flex-col items-center justify-center gap-3 shrink-0 sm:min-w-[140px]">
                 <div
                   className="rounded-full flex items-center justify-center overflow-hidden shrink-0"
                   style={{
@@ -289,7 +289,7 @@ const Game = () => {
                     boxShadow: `0 0 12px ${activePlayer.color}66`,
                   }}
                 >
-                  <CharacterAvatar player={activePlayer} size={72} />
+                  <CharacterAvatar player={activePlayer} size={88} />
                 </div>
                 <span
                   className="font-bold text-lg text-center"
@@ -315,56 +315,53 @@ const Game = () => {
                   hideRemove
                   disabledAdd={activePlayer.coins < 20}
                 />
-                <div className="self-end flex flex-col gap-2 items-end">
-                  {/* Linha 1: botões de ação (sempre cabem em 3×40px = 136px) */}
-                  <div className="flex gap-2">
-                    {/* Botão Roubar */}
-                    <button
-                      onClick={() => setIsRoubarOpen(true)}
-                      disabled={hasStolenThisTurn}
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95${!hasStolenThisTurn ? ' hover:scale-105' : ''}`}
-                      style={{
-                        background: `linear-gradient(145deg, ${COLORS.madeiraClara}, ${COLORS.madeiraMedia})`,
-                        border: `3px solid ${COLORS.madeiraEscura}`,
-                        boxShadow: hasStolenThisTurn ? 'none' : '3px 3px 0 #3D2010',
-                        opacity: hasStolenThisTurn ? 0.5 : 1,
-                        cursor: hasStolenThisTurn ? 'not-allowed' : 'pointer',
-                      }}
-                    >
-                      <img src={`${import.meta.env.BASE_URL}img/bandeira.png`} alt="" style={{ height: '1.5rem', width: 'auto' }} />
-                    </button>
-                    {/* Botão Embate */}
-                    <button
-                      onClick={() => setIsEmbateOpen(true)}
-                      disabled={inactivePlayers.length === 0}
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95${inactivePlayers.length > 0 ? ' hover:scale-105' : ''}`}
-                      title="Embate"
-                      style={{
-                        background: `linear-gradient(145deg, ${COLORS.madeiraClara}, ${COLORS.madeiraMedia})`,
-                        border: `3px solid ${COLORS.madeiraEscura}`,
-                        boxShadow: inactivePlayers.length === 0 ? 'none' : '3px 3px 0 #3D2010',
-                        opacity: inactivePlayers.length === 0 ? 0.5 : 1,
-                        cursor: inactivePlayers.length === 0 ? 'not-allowed' : 'pointer',
-                      }}
-                    >
-                      <img src={`${import.meta.env.BASE_URL}img/embate.png`} alt="Embate" style={{ height: '1.5rem', width: 'auto' }} />
-                    </button>
-                    {/* Botão Surpresa */}
-                    <button
-                      onClick={() => setIsSurpresaOpen(true)}
-                      className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-105 active:scale-95"
-                      title="Surpresa"
-                      style={{
-                        background: `linear-gradient(145deg, ${COLORS.madeiraClara}, ${COLORS.madeiraMedia})`,
-                        border: `3px solid ${COLORS.madeiraEscura}`,
-                        boxShadow: '3px 3px 0 #3D2010',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <img src={`${import.meta.env.BASE_URL}img/surpresa.png`} alt="Surpresa" style={{ height: '1.5rem', width: 'auto' }} />
-                    </button>
-                  </div>
-                  {/* Linha 2: Encerrar turno */}
+                <div className="self-end flex flex-row flex-wrap gap-2 items-center justify-end">
+                  {/* Botão Roubar */}
+                  <button
+                    onClick={() => setIsRoubarOpen(true)}
+                    disabled={hasStolenThisTurn}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95${!hasStolenThisTurn ? ' hover:scale-105' : ''}`}
+                    style={{
+                      background: `linear-gradient(145deg, ${COLORS.madeiraClara}, ${COLORS.madeiraMedia})`,
+                      border: `3px solid ${COLORS.madeiraEscura}`,
+                      boxShadow: hasStolenThisTurn ? 'none' : '3px 3px 0 #3D2010',
+                      opacity: hasStolenThisTurn ? 0.5 : 1,
+                      cursor: hasStolenThisTurn ? 'not-allowed' : 'pointer',
+                    }}
+                  >
+                    <img src={`${import.meta.env.BASE_URL}img/bandeira.png`} alt="" style={{ height: '1.5rem', width: 'auto' }} />
+                  </button>
+                  {/* Botão Embate */}
+                  <button
+                    onClick={() => setIsEmbateOpen(true)}
+                    disabled={inactivePlayers.length === 0}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95${inactivePlayers.length > 0 ? ' hover:scale-105' : ''}`}
+                    title="Embate"
+                    style={{
+                      background: `linear-gradient(145deg, ${COLORS.madeiraClara}, ${COLORS.madeiraMedia})`,
+                      border: `3px solid ${COLORS.madeiraEscura}`,
+                      boxShadow: inactivePlayers.length === 0 ? 'none' : '3px 3px 0 #3D2010',
+                      opacity: inactivePlayers.length === 0 ? 0.5 : 1,
+                      cursor: inactivePlayers.length === 0 ? 'not-allowed' : 'pointer',
+                    }}
+                  >
+                    <img src={`${import.meta.env.BASE_URL}img/embate.png`} alt="Embate" style={{ height: '1.5rem', width: 'auto' }} />
+                  </button>
+                  {/* Botão Surpresa */}
+                  <button
+                    onClick={() => setIsSurpresaOpen(true)}
+                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+                    title="Surpresa"
+                    style={{
+                      background: `linear-gradient(145deg, ${COLORS.madeiraClara}, ${COLORS.madeiraMedia})`,
+                      border: `3px solid ${COLORS.madeiraEscura}`,
+                      boxShadow: '3px 3px 0 #3D2010',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <img src={`${import.meta.env.BASE_URL}img/surpresa.png`} alt="Surpresa" style={{ height: '1.5rem', width: 'auto' }} />
+                  </button>
+                  {/* Encerrar turno */}
                   <button
                     onClick={endTurn}
                     className="px-5 rounded-full font-bold text-sm text-white shadow-md transition-all hover:scale-105 active:scale-95"

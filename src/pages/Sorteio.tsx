@@ -572,13 +572,13 @@ const Sorteio = () => {
           /* ── Fase 2: card revelado + botões ─────────────────────────── */
           <motion.div
             key="revealed"
-            className="flex flex-col items-center gap-6"
+            className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8"
             initial={{ opacity: 0, scale: 0.5, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             {/* perspective no pai para o rotateY funcionar corretamente */}
-            <div className="w-full max-w-[288px] sm:max-w-xs" style={{ perspective: '600px', overflow: 'visible' }}>
+            <div className="w-full max-w-[288px] sm:max-w-xs sm:flex-none" style={{ perspective: '600px', overflow: 'visible' }}>
               <motion.div
                 initial={{ rotateY: 90 }}
                 animate={{ rotateY: 0 }}
@@ -666,7 +666,7 @@ const Sorteio = () => {
             </div>
 
             {/* Botões de ação */}
-            <div className="flex flex-col items-center gap-3">
+            <div className="flex flex-col items-center sm:justify-center gap-3">
               <TropicalButton variant="primary" size="lg" onClick={handleStart}>
                 🎮 INICIAR MINIGAME
               </TropicalButton>
