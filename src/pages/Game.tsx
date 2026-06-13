@@ -37,7 +37,7 @@ const Counter = ({
   disabledAdd?: boolean;
 }) => (
   <div
-    className="flex items-center gap-1.5 rounded-xl px-2 py-2 short:py-1 w-full"
+    className="flex items-center gap-1.5 rounded-xl px-2 py-2 short:py-0.5 w-full"
     style={{
       border: '1.5px solid #5D3A1A',
       background: `
@@ -274,7 +274,7 @@ const Game = () => {
         className="w-full max-w-7xl mx-auto h-full"
         style={{ maxHeight: '95vh' }}
       >
-        <div className="flex flex-col gap-2 h-full overflow-hidden">
+        <div className="flex flex-col gap-2 short:gap-1 h-full overflow-hidden">
 
           {/* ── Seção 1: Header ───────────────────────────────────────────── */}
           <div
@@ -301,14 +301,14 @@ const Game = () => {
             style={{ flex: '55 1 0px' }}
             stretch
           >
-            <div className="flex flex-col sm:flex-row gap-3 p-3 short:p-2 h-full">
+            <div className="flex flex-col sm:flex-row gap-3 p-3 short:p-1.5 h-full">
               {/* Esquerda: avatar + nome */}
               <div className="flex sm:flex-col items-center justify-center gap-2 shrink-0 sm:min-w-[80px]">
                 <div
                   className="rounded-full overflow-hidden shrink-0"
                   style={{
-                    width: 'clamp(52px, 16vh, 88px)',
-                    height: 'clamp(52px, 16vh, 88px)',
+                    width: 'clamp(48px, 12.5vh, 88px)',
+                    height: 'clamp(48px, 12.5vh, 88px)',
                     border: `4px solid ${activePlayer.color}`,
                     background: `${activePlayer.color}22`,
                     boxShadow: `0 0 12px ${activePlayer.color}66`,
@@ -325,9 +325,9 @@ const Game = () => {
               </div>
 
               {/* Direita: contadores + botão */}
-              <div className="flex-1 flex flex-col justify-center gap-2 short:gap-1 min-w-0">
+              <div className="flex-1 flex flex-col justify-center gap-2 short:gap-0.5 min-w-0">
                 <Counter
-                  icon={<img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="Coco" style={{ height: 'clamp(1.75rem, 5.5vh, 2.5rem)', width: 'auto' }} />}
+                  icon={<img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="Coco" style={{ height: 'clamp(1.5rem, 5vh, 2.2rem)', width: 'auto' }} />}
                   value={activePlayer.coins}
                   onRemoveBig={() => updateActivePlayer("coins", -3)}
                   onRemove={() => updateActivePlayer("coins", -1)}
@@ -335,7 +335,7 @@ const Game = () => {
                   onAddBig={() => updateActivePlayer("coins", 3)}
                 />
                 <Counter
-                  icon={<img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" style={{ height: 'clamp(1.75rem, 5.5vh, 2.5rem)', width: 'auto' }} />}
+                  icon={<img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" style={{ height: 'clamp(1.5rem, 5vh, 2.2rem)', width: 'auto' }} />}
                   value={activePlayer.stars}
                   onAdd={handleBuyTikki}
                   onRemove={() => {}}
@@ -410,7 +410,7 @@ const Game = () => {
           {inactivePlayers.length > 0 && (
             <div
               className="flex gap-2 w-full min-h-0"
-              style={{ flex: '28 1 0px', maxHeight: 'clamp(80px, 22vh, 140px)' }}
+              style={{ flex: '28 1 0px', maxHeight: 'clamp(60px, 15vh, 100px)' }}
             >
               {inactivePlayers.map((p) => (
                 <motion.div
@@ -420,12 +420,12 @@ const Game = () => {
                 >
                   <WoodenCard variant="card" stretch className="flex-1 min-h-0">
                     <div className="flex items-center gap-2 px-2 h-full">
-                      <div className="shrink-0 rounded-full overflow-hidden" style={{ width: 'clamp(24px, 6vh, 32px)', height: 'clamp(24px, 6vh, 32px)' }}>
+                      <div className="shrink-0 rounded-full overflow-hidden w-8 h-8">
                         <CharacterAvatar player={p} fill />
                       </div>
                       <div className="flex flex-col min-w-0">
                         <span
-                          className="font-bold text-xs truncate"
+                          className="font-bold text-sm truncate"
                           style={{ fontFamily: 'Fredoka, sans-serif', color: COLORS.areia, textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
                         >
                           {p.label}
