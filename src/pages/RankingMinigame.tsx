@@ -33,6 +33,24 @@ const RankingMinigame = () => {
     }) || {};
 
   const [order, setOrder] = useState<Player[]>(players ?? []);
+  const [tiedPositions, setTiedPositions] = useState<Set<number>>(new Set());
+
+  const toggleTieAt = (idx: number) => {
+    setTiedPositions(prev => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx); else next.add(idx);
+      return next;
+    });
+  };
+
+  // Dense ranking: tied position shares rank with the one above it
+  const computedRanks = (() => {
+    let rank = 1;
+    return order.map((_, idx) => {
+      if (idx > 0 && !tiedPositions.has(idx)) rank += 1;
+      return { rank, reward: REWARDS[rank - 1] ?? 0 };
+    });
+  })();
 
   if (!location.state) {
     navigate("/");
@@ -42,7 +60,7 @@ const RankingMinigame = () => {
   const handleConfirm = () => {
     const updated = order.map((p, idx) => ({
       ...p,
-      coins: p.coins + (REWARDS[idx] ?? 0),
+      coins: p.coins + computedRanks[idx].reward,
     }));
 
     if (isGameOver) {
@@ -87,12 +105,13 @@ const RankingMinigame = () => {
           <Reorder.Group
             axis="y"
             values={order}
-            onReorder={setOrder}
+            onReorder={(newOrder) => { setOrder(newOrder); setTiedPositions(new Set()); }}
             style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}
           >
             {order.map((player, idx) => {
-              const badge  = BADGE_STYLES[idx] ?? BADGE_STYLES[3];
-              const reward = REWARDS[idx] ?? 0;
+              const { rank, reward } = computedRanks[idx];
+              const badge = BADGE_STYLES[rank - 1] ?? BADGE_STYLES[3];
+              const isTied = idx > 0 && tiedPositions.has(idx);
 
               return (
                 <Reorder.Item
@@ -104,7 +123,7 @@ const RankingMinigame = () => {
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
 
-                    {/* Badge externo — posição e recompensa */}
+                    {/* Badge externo — posição, recompensa e botão de empate */}
                     <div style={{
                       width: 54,
                       flexShrink: 0,
@@ -118,11 +137,32 @@ const RankingMinigame = () => {
                       boxShadow: '2px 3px 0 rgba(45,27,13,0.4)',
                     }}>
                       <span style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: 'clamp(0.9rem, 2.5vh, 1.1rem)', color: badge.text, lineHeight: 1 }}>
-                        {idx + 1}º
+                        {rank}º
                       </span>
                       <span style={{ fontFamily: 'Fredoka, sans-serif', fontSize: '0.65rem', color: badge.text, opacity: 0.9, marginTop: 1 }}>
                         +{reward}<img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '0.65rem', width: 'auto', verticalAlign: 'middle' }} />
                       </span>
+                      {idx > 0 && (
+                        <button
+                          onPointerDown={(e) => e.stopPropagation()}
+                          onClick={(e) => { e.stopPropagation(); toggleTieAt(idx); }}
+                          style={{
+                            marginTop: 3,
+                            fontSize: '0.6rem',
+                            fontFamily: 'Fredoka, sans-serif',
+                            fontWeight: 700,
+                            background: isTied ? COLORS.verde : 'rgba(0,0,0,0.22)',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '0.25rem',
+                            padding: '1px 4px',
+                            cursor: 'pointer',
+                            lineHeight: 1.4,
+                          }}
+                        >
+                          {isTied ? '= empate' : '⚖️ tie'}
+                        </button>
+                      )}
                     </div>
 
                     {/* Card arrastável */}

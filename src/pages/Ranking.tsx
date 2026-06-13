@@ -24,8 +24,22 @@ const Ranking = () => {
     if (b.coins !== a.coins) return b.coins - a.coins;
     return b.trophies - a.trophies;
   });
-  const winner = sorted[0];
-  const others = sorted.slice(1);
+
+  // Dense ranking: tied players share a position; next group gets prev.rank + 1
+  const ranked = sorted.reduce<(Player & { rank: number })[]>((acc, p, idx) => {
+    if (idx === 0) return [{ ...p, rank: 1 }];
+    const prevRanked = acc[idx - 1];
+    const prevOrig = sorted[idx - 1];
+    const isTied =
+      p.stars === prevOrig.stars &&
+      p.coins === prevOrig.coins &&
+      p.trophies === prevOrig.trophies;
+    return [...acc, { ...p, rank: isTied ? prevRanked.rank : prevRanked.rank + 1 }];
+  }, []);
+
+  const winners = ranked.filter(p => p.rank === 1);
+  const others  = ranked.filter(p => p.rank > 1);
+  const isMultiWinner = winners.length > 1;
 
   return (
     <div className="min-h-screen w-full overflow-y-auto overflow-x-hidden flex items-center justify-center px-4 py-3" style={{ minHeight: '100dvh' }}>
@@ -51,10 +65,10 @@ const Ranking = () => {
         {/* Conteúdo principal: winner + others */}
         <div className="flex flex-col items-center gap-3 mb-3">
 
-          {/* Card do vencedor */}
-          {winner && (
+          {/* Vencedor único */}
+          {!isMultiWinner && winners[0] && (
             <div className="w-full max-w-xs sm:max-w-sm">
-              <WoodenCard variant="card" irregularCorners ringColor={winner.color}>
+              <WoodenCard variant="card" irregularCorners ringColor={winners[0].color}>
                 <div className="flex flex-col items-center gap-1" style={{ padding: 'clamp(0.5rem, 2vw, 1rem)' }}>
                   <span style={{
                     fontFamily: 'Fredoka, sans-serif',
@@ -70,7 +84,7 @@ const Ranking = () => {
                     animate={{ scale: [1, 1.08, 1] }}
                     transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
                   >
-                    <CharacterAvatar player={winner} size={72} />
+                    <CharacterAvatar player={winners[0]} size={72} />
                   </motion.div>
                   <span style={{
                     fontFamily: 'Fredoka, sans-serif',
@@ -79,26 +93,60 @@ const Ranking = () => {
                     color: COLORS.cremeClaro,
                     textShadow: `0 1px 3px rgba(45,27,13,0.6)`,
                   }}>
-                    {winner.label}
+                    {winners[0].label}
                   </span>
-                  <span style={{
-                    fontFamily: 'Fredoka, sans-serif',
-                    fontSize: 'clamp(0.7rem, 1.8vw, 0.9rem)',
-                    color: COLORS.areia,
-                    opacity: 0.9,
-                  }}>
-                    <img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '1.3rem', width: 'auto', verticalAlign: 'middle' }} /> {winner.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block" style={{ height: '1.3rem', width: 'auto', verticalAlign: 'middle' }} /> {winner.stars} · 🏆 {winner.trophies}
+                  <span style={{ fontFamily: 'Fredoka, sans-serif', fontSize: 'clamp(0.7rem, 1.8vw, 0.9rem)', color: COLORS.areia, opacity: 0.9 }}>
+                    <img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '1.3rem', width: 'auto', verticalAlign: 'middle' }} /> {winners[0].coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block" style={{ height: '1.3rem', width: 'auto', verticalAlign: 'middle' }} /> {winners[0].stars} · 🏆 {winners[0].trophies}
                   </span>
                 </div>
               </WoodenCard>
             </div>
           )}
 
+          {/* Empate no 1º lugar */}
+          {isMultiWinner && (
+            <div className="w-full">
+              <p style={{
+                textAlign: 'center',
+                fontFamily: 'Fredoka, sans-serif',
+                fontWeight: 700,
+                fontSize: 'clamp(1rem, 3vw, 1.4rem)',
+                color: COLORS.ouro,
+                textShadow: `0 1px 3px rgba(45,27,13,0.5)`,
+                marginBottom: '0.5rem',
+              }}>
+                🤝 EMPATARAM EM 1º!
+              </p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {winners.map(w => (
+                  <div key={w.id} style={{ flex: '0 1 190px' }}>
+                    <WoodenCard variant="card" irregularCorners ringColor={w.color}>
+                      <div className="flex flex-col items-center gap-1" style={{ padding: '0.75rem' }}>
+                        <motion.div
+                          animate={{ scale: [1, 1.08, 1] }}
+                          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                        >
+                          <CharacterAvatar player={w} size={56} />
+                        </motion.div>
+                        <span style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: 'clamp(0.9rem, 2vw, 1.2rem)', color: COLORS.cremeClaro, textShadow: `0 1px 3px rgba(45,27,13,0.6)`, textAlign: 'center' }}>
+                          {w.label}
+                        </span>
+                        <span style={{ fontFamily: 'Fredoka, sans-serif', fontSize: '0.78rem', color: COLORS.areia, opacity: 0.9 }}>
+                          <img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '1.1rem', width: 'auto', verticalAlign: 'middle' }} /> {w.coins} · <img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="" className="inline-block" style={{ height: '1.1rem', width: 'auto', verticalAlign: 'middle' }} /> {w.stars}
+                        </span>
+                      </div>
+                    </WoodenCard>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Cards dos demais jogadores */}
           {others.length > 0 && (
             <div className="flex flex-wrap justify-center gap-2 w-full">
-              {others.map((p, i) => {
-                const badge = POSITION_BADGES[i] ?? POSITION_BADGES[2];
+              {others.map((p) => {
+                const badge = POSITION_BADGES[p.rank - 2] ?? POSITION_BADGES[2];
                 return (
                   <div key={p.id} style={{ flex: '0 1 260px' }}>
                     <WoodenCard variant="card" ringColor={p.color}>
@@ -116,7 +164,7 @@ const Ranking = () => {
                           boxShadow: '2px 2px 0 rgba(45,27,13,0.4)',
                         }}>
                           <span style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: 'clamp(0.8rem, 2vw, 1rem)', color: badge.text, lineHeight: 1 }}>
-                            {i + 2}º
+                            {p.rank}º
                           </span>
                         </div>
                         <CharacterAvatar player={p} size={44} className="shrink-0" />
