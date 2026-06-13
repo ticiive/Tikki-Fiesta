@@ -524,7 +524,7 @@ const Sorteio = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center overflow-hidden px-4">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center overflow-x-hidden px-4 py-4" style={{ minHeight: '100dvh' }}>
       <TropicalBackground />
 
       {/* Badge de rodada / embate */}
@@ -578,7 +578,7 @@ const Sorteio = () => {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             {/* perspective no pai para o rotateY funcionar corretamente */}
-            <div className="w-72 sm:w-80" style={{ perspective: '600px', overflow: 'visible' }}>
+            <div className="w-full max-w-[288px] sm:max-w-xs" style={{ perspective: '600px', overflow: 'visible' }}>
               <motion.div
                 initial={{ rotateY: 90 }}
                 animate={{ rotateY: 0 }}

@@ -28,7 +28,7 @@ const Ranking = () => {
   const others = sorted.slice(1);
 
   return (
-    <div className="h-screen w-screen overflow-y-auto flex items-center justify-center px-4 py-3">
+    <div className="min-h-screen w-full overflow-y-auto overflow-x-hidden flex items-center justify-center px-4 py-3" style={{ minHeight: '100dvh' }}>
       <TropicalBackground />
 
       <WoodenPanel compact className="max-w-2xl w-full mx-auto">
@@ -136,7 +136,7 @@ const Ranking = () => {
         </div>
 
         {/* Botões */}
-        <div className="flex flex-row gap-3 justify-center">
+        <div className="flex flex-wrap gap-3 justify-center">
           <TropicalButton variant="primary" size="lg" onClick={() => navigate('/')}>
             🎮 Nova Partida
           </TropicalButton>

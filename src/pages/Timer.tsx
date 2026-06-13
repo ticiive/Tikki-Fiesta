@@ -95,7 +95,7 @@ const Timer = () => {
   const circleSize = "clamp(160px, 25vh, 260px)";
 
   return (
-    <div className="h-screen w-screen overflow-hidden flex items-center justify-center px-4 py-3">
+    <div className="min-h-screen w-full overflow-x-hidden flex items-center justify-center px-4 py-3" style={{ minHeight: '100dvh' }}>
       <TropicalBackground />
 
       {/* Wrapper relativo para os decorativos saírem para fora do WoodenCard */}

@@ -47,7 +47,7 @@ const EmbateResultado = () => {
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden flex items-center justify-center px-4 py-3">
+    <div className="min-h-screen w-full overflow-x-hidden flex items-center justify-center px-4 py-3" style={{ minHeight: '100dvh' }}>
       <TropicalBackground />
 
       <WoodenPanel compact className="max-w-sm w-full mx-auto">

@@ -53,7 +53,7 @@ const RankingMinigame = () => {
   };
 
   return (
-    <div className="h-screen w-screen overflow-y-auto flex items-center justify-center px-3 py-2">
+    <div className="min-h-screen w-full overflow-y-auto overflow-x-hidden flex items-center justify-center px-3 py-2" style={{ minHeight: '100dvh' }}>
       <TropicalBackground />
 
       <WoodenPanel compact className="max-w-xl w-full mx-auto">

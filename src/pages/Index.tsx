@@ -56,7 +56,7 @@ const Index = () => {
           Escolha seus personagens 🎲
         </h1>
         <p
-          className="text-center mb-6"
+          className="text-center mb-3 md:mb-6"
           style={{
             fontFamily: 'Fredoka, sans-serif',
             fontWeight: 600,
@@ -70,7 +70,7 @@ const Index = () => {
         </p>
 
         {/* ── Grid responsivo de personagens ───────────────────────────── */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-4 md:mb-8">
           {visibleCharacters.map((char) => {
             const isSelected = selectedPlayers.includes(char.id);
             const isDisabled = atLimit && !isSelected;
@@ -154,7 +154,7 @@ const Index = () => {
         </div>
 
         {/* ── Seleção de rodadas ─────────────────────────────────────── */}
-        <div className="mb-8">
+        <div className="mb-4 md:mb-8">
           <p
             className="text-center text-xl font-bold mb-4"
             style={{
