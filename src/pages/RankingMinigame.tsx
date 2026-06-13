@@ -121,15 +121,54 @@ const RankingMinigame = () => {
                   style={{ listStyle: 'none' }}
                   whileDrag={{ scale: 1.04, boxShadow: '0 8px 24px rgba(0,0,0,0.3)', zIndex: 10 }}
                 >
+                  {/* ── Empate toggle — entre este item e o anterior ── */}
+                  {idx > 0 && (
+                    <div
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onClick={(e) => { e.stopPropagation(); toggleTieAt(idx); }}
+                      style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.3rem', cursor: 'pointer' }}
+                    >
+                      {isTied ? (
+                        <span style={{
+                          background: COLORS.verde,
+                          color: '#fff',
+                          fontFamily: 'Fredoka, sans-serif',
+                          fontWeight: 700,
+                          fontSize: 'clamp(0.85rem, 2.5vh, 1rem)',
+                          padding: '0.15rem 1rem',
+                          borderRadius: '1rem',
+                          letterSpacing: '0.06em',
+                          boxShadow: '0 2px 6px rgba(0,0,0,0.35)',
+                          userSelect: 'none',
+                        }}>
+                          = EMPATE
+                        </span>
+                      ) : (
+                        <span style={{
+                          background: 'rgba(0,0,0,0.22)',
+                          color: 'rgba(255,255,255,0.65)',
+                          fontFamily: 'Fredoka, sans-serif',
+                          fontWeight: 600,
+                          fontSize: 'clamp(0.7rem, 2vh, 0.82rem)',
+                          padding: '0.1rem 0.65rem',
+                          borderRadius: '1rem',
+                          userSelect: 'none',
+                        }}>
+                          ⊕ empatar com ↑
+                        </span>
+                      )}
+                    </div>
+                  )}
+
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
 
-                    {/* Badge externo — posição, recompensa e botão de empate */}
+                    {/* Badge externo — posição e recompensa */}
                     <div style={{
                       width: 54,
                       flexShrink: 0,
                       background: badge.bg,
                       borderRadius: '0.5rem',
-                      padding: '0.25rem 0.2rem',
+                      padding: '0.3rem 0.2rem',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
@@ -139,30 +178,9 @@ const RankingMinigame = () => {
                       <span style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: 'clamp(0.9rem, 2.5vh, 1.1rem)', color: badge.text, lineHeight: 1 }}>
                         {rank}º
                       </span>
-                      <span style={{ fontFamily: 'Fredoka, sans-serif', fontSize: '0.65rem', color: badge.text, opacity: 0.9, marginTop: 1 }}>
+                      <span style={{ fontFamily: 'Fredoka, sans-serif', fontSize: '0.65rem', color: badge.text, opacity: 0.9, marginTop: 2 }}>
                         +{reward}<img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="" className="inline-block" style={{ height: '0.65rem', width: 'auto', verticalAlign: 'middle' }} />
                       </span>
-                      {idx > 0 && (
-                        <button
-                          onPointerDown={(e) => e.stopPropagation()}
-                          onClick={(e) => { e.stopPropagation(); toggleTieAt(idx); }}
-                          style={{
-                            marginTop: 3,
-                            fontSize: '0.6rem',
-                            fontFamily: 'Fredoka, sans-serif',
-                            fontWeight: 700,
-                            background: isTied ? COLORS.verde : 'rgba(0,0,0,0.22)',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '0.25rem',
-                            padding: '1px 4px',
-                            cursor: 'pointer',
-                            lineHeight: 1.4,
-                          }}
-                        >
-                          {isTied ? '= empate' : '⚖️ tie'}
-                        </button>
-                      )}
                     </div>
 
                     {/* Card arrastável */}
