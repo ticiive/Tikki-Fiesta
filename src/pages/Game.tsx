@@ -22,6 +22,8 @@ const Counter = ({
   value,
   onAdd,
   onRemove,
+  onRemoveBig,
+  onAddBig,
   hideRemove,
   disabledAdd,
 }: {
@@ -29,6 +31,8 @@ const Counter = ({
   value: number;
   onAdd: () => void;
   onRemove: () => void;
+  onRemoveBig?: () => void;
+  onAddBig?: () => void;
   hideRemove?: boolean;
   disabledAdd?: boolean;
 }) => (
@@ -50,6 +54,13 @@ const Counter = ({
       boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.6), inset 0 -1px 2px rgba(120,80,40,0.1)',
     }}
   >
+    {onRemoveBig && (
+      <button
+        onClick={onRemoveBig}
+        className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm text-white shrink-0 transition-transform active:scale-90"
+        style={{ background: COLORS.alerta, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
+      >−3</button>
+    )}
     <span className="text-2xl shrink-0 leading-none">{icon}</span>
     {!hideRemove && (
       <button
@@ -77,6 +88,13 @@ const Counter = ({
         opacity: disabledAdd ? 0.5 : 1,
       }}
     >+</button>
+    {onAddBig && (
+      <button
+        onClick={onAddBig}
+        className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm text-white shrink-0 transition-transform active:scale-90"
+        style={{ background: COLORS.verde, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
+      >+3</button>
+    )}
   </div>
 );
 
@@ -304,8 +322,10 @@ const Game = () => {
                 <Counter
                   icon={<img src={`${import.meta.env.BASE_URL}img/coco.png`} alt="Coco" style={{ height: '2.5rem', width: 'auto' }} className="shrink-0" />}
                   value={activePlayer.coins}
-                  onAdd={() => updateActivePlayer("coins", 1)}
+                  onRemoveBig={() => updateActivePlayer("coins", -3)}
                   onRemove={() => updateActivePlayer("coins", -1)}
+                  onAdd={() => updateActivePlayer("coins", 1)}
+                  onAddBig={() => updateActivePlayer("coins", 3)}
                 />
                 <Counter
                   icon={<img src={`${import.meta.env.BASE_URL}img/tikkimask.png`} alt="Tikki" style={{ height: '2.5rem', width: 'auto' }} className="shrink-0" />}
