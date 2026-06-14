@@ -21,8 +21,16 @@ const Landing = () => {
 
   const handleNewGame = () => {
     try {
-      localStorage.removeItem(STORAGE_KEY);
-      localStorage.removeItem('tikki-fiesta-route');
+      [
+        STORAGE_KEY,
+        'tikki-fiesta-route',
+        'tikki-fiesta-sorteio-state',
+        'tikki-fiesta-timer-state',
+        'tikki-fiesta-cordasorte-state',
+        'tikki-fiesta-tikkube-state',
+        'tikki-fiesta-ranking-state',
+        'tikki-fiesta-embate-state',
+      ].forEach(k => localStorage.removeItem(k));
     } catch {}
     navigate('/configurar');
   };

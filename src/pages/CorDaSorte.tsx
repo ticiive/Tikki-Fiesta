@@ -213,12 +213,18 @@ const TelaRolando = ({ onJaRolei }: { onJaRolei: () => void }) => (
 );
 
 /* ══════════════════════════════════════════════════════════════════ */
+const COR_KEY = 'tikki-fiesta-cordasorte-state';
+
 const CorDaSorte = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const effectiveState = (location.state as any) ?? (() => {
+    try { const s = localStorage.getItem(COR_KEY); return s ? JSON.parse(s) : null; } catch { return null; }
+  })();
+
   const { players, currentRound, totalRounds, isGameOver, playedMinigames = [] } =
-    (location.state as {
+    (effectiveState as {
       players: Player[];
       currentRound: number;
       totalRounds: number;
@@ -240,7 +246,13 @@ const CorDaSorte = () => {
   const [jogadorDesempateIdx, setJogadorDesempateIdx] = useState(0);
   const [corRoladaDesempate, setCorRoladaDesempate] = useState<CorDado | null>(null);
 
-  if (!location.state) { navigate("/game"); return null; }
+  useEffect(() => {
+    if (location.state) {
+      try { localStorage.setItem(COR_KEY, JSON.stringify(location.state)); } catch {}
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!effectiveState) { navigate("/game"); return null; }
 
   const isUltimoJogador = jogadorAtual === players.length - 1;
   const isUltimaRolagem = rolagem === 3;

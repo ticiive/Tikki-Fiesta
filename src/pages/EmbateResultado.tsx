@@ -6,12 +6,18 @@ import { COLORS } from "@/lib/tokens";
 import type { Player } from "@/types/game";
 import { CharacterAvatar } from "@/components/CharacterAvatar";
 
+const EMBATE_KEY = 'tikki-fiesta-embate-state';
+
 const EmbateResultado = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const effectiveState = (location.state as any) ?? (() => {
+    try { const s = localStorage.getItem(EMBATE_KEY); return s ? JSON.parse(s) : null; } catch { return null; }
+  })();
+
   const { players, currentRound, totalRounds, playedMinigames = [], embateContext } =
-    (location.state as {
+    (effectiveState as {
       players: Player[];
       currentRound: number;
       totalRounds: number;
@@ -20,10 +26,16 @@ const EmbateResultado = () => {
     }) || {};
 
   useEffect(() => {
-    if (!location.state) navigate("/game");
-  }, [location.state, navigate]);
+    if (location.state) {
+      try { localStorage.setItem(EMBATE_KEY, JSON.stringify(location.state)); } catch {}
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!location.state) return null;
+  useEffect(() => {
+    if (!effectiveState) navigate("/game");
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!effectiveState) return null;
 
   const challenger = players.find(p => p.id === embateContext.challengerId)!;
   const opponent = players.find(p => p.id === embateContext.opponentId)!;

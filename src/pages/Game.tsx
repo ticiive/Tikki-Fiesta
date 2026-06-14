@@ -108,10 +108,20 @@ const loadSavedState = () => {
   } catch { return null; }
 };
 
+const PAGE_STATE_KEYS = [
+  'tikki-fiesta-route',
+  'tikki-fiesta-sorteio-state',
+  'tikki-fiesta-timer-state',
+  'tikki-fiesta-cordasorte-state',
+  'tikki-fiesta-tikkube-state',
+  'tikki-fiesta-ranking-state',
+  'tikki-fiesta-embate-state',
+];
+
 const clearSavedState = () => {
   try {
     localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem('tikki-fiesta-route');
+    PAGE_STATE_KEYS.forEach(k => localStorage.removeItem(k));
   } catch {}
 };
 

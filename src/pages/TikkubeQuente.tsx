@@ -30,12 +30,18 @@ const MELODY = [523, 587, 659, 784, 659, 587, 523, 698, 784, 880];
 
 type GameState = 'ready' | 'playing' | 'stopped';
 
+const TIKKUBE_KEY = 'tikki-fiesta-tikkube-state';
+
 const TikkubeQuente = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const effectiveState = (location.state as any) ?? (() => {
+    try { const s = localStorage.getItem(TIKKUBE_KEY); return s ? JSON.parse(s) : null; } catch { return null; }
+  })();
+
   const { players, currentRound, totalRounds, isGameOver, playedMinigames = [] } =
-    (location.state as {
+    (effectiveState as {
       players: any[];
       currentRound: number;
       totalRounds: number;
@@ -52,8 +58,14 @@ const TikkubeQuente = () => {
   const noteIdxRef = useRef(0);
 
   useEffect(() => {
-    if (!location.state) navigate("/game");
-  }, [location.state, navigate]);
+    if (location.state) {
+      try { localStorage.setItem(TIKKUBE_KEY, JSON.stringify(location.state)); } catch {}
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!effectiveState) navigate("/game");
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const stopMusic = useCallback(() => {
     if (melodyIntervalRef.current) clearInterval(melodyIntervalRef.current);
@@ -98,7 +110,7 @@ const TikkubeQuente = () => {
     });
   };
 
-  if (!location.state) return null;
+  if (!effectiveState) return null;
 
   return (
     <div className="h-screen w-screen overflow-hidden flex items-center justify-center px-4 py-3">

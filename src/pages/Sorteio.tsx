@@ -440,11 +440,18 @@ const MINIGAMES = [
   },
 ];
 
+const SORTEIO_KEY = 'tikki-fiesta-sorteio-state';
+
 const Sorteio = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const effectiveState = (location.state as any) ?? (() => {
+    try { const s = localStorage.getItem(SORTEIO_KEY); return s ? JSON.parse(s) : null; } catch { return null; }
+  })();
+
   const { players, currentRound, totalRounds, isGameOver, playedMinigames = [] } =
-    (location.state as {
+    (effectiveState as {
       players: any[];
       currentRound: number;
       totalRounds: number;
@@ -452,8 +459,8 @@ const Sorteio = () => {
       playedMinigames?: string[];
     }) || {};
 
-  const preservedMinigame = (location.state as any)?.preservedMinigame;
-  const embateContext = (location.state as any)?.embateContext as
+  const preservedMinigame = (effectiveState as any)?.preservedMinigame;
+  const embateContext = (effectiveState as any)?.embateContext as
     | { challengerId: string; opponentId: string; betAmount: number }
     | undefined;
 
@@ -474,6 +481,12 @@ const Sorteio = () => {
   });
 
   useEffect(() => {
+    if (location.state) {
+      try { localStorage.setItem(SORTEIO_KEY, JSON.stringify(location.state)); } catch {}
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       setPhase("revealed");
       playReveal();
@@ -488,10 +501,10 @@ const Sorteio = () => {
   }, [phase]);
 
   useEffect(() => {
-    if (!location.state) navigate("/game");
-  }, [location.state, navigate]);
+    if (!effectiveState) navigate("/game");
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!location.state) return null;
+  if (!effectiveState) return null;
 
   // When we've exhausted all minigames, start a fresh cycle with only the new pick
   const wasReset = !preservedMinigame && !embateContext &&

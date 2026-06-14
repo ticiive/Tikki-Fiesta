@@ -18,13 +18,19 @@ const BADGE_STYLES = [
   { bg: COLORS.areiaEscura, text: COLORS.marromProfundo },
 ];
 
+const RANKING_KEY = 'tikki-fiesta-ranking-state';
+
 const RankingMinigame = () => {
   const location       = useLocation();
   const navigate       = useNavigate();
   const constraintsRef = useRef<HTMLDivElement>(null);
 
+  const effectiveState = (location.state as any) ?? (() => {
+    try { const s = localStorage.getItem(RANKING_KEY); return s ? JSON.parse(s) : null; } catch { return null; }
+  })();
+
   const { players, currentRound, totalRounds, isGameOver, playedMinigames = [] } =
-    (location.state as {
+    (effectiveState as {
       players: Player[];
       currentRound: number;
       totalRounds: number;
@@ -52,7 +58,13 @@ const RankingMinigame = () => {
     });
   })();
 
-  if (!location.state) {
+  useEffect(() => {
+    if (location.state) {
+      try { localStorage.setItem(RANKING_KEY, JSON.stringify(location.state)); } catch {}
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!effectiveState) {
     navigate("/game");
     return null;
   }

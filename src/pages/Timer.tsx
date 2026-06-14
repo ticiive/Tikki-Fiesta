@@ -19,12 +19,18 @@ const beep = () => {
   } catch (_) {}
 };
 
+const TIMER_KEY = 'tikki-fiesta-timer-state';
+
 const Timer = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const effectiveState = (location.state as any) ?? (() => {
+    try { const s = localStorage.getItem(TIMER_KEY); return s ? JSON.parse(s) : null; } catch { return null; }
+  })();
+
   const { players, currentRound, totalRounds, isGameOver, minigame, playedMinigames = [], embateContext } =
-    (location.state as {
+    (effectiveState as {
       players: any[];
       currentRound: number;
       totalRounds: number;
@@ -58,8 +64,14 @@ const Timer = () => {
   };
 
   useEffect(() => {
-    if (!location.state) navigate("/game");
-  }, [location.state, navigate]);
+    if (location.state) {
+      try { localStorage.setItem(TIMER_KEY, JSON.stringify(location.state)); } catch {}
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!effectiveState) navigate("/game");
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleTogglePause = useCallback(() => {
     const next = !isPausedRef.current;
@@ -89,7 +101,7 @@ const Timer = () => {
     if (isUrgent && timeLeft > 0) beep();
   }, [timeLeft]);
 
-  if (!location.state) return null;
+  if (!effectiveState) return null;
 
   const label = String(timeLeft).padStart(2, "0");
   const circleSize = "clamp(140px, 35vh, 240px)";
