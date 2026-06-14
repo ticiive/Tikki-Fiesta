@@ -92,7 +92,7 @@ const Timer = () => {
   if (!location.state) return null;
 
   const label = String(timeLeft).padStart(2, "0");
-  const circleSize = "clamp(160px, 25vh, 260px)";
+  const circleSize = "clamp(140px, 35vh, 240px)";
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden flex items-center justify-center px-4 py-3" style={{ minHeight: '100dvh' }}>
@@ -152,81 +152,80 @@ const Timer = () => {
 
         {/* ── Painel principal ── */}
         <WoodenCard variant="main" irregularCorners>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 px-4 py-4">
+          <div className="flex flex-col items-center gap-3 short:gap-2 px-4 py-4 short:py-2">
 
-            {/* Lado esquerdo (portrait: topo) — cabeçalho + círculo */}
-            <div className="flex flex-col items-center gap-2">
-              <div className="flex items-center gap-2">
-                <span style={{ fontSize: "2rem", lineHeight: 1 }}>{minigame?.emoji ?? "⏱️"}</span>
-                <h1 style={{
-                  fontFamily: "Fredoka, sans-serif",
-                  fontWeight: 700,
-                  fontSize: "clamp(1.1rem, 3vw, 1.6rem)",
-                  color: COLORS.marromProfundo,
-                  textShadow: "1px 1px 0 rgba(255,255,255,0.4)",
-                }}>
-                  {minigame?.name ?? "Minigame"}
-                </h1>
-              </div>
+            {/* Cabeçalho centralizado */}
+            <div className="flex items-center gap-2">
+              <span style={{ fontSize: "clamp(1.4rem, 4vw, 2rem)", lineHeight: 1 }}>{minigame?.emoji ?? "⏱️"}</span>
+              <h1 style={{
+                fontFamily: "Fredoka, sans-serif",
+                fontWeight: 700,
+                fontSize: "clamp(1rem, 3vw, 1.6rem)",
+                color: COLORS.marromProfundo,
+                textShadow: "1px 1px 0 rgba(255,255,255,0.4)",
+              }}>
+                {minigame?.name ?? "Minigame"}
+              </h1>
+            </div>
 
-              <div className="relative flex items-center justify-center"
-                style={{ width: circleSize, height: circleSize }}>
-                <svg
-                  viewBox="0 0 260 260"
-                  style={{ width: "100%", height: "100%", filter: "drop-shadow(3px 5px 0 rgba(45,27,13,0.45))" }}
-                >
-                  <circle cx="130" cy="130" r={RADIUS} fill={COLORS.areia} />
-                  <circle cx="130" cy="130" r={RADIUS} fill="none"
-                    stroke={COLORS.madeiraEscura} strokeWidth={14} />
-                  <circle
-                    cx="130" cy="130" r={RADIUS}
-                    fill="none"
-                    stroke={arcColor}
-                    strokeWidth={10}
-                    strokeLinecap="round"
-                    strokeDasharray={CIRCUMFERENCE}
-                    strokeDashoffset={dashOffset}
-                    style={{
-                      transform: "rotate(-90deg)",
-                      transformOrigin: "130px 130px",
-                      transition: "stroke-dashoffset 0.8s linear, stroke 0.3s ease",
-                    }}
-                  />
-                </svg>
+            {/* Círculo — elemento central dominante */}
+            <div className="relative flex items-center justify-center"
+              style={{ width: circleSize, height: circleSize }}>
+              <svg
+                viewBox="0 0 260 260"
+                style={{ width: "100%", height: "100%", filter: "drop-shadow(3px 5px 0 rgba(45,27,13,0.45))" }}
+              >
+                <circle cx="130" cy="130" r={RADIUS} fill={COLORS.areia} />
+                <circle cx="130" cy="130" r={RADIUS} fill="none"
+                  stroke={COLORS.madeiraEscura} strokeWidth={14} />
+                <circle
+                  cx="130" cy="130" r={RADIUS}
+                  fill="none"
+                  stroke={arcColor}
+                  strokeWidth={10}
+                  strokeLinecap="round"
+                  strokeDasharray={CIRCUMFERENCE}
+                  strokeDashoffset={dashOffset}
+                  style={{
+                    transform: "rotate(-90deg)",
+                    transformOrigin: "130px 130px",
+                    transition: "stroke-dashoffset 0.8s linear, stroke 0.3s ease",
+                  }}
+                />
+              </svg>
 
-                <div
-                  className="absolute inset-0 flex items-center justify-center"
-                  style={{ animation: isUrgent && !isPaused ? "pulse-scale 1s ease-in-out infinite" : "none" }}
-                >
-                  <div className="flex flex-col items-center" style={{ gap: 2 }}>
+              <div
+                className="absolute inset-0 flex items-center justify-center"
+                style={{ animation: isUrgent && !isPaused ? "pulse-scale 1s ease-in-out infinite" : "none" }}
+              >
+                <div className="flex flex-col items-center" style={{ gap: 2 }}>
+                  <span style={{
+                    fontFamily: "Fredoka, sans-serif",
+                    fontWeight: 700,
+                    fontSize: "clamp(48px, 10vh, 90px)",
+                    lineHeight: 1,
+                    color: isPaused ? COLORS.madeiraMedia : numberColor,
+                    transition: "color 0.3s ease",
+                  }}>
+                    {label}
+                  </span>
+                  {isPaused && (
                     <span style={{
                       fontFamily: "Fredoka, sans-serif",
+                      fontSize: "clamp(0.7rem, 2vw, 0.9rem)",
+                      color: COLORS.madeiraMedia,
                       fontWeight: 700,
-                      fontSize: "clamp(48px, 10vh, 90px)",
-                      lineHeight: 1,
-                      color: isPaused ? COLORS.madeiraMedia : numberColor,
-                      transition: "color 0.3s ease",
+                      letterSpacing: '0.05em',
                     }}>
-                      {label}
+                      PAUSADO
                     </span>
-                    {isPaused && (
-                      <span style={{
-                        fontFamily: "Fredoka, sans-serif",
-                        fontSize: "clamp(0.7rem, 2vw, 0.9rem)",
-                        color: COLORS.madeiraMedia,
-                        fontWeight: 700,
-                        letterSpacing: '0.05em',
-                      }}>
-                        PAUSADO
-                      </span>
-                    )}
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
 
-            {/* Lado direito (portrait: baixo) — botões */}
-            <div className="flex flex-col items-center sm:justify-center gap-3">
+            {/* Botões abaixo do círculo, centralizados */}
+            <div className="flex flex-wrap items-center justify-center gap-3 short:gap-2">
               {minigame?.id === 'cor-e-letra' && (
                 <TropicalButton
                   variant={isPaused ? "primary" : "secondary"}
