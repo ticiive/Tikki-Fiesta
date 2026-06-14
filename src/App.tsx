@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MusicProvider } from "@/contexts/MusicContext";
 import { BackgroundMusic } from "@/components/BackgroundMusic";
 import { GlobalConfigButton } from "@/components/GlobalConfigButton";
+import Landing from "./pages/Landing";
 import Index from "./pages/Index";
 import Game from "./pages/Game";
 import Sorteio from "./pages/Sorteio";
@@ -30,7 +31,8 @@ const App = () => (
         <BrowserRouter basename={import.meta.env.BASE_URL}>
           <GlobalConfigButton />
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<Landing />} />
+            <Route path="/configurar" element={<Index />} />
             <Route path="/game" element={<Game />} />
             <Route path="/sorteio" element={<Sorteio />} />
             <Route path="/timer" element={<Timer />} />
