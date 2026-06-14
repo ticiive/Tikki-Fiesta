@@ -102,7 +102,9 @@ const STORAGE_KEY = 'tikki-fiesta-game-state';
 const loadSavedState = () => {
   try {
     const s = localStorage.getItem(STORAGE_KEY);
-    return s ? JSON.parse(s) : null;
+    const parsed = s ? JSON.parse(s) : null;
+    console.log('[GAME] loadSavedState:', parsed ? `encontrou estado (${(parsed.players || []).length} jogadores, round ${parsed.currentRound})` : 'nada no localStorage');
+    return parsed;
   } catch { return null; }
 };
 
@@ -284,6 +286,7 @@ const Game = () => {
   // Salva estado a cada mudança de playerOrder ou round
   useEffect(() => {
     if (!effectiveState) return;
+    console.log('[GAME] Salvando estado no localStorage — round:', currentRound, '| jogadores:', playerOrder.length);
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         players: playerOrder,
@@ -296,7 +299,11 @@ const Game = () => {
   }, [playerOrder, currentRound]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!effectiveState) navigate("/");
+    console.log('[GAME] Guard: effectiveState =', !!effectiveState, '| location.state =', !!location.state);
+    if (!effectiveState) {
+      console.log('[GAME] Sem estado — redirecionando para /');
+      navigate("/");
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!effectiveState) return null;

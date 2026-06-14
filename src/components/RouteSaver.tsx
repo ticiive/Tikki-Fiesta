@@ -13,22 +13,42 @@ export function RouteSaver() {
 
   // Restaura rota ao montar — uma vez só
   useEffect(() => {
-    if (hasRestored.current) return;
+    if (hasRestored.current) {
+      console.log('[RESTORE] Ignorado — já executou uma vez (StrictMode double-invoke)');
+      return;
+    }
     hasRestored.current = true;
 
     const savedRoute = localStorage.getItem(ROUTE_KEY);
     const savedGame = localStorage.getItem(GAME_KEY);
 
-    if (savedRoute && savedGame && (location.pathname === '/' || location.pathname === '')) {
-      navigate(savedRoute, { replace: true });
+    console.log('[RESTORE] Rota salva no storage:', savedRoute, '| jogo salvo:', !!savedGame, '| pathname atual:', location.pathname);
+
+    if (!savedRoute) {
+      console.log('[RESTORE] Não restaurou porque: nenhuma rota salva no localStorage');
+      return;
     }
+    if (!savedGame) {
+      console.log('[RESTORE] Não restaurou porque: nenhum jogo salvo no localStorage');
+      return;
+    }
+    if (location.pathname !== '/' && location.pathname !== '') {
+      console.log('[RESTORE] Não restaurou porque: não está na raiz (pathname =', location.pathname, ')');
+      return;
+    }
+
+    console.log('[RESTORE] Navegando para:', savedRoute);
+    navigate(savedRoute, { replace: true });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Salva rota sempre que mudar (exceto rotas iniciais)
   useEffect(() => {
-    if (!SKIP_SAVE.includes(location.pathname)) {
-      try { localStorage.setItem(ROUTE_KEY, location.pathname); } catch {}
+    if (SKIP_SAVE.includes(location.pathname)) {
+      console.log('[SAVE] Rota ignorada (skip list):', location.pathname);
+      return;
     }
+    console.log('[SAVE] Salvando rota:', location.pathname);
+    try { localStorage.setItem(ROUTE_KEY, location.pathname); } catch {}
   }, [location.pathname]);
 
   return null;
