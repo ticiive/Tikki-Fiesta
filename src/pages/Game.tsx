@@ -16,7 +16,9 @@ import type { SurpresaEffect } from "@/components/SurpresaModal";
 import { CharacterAvatar } from "@/components/CharacterAvatar";
 
 
-// ── Contador compacto [ícone] [−] [número] [+] ──────────────────────────────
+// ── Contador em grid de 6 colunas fixas ─────────────────────────────────────
+// col1=-3  col2=icon  col3=-  col4=número(1fr)  col5=+  col6=+3
+// Células vazias preservam o alinhamento entre linha do coco e linha do tikki.
 const Counter = ({
   icon,
   value,
@@ -37,7 +39,7 @@ const Counter = ({
   disabledAdd?: boolean;
 }) => (
   <div
-    className="flex items-center gap-1.5 rounded-xl px-2 py-2 short:py-0.5 w-full"
+    className="grid grid-cols-[40px_auto_40px_1fr_40px_40px] items-center gap-1.5 rounded-xl px-2 py-2 short:py-0.5 w-full"
     style={{
       border: '1.5px solid #5D3A1A',
       background: `
@@ -54,54 +56,44 @@ const Counter = ({
       boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.6), inset 0 -1px 2px rgba(120,80,40,0.1)',
     }}
   >
-    {/* -3 na ponta esquerda */}
-    {onRemoveBig && (
-      <button
-        onClick={onRemoveBig}
-        className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white shrink-0 transition-transform active:scale-90"
-        style={{ background: COLORS.alerta, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
-      >−3</button>
-    )}
-
-    {/* Grupo central: ícone [-] número [+] */}
-    <div className="flex items-center gap-1.5 flex-1 justify-center min-w-0">
-      <span className="shrink-0 leading-none">{icon}</span>
-      {!hideRemove && (
-        <button
-          onClick={onRemove}
-          className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg text-white shrink-0 transition-transform active:scale-90"
-          style={{ background: COLORS.turquoise, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
-        >−</button>
-      )}
-      <span
-        className="flex-1 text-center text-2xl short:text-xl font-bold"
-        style={{ fontFamily: 'Fredoka, sans-serif', color: '#F4E4C1', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
-      >
-        {value}
-      </span>
-      <button
-        onClick={onAdd}
-        disabled={disabledAdd}
-        className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg shrink-0 transition-transform active:scale-90"
-        style={{
-          background: disabledAdd ? '#999' : COLORS.coral,
-          border: '2px solid #5D3A1A',
-          color: '#ffffff',
-          fontFamily: 'Fredoka, sans-serif',
-          cursor: disabledAdd ? 'not-allowed' : 'pointer',
-          opacity: disabledAdd ? 0.5 : 1,
-        }}
-      >+</button>
-    </div>
-
-    {/* +3 na ponta direita */}
-    {onAddBig && (
-      <button
-        onClick={onAddBig}
-        className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white shrink-0 transition-transform active:scale-90"
-        style={{ background: COLORS.verde, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
-      >+3</button>
-    )}
+    {/* col1: -3 */}
+    {onRemoveBig
+      ? <button onClick={onRemoveBig} className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white transition-transform active:scale-90" style={{ background: COLORS.alerta, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}>−3</button>
+      : <div />
+    }
+    {/* col2: ícone */}
+    <span className="leading-none justify-self-center">{icon}</span>
+    {/* col3: − */}
+    {!hideRemove
+      ? <button onClick={onRemove} className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg text-white transition-transform active:scale-90" style={{ background: COLORS.turquoise, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}>−</button>
+      : <div />
+    }
+    {/* col4: número */}
+    <span
+      className="text-center text-2xl short:text-xl font-bold"
+      style={{ fontFamily: 'Fredoka, sans-serif', color: COLORS.madeiraEscura, textShadow: '0 1px 0 rgba(255,255,255,0.5)' }}
+    >
+      {value}
+    </span>
+    {/* col5: + */}
+    <button
+      onClick={onAdd}
+      disabled={disabledAdd}
+      className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg transition-transform active:scale-90"
+      style={{
+        background: disabledAdd ? '#999' : COLORS.coral,
+        border: '2px solid #5D3A1A',
+        color: '#ffffff',
+        fontFamily: 'Fredoka, sans-serif',
+        cursor: disabledAdd ? 'not-allowed' : 'pointer',
+        opacity: disabledAdd ? 0.5 : 1,
+      }}
+    >+</button>
+    {/* col6: +3 */}
+    {onAddBig
+      ? <button onClick={onAddBig} className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white transition-transform active:scale-90" style={{ background: COLORS.verde, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}>+3</button>
+      : <div />
+    }
   </div>
 );
 
