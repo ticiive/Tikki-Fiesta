@@ -209,34 +209,48 @@ export const SurpresaModal = ({ isOpen, onClose, activePlayer, otherPlayers, onE
                   {activePlayer.label}
                 </span>
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
+                {/* Botão menor: 3 Cocos */}
                 <button
                   onClick={handleThreeCocos}
-                  className="rounded-xl px-4 py-3 font-bold text-white w-full transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  className="rounded-xl px-4 py-2.5 font-bold text-white w-full transition-all hover:scale-[1.02] active:scale-[0.98]"
                   style={{
-                    fontFamily: 'Fredoka, sans-serif', fontSize: '1.1rem',
+                    fontFamily: 'Fredoka, sans-serif', fontSize: '1rem',
                     background: COLORS.turquoise,
                     border: `2px solid ${COLORS.madeiraEscura}`,
                     boxShadow: '0 3px 0 #3D2010', cursor: 'pointer',
                   }}
                 >
-                  🥥🥥🥥 Pegar 3 Cocos
+                  🥥 3 Cocos
                 </button>
+
+                {/* Separador */}
+                <div className="flex items-center gap-2 my-0.5">
+                  <div className="flex-1 h-px" style={{ background: `${COLORS.madeiraMedia}55` }} />
+                  <span style={{ fontFamily: 'Fredoka, sans-serif', fontSize: '0.85rem', color: COLORS.madeiraMedia, opacity: 0.8 }}>
+                    — ou —
+                  </span>
+                  <div className="flex-1 h-px" style={{ background: `${COLORS.madeiraMedia}55` }} />
+                </div>
+
+                {/* Botão maior: Surpresa Misteriosa */}
                 <button
                   onClick={handleMystery}
-                  className="rounded-xl px-4 py-3 font-bold text-white w-full transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  className="rounded-xl px-4 py-5 font-bold text-white w-full transition-all hover:scale-[1.02] active:scale-[0.98]"
                   style={{
-                    fontFamily: 'Fredoka, sans-serif', fontSize: '1.1rem',
+                    fontFamily: 'Fredoka, sans-serif', fontSize: '1.25rem',
                     background: COLORS.coral,
                     border: `2px solid ${COLORS.madeiraEscura}`,
-                    boxShadow: '0 3px 0 #3D2010', cursor: 'pointer',
+                    boxShadow: '0 4px 0 #3D2010', cursor: 'pointer',
+                    letterSpacing: '0.02em',
                   }}
                 >
                   🎲 Surpresa Misteriosa
                 </button>
+
                 <button
                   onClick={handleClose}
-                  className="rounded-xl px-4 py-2 text-sm w-full transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  className="rounded-xl px-4 py-2 text-sm w-full transition-all hover:scale-[1.02] active:scale-[0.98] mt-1"
                   style={cancelBtnStyle}
                 >Cancelar</button>
               </div>
