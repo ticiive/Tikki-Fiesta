@@ -52,7 +52,7 @@ const TikkubeQuente = () => {
   const noteIdxRef = useRef(0);
 
   useEffect(() => {
-    if (!location.state) navigate("/");
+    if (!location.state) navigate("/game");
   }, [location.state, navigate]);
 
   const stopMusic = useCallback(() => {

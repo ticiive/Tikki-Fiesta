@@ -53,7 +53,7 @@ const RankingMinigame = () => {
   })();
 
   if (!location.state) {
-    navigate("/");
+    navigate("/game");
     return null;
   }
 

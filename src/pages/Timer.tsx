@@ -58,7 +58,7 @@ const Timer = () => {
   };
 
   useEffect(() => {
-    if (!location.state) navigate("/");
+    if (!location.state) navigate("/game");
   }, [location.state, navigate]);
 
   const handleTogglePause = useCallback(() => {

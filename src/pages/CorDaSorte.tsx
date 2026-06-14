@@ -240,7 +240,7 @@ const CorDaSorte = () => {
   const [jogadorDesempateIdx, setJogadorDesempateIdx] = useState(0);
   const [corRoladaDesempate, setCorRoladaDesempate] = useState<CorDado | null>(null);
 
-  if (!location.state) { navigate("/"); return null; }
+  if (!location.state) { navigate("/game"); return null; }
 
   const isUltimoJogador = jogadorAtual === players.length - 1;
   const isUltimaRolagem = rolagem === 3;

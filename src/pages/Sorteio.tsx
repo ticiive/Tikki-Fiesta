@@ -488,7 +488,7 @@ const Sorteio = () => {
   }, [phase]);
 
   useEffect(() => {
-    if (!location.state) navigate("/");
+    if (!location.state) navigate("/game");
   }, [location.state, navigate]);
 
   if (!location.state) return null;
