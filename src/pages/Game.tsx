@@ -97,11 +97,39 @@ const Counter = ({
   </div>
 );
 
+const STORAGE_KEY = 'tikki-fiesta-game-state';
+
+const loadSavedState = () => {
+  try {
+    const s = localStorage.getItem(STORAGE_KEY);
+    return s ? JSON.parse(s) : null;
+  } catch { return null; }
+};
+
+const clearSavedState = () => {
+  try { localStorage.removeItem(STORAGE_KEY); } catch {}
+};
+
 const Game = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { players: incoming = ["P1", "P2", "P3"], totalRounds = 3, currentRound: initialRound = 1, playedMinigames: incomingPlayed = [] } =
-    (location.state as { players: (string | Player)[]; totalRounds: number; currentRound?: number; playedMinigames?: string[] }) || {};
+
+  // location.state (navegação normal) tem prioridade; fallback para localStorage ao recarregar
+  const effectiveState = (location.state ?? loadSavedState()) as {
+    players: (string | Player)[];
+    totalRounds: number;
+    currentRound?: number;
+    playedMinigames?: string[];
+    startingPlayerId?: string;
+  } | null;
+
+  const {
+    players: incoming = [],
+    totalRounds = 3,
+    currentRound: initialRound = 1,
+    playedMinigames: incomingPlayed = [],
+    startingPlayerId: savedStartingPlayerId,
+  } = effectiveState ?? {};
 
   const [playerOrder, setPlayerOrder] = useState<Player[]>(() =>
     (incoming as any[]).map((p) =>
@@ -111,9 +139,12 @@ const Game = () => {
     )
   );
 
-  const [currentRound, setCurrentRound] = useState(initialRound);
+  const [currentRound, setCurrentRound] = useState(initialRound ?? 1);
   const startingPlayerId = useRef(
-    typeof incoming[0] === 'string' ? incoming[0] : (incoming[0] as Player).id
+    savedStartingPlayerId ??
+    (incoming.length > 0
+      ? (typeof incoming[0] === 'string' ? incoming[0] : (incoming[0] as Player).id)
+      : '')
   );
   const [hasStolenThisTurn, setHasStolenThisTurn] = useState(false);
   const [isRoubarOpen, setIsRoubarOpen] = useState(false);
@@ -216,19 +247,18 @@ const Game = () => {
         if (!isGameOver) {
           setCurrentRound(nextRound);
         }
-        setTimeout(
-          () =>
-            navigate("/sorteio", {
-              state: {
-                players: rotated,
-                currentRound: isGameOver ? currentRound : nextRound,
-                totalRounds,
-                isGameOver,
-                playedMinigames: playedMinigames.current,
-              },
-            }),
-          0
-        );
+        setTimeout(() => {
+          if (isGameOver) clearSavedState();
+          navigate("/sorteio", {
+            state: {
+              players: rotated,
+              currentRound: isGameOver ? currentRound : nextRound,
+              totalRounds,
+              isGameOver,
+              playedMinigames: playedMinigames.current,
+            },
+          });
+        }, 0);
         return rotated;
       }
       return rotated;
@@ -248,11 +278,25 @@ const Game = () => {
     setIsBuyTikkiOpen(false);
   };
 
+  // Salva estado a cada mudança de playerOrder ou round
   useEffect(() => {
-    if (!location.state) navigate("/");
-  }, [location.state, navigate]);
+    if (!effectiveState) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        players: playerOrder,
+        totalRounds,
+        currentRound,
+        playedMinigames: playedMinigames.current,
+        startingPlayerId: startingPlayerId.current,
+      }));
+    } catch {}
+  }, [playerOrder, currentRound]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!location.state) return null;
+  useEffect(() => {
+    if (!effectiveState) navigate("/");
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!effectiveState) return null;
 
   return (
     <div
