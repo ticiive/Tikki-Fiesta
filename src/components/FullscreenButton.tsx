@@ -21,7 +21,7 @@ export function FullscreenButton() {
   return (
     <button
       onClick={toggleFullscreen}
-      className="fixed top-3 right-3 z-50 p-2.5 rounded-full transition-transform hover:scale-110 active:scale-95"
+      className="fixed top-3 left-3 z-50 p-2.5 rounded-full transition-transform hover:scale-110 active:scale-95"
       style={{
         background: 'rgba(255,255,255,0.75)',
         backdropFilter: 'blur(6px)',
