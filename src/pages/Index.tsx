@@ -36,7 +36,7 @@ const Index = () => {
 
   const handleStart = () => {
     if (!canStart) return;
-    navigate("/game", { state: { players: selectedPlayers, totalRounds: selectedRounds } });
+    navigate("/virar-celular", { state: { players: selectedPlayers, totalRounds: selectedRounds } });
   };
 
   return (

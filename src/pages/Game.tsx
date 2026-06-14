@@ -107,7 +107,10 @@ const loadSavedState = () => {
 };
 
 const clearSavedState = () => {
-  try { localStorage.removeItem(STORAGE_KEY); } catch {}
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem('tikki-fiesta-route');
+  } catch {}
 };
 
 const Game = () => {

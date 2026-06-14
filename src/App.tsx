@@ -7,7 +7,9 @@ import { MusicProvider } from "@/contexts/MusicContext";
 import { BackgroundMusic } from "@/components/BackgroundMusic";
 import { GlobalConfigButton } from "@/components/GlobalConfigButton";
 import { FullscreenButton } from "@/components/FullscreenButton";
+import { RouteSaver } from "@/components/RouteSaver";
 import Landing from "./pages/Landing";
+import VirarTelaScreen from "./pages/VirarTelaScreen";
 import Index from "./pages/Index";
 import Game from "./pages/Game";
 import Sorteio from "./pages/Sorteio";
@@ -30,11 +32,13 @@ const App = () => (
         <Sonner />
         <BackgroundMusic />
         <BrowserRouter basename={import.meta.env.BASE_URL}>
+          <RouteSaver />
           <GlobalConfigButton />
           <FullscreenButton />
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/configurar" element={<Index />} />
+            <Route path="/virar-celular" element={<VirarTelaScreen />} />
             <Route path="/game" element={<Game />} />
             <Route path="/sorteio" element={<Sorteio />} />
             <Route path="/timer" element={<Timer />} />

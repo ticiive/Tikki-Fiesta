@@ -20,7 +20,10 @@ const Landing = () => {
   };
 
   const handleNewGame = () => {
-    try { localStorage.removeItem(STORAGE_KEY); } catch {}
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem('tikki-fiesta-route');
+    } catch {}
     navigate('/configurar');
   };
 
