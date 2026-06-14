@@ -54,52 +54,54 @@ const Counter = ({
       boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.6), inset 0 -1px 2px rgba(120,80,40,0.1)',
     }}
   >
-    {/* ±3 agrupados no canto esquerdo */}
-    {(onRemoveBig || onAddBig) && (
-      <div className="flex gap-1 shrink-0">
-        {onRemoveBig && (
-          <button
-            onClick={onRemoveBig}
-            className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white shrink-0 transition-transform active:scale-90"
-            style={{ background: COLORS.alerta, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
-          >−3</button>
-        )}
-        {onAddBig && (
-          <button
-            onClick={onAddBig}
-            className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white shrink-0 transition-transform active:scale-90"
-            style={{ background: COLORS.verde, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
-          >+3</button>
-        )}
-      </div>
-    )}
-    <span className="shrink-0 leading-none">{icon}</span>
-    {!hideRemove && (
+    {/* -3 na ponta esquerda */}
+    {onRemoveBig && (
       <button
-        onClick={onRemove}
-        className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg text-white shrink-0 transition-transform active:scale-90"
-        style={{ background: COLORS.turquoise, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
-      >−</button>
+        onClick={onRemoveBig}
+        className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white shrink-0 transition-transform active:scale-90"
+        style={{ background: COLORS.alerta, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
+      >−3</button>
     )}
-    <span
-      className="flex-1 text-center text-2xl short:text-xl font-bold"
-      style={{ fontFamily: 'Fredoka, sans-serif', color: '#F4E4C1', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
-    >
-      {value}
-    </span>
-    <button
-      onClick={onAdd}
-      disabled={disabledAdd}
-      className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg shrink-0 transition-transform active:scale-90"
-      style={{
-        background: disabledAdd ? '#999' : COLORS.coral,
-        border: '2px solid #5D3A1A',
-        color: '#ffffff',
-        fontFamily: 'Fredoka, sans-serif',
-        cursor: disabledAdd ? 'not-allowed' : 'pointer',
-        opacity: disabledAdd ? 0.5 : 1,
-      }}
-    >+</button>
+
+    {/* Grupo central: ícone [-] número [+] */}
+    <div className="flex items-center gap-1.5 flex-1 justify-center min-w-0">
+      <span className="shrink-0 leading-none">{icon}</span>
+      {!hideRemove && (
+        <button
+          onClick={onRemove}
+          className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg text-white shrink-0 transition-transform active:scale-90"
+          style={{ background: COLORS.turquoise, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
+        >−</button>
+      )}
+      <span
+        className="flex-1 text-center text-2xl short:text-xl font-bold"
+        style={{ fontFamily: 'Fredoka, sans-serif', color: '#F4E4C1', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
+      >
+        {value}
+      </span>
+      <button
+        onClick={onAdd}
+        disabled={disabledAdd}
+        className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg shrink-0 transition-transform active:scale-90"
+        style={{
+          background: disabledAdd ? '#999' : COLORS.coral,
+          border: '2px solid #5D3A1A',
+          color: '#ffffff',
+          fontFamily: 'Fredoka, sans-serif',
+          cursor: disabledAdd ? 'not-allowed' : 'pointer',
+          opacity: disabledAdd ? 0.5 : 1,
+        }}
+      >+</button>
+    </div>
+
+    {/* +3 na ponta direita */}
+    {onAddBig && (
+      <button
+        onClick={onAddBig}
+        className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white shrink-0 transition-transform active:scale-90"
+        style={{ background: COLORS.verde, border: '2px solid #5D3A1A', fontFamily: 'Fredoka, sans-serif' }}
+      >+3</button>
+    )}
   </div>
 );
 
