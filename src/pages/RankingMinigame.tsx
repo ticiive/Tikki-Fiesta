@@ -88,25 +88,28 @@ const RankingMinigame = () => {
           🏆 Resultado do Minigame
         </h1>
         <p
-          className="text-center"
+          className="text-center mb-2 short:mb-1"
           style={{
             fontFamily: 'Fredoka, sans-serif',
             fontSize: 'clamp(0.75rem, 2vh, 0.95rem)',
             color: COLORS.marromProfundo,
             opacity: 0.65,
-            marginBottom: '0.6rem',
           }}
         >
           Arraste para ordenar do 1º ao último
         </p>
 
-        {/* ref de constraint — o drag fica restrito a este container */}
-        <div ref={constraintsRef} style={{ overflow: 'hidden', borderRadius: '0.5rem' }}>
+        {/* em short: mode, lista com scroll interno para o botão ficar sempre visível */}
+        <div
+          ref={constraintsRef}
+          className="overflow-hidden short:overflow-y-auto rounded-lg short:max-h-[calc(100dvh_-_185px)]"
+        >
           <Reorder.Group
             axis="y"
             values={order}
             onReorder={(newOrder) => { setOrder(newOrder); setTiedPositions(new Set()); }}
-            style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}
+            className="flex flex-col gap-1.5 short:gap-1"
+            style={{ listStyle: 'none', padding: 0, margin: 0 }}
           >
             {order.map((player, idx) => {
               const { rank, reward } = computedRanks[idx];
@@ -126,7 +129,7 @@ const RankingMinigame = () => {
                     <div
                       onPointerDown={(e) => e.stopPropagation()}
                       onClick={(e) => { e.stopPropagation(); toggleTieAt(idx); }}
-                      style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.3rem', cursor: 'pointer' }}
+                      className="flex justify-center cursor-pointer mb-1.5 short:mb-1"
                     >
                       {isTied ? (
                         <span style={{
@@ -192,7 +195,9 @@ const RankingMinigame = () => {
                           padding: 'clamp(0.3rem, 1vh, 0.6rem) 0.75rem',
                           gap: '0.5rem',
                         }}>
-                          <CharacterAvatar player={player} size={40} className="shrink-0" />
+                          <div className="w-10 h-10 short:w-8 short:h-8 rounded-full overflow-hidden shrink-0">
+                            <CharacterAvatar player={player} fill />
+                          </div>
                           <span style={{ flex: 1, fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: 'clamp(0.9rem, 2.5vh, 1.2rem)', color: '#FDF5E6', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
                             {player.label}
                           </span>
@@ -208,7 +213,7 @@ const RankingMinigame = () => {
           </Reorder.Group>
         </div>
 
-        <div className="flex justify-center mt-3">
+        <div className="flex justify-center mt-2 short:mt-1">
           <TropicalButton variant="primary" size="md" onClick={handleConfirm}>
             ✅ Confirmar Ranking
           </TropicalButton>
