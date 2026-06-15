@@ -86,8 +86,27 @@
     @apply border-border;
   }
 
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  html {
+    height: 100%;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
     font-family: 'Quicksand', sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: #5D3A1A;
+  }
+
+  #root {
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 }
