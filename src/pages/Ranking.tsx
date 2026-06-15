@@ -9,9 +9,9 @@ import type { Player } from "@/types/game";
 import { CharacterAvatar } from "@/components/CharacterAvatar";
 
 const POSITION_BADGES = [
-  { bg: COLORS.prata,       text: COLORS.marromProfundo },
-  { bg: COLORS.bronze,      text: COLORS.cremeClaro     },
-  { bg: COLORS.areiaEscura, text: COLORS.marromProfundo },
+  { medal: '🥈', bg: COLORS.prata,       text: COLORS.marromProfundo },
+  { medal: '🥉', bg: COLORS.bronze,      text: COLORS.cremeClaro     },
+  { medal: '',   bg: COLORS.areiaEscura, text: COLORS.marromProfundo },
 ];
 
 const Ranking = () => {
@@ -19,21 +19,17 @@ const Ranking = () => {
   const navigate  = useNavigate();
 
   const players: Player[] = (location.state as any)?.players ?? [];
+  // Critério: 1º máscaras (stars), 2º cocos (coins). Empate em ambos = mesma posição.
   const sorted = [...players].sort((a, b) => {
     if (b.stars !== a.stars) return b.stars - a.stars;
-    if (b.coins !== a.coins) return b.coins - a.coins;
-    return b.trophies - a.trophies;
+    return b.coins - a.coins;
   });
 
-  // Dense ranking: tied players share a position; next group gets prev.rank + 1
   const ranked = sorted.reduce<(Player & { rank: number })[]>((acc, p, idx) => {
     if (idx === 0) return [{ ...p, rank: 1 }];
     const prevRanked = acc[idx - 1];
     const prevOrig = sorted[idx - 1];
-    const isTied =
-      p.stars === prevOrig.stars &&
-      p.coins === prevOrig.coins &&
-      p.trophies === prevOrig.trophies;
+    const isTied = p.stars === prevOrig.stars && p.coins === prevOrig.coins;
     return [...acc, { ...p, rank: isTied ? prevRanked.rank : prevRanked.rank + 1 }];
   }, []);
 
@@ -78,7 +74,7 @@ const Ranking = () => {
                     textShadow: `0 1px 3px rgba(45,27,13,0.5)`,
                     letterSpacing: '0.05em',
                   }}>
-                    👑 CAMPEÃO!
+                    🥇 CAMPEÃO!
                   </span>
                   <motion.div
                     animate={{ scale: [1, 1.08, 1] }}
@@ -115,7 +111,7 @@ const Ranking = () => {
                 textShadow: `0 1px 3px rgba(45,27,13,0.5)`,
                 marginBottom: '0.5rem',
               }}>
-                🤝 EMPATARAM EM 1º!
+                🥇 EMPATARAM EM 1º!
               </p>
               <div className="flex flex-wrap justify-center gap-2">
                 {winners.map(w => (
@@ -158,12 +154,17 @@ const Ranking = () => {
                           borderRadius: '0.4rem',
                           padding: '0.2rem',
                           display: 'flex',
+                          flexDirection: 'column',
                           alignItems: 'center',
                           justifyContent: 'center',
                           border: `2px solid ${COLORS.madeiraEscura}`,
                           boxShadow: '2px 2px 0 rgba(45,27,13,0.4)',
+                          lineHeight: 1,
                         }}>
-                          <span style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: 'clamp(0.8rem, 2vw, 1rem)', color: badge.text, lineHeight: 1 }}>
+                          {badge.medal && (
+                            <span style={{ fontSize: '1rem', lineHeight: 1 }}>{badge.medal}</span>
+                          )}
+                          <span style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 700, fontSize: 'clamp(0.75rem, 2vw, 0.9rem)', color: badge.text, lineHeight: 1 }}>
                             {p.rank}º
                           </span>
                         </div>
