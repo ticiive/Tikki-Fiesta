@@ -41,8 +41,10 @@ const Timer = () => {
     }) || {};
 
   const duration = minigame?.duration ?? 30;
+  const isRespostasOuNada = minigame?.id === 'respostas-ou-nada';
   const [timeLeft, setTimeLeft] = useState(duration);
   const [isPaused, setIsPaused] = useState(false);
+  const [isDone, setIsDone] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const isPausedRef = useRef(false);
 
@@ -94,8 +96,32 @@ const Timer = () => {
   }, []);
 
   useEffect(() => {
-    if (timeLeft === 0) goNext();
+    if (timeLeft === 0) {
+      if (isRespostasOuNada) {
+        setIsDone(true);
+      } else {
+        goNext();
+      }
+    }
   }, [timeLeft]);
+
+  const handleRestart = useCallback(() => {
+    setIsDone(false);
+    setTimeLeft(duration);
+    isPausedRef.current = false;
+    setIsPaused(false);
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      if (isPausedRef.current) return;
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(intervalRef.current!);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  }, [duration]);
 
   useEffect(() => {
     if (isUrgent && timeLeft > 0) beep();
@@ -238,18 +264,22 @@ const Timer = () => {
 
             {/* Botões abaixo do círculo, centralizados */}
             <div className="flex flex-wrap items-center justify-center gap-3 short:gap-2">
-              {minigame?.id === 'cor-e-letra' && (
-                <TropicalButton
-                  variant={isPaused ? "primary" : "secondary"}
-                  size="sm"
-                  onClick={handleTogglePause}
-                >
-                  {isPaused ? "▶️ Continuar" : "⏸️ Pausar pra embaralhar"}
-                </TropicalButton>
+              {isDone && isRespostasOuNada ? (
+                <>
+                  <TropicalButton variant="primary" size="md" onClick={handleRestart}>
+                    ▶ Jogar de novo
+                  </TropicalButton>
+                  <TropicalButton variant="secondary" size="md" onClick={goNext}>
+                    🏁 Terminar minigame
+                  </TropicalButton>
+                </>
+              ) : (
+                <>
+                  <TropicalButton variant="secondary" size="sm" onClick={goNext}>
+                    ⏭️ Pular Timer
+                  </TropicalButton>
+                </>
               )}
-              <TropicalButton variant="secondary" size="sm" onClick={goNext}>
-                ⏭️ Pular Timer
-              </TropicalButton>
             </div>
 
           </div>
