@@ -130,7 +130,7 @@ const TikkubeQuente = () => {
                 color: COLORS.marromProfundo,
                 textShadow: '1px 1px 0 rgba(255,255,255,0.4)',
               }}>
-                Tikkube Quente
+                Tikkoin Quente
               </h1>
             </div>
 
@@ -138,7 +138,7 @@ const TikkubeQuente = () => {
             {gameState === 'ready' && (
               <div style={{ textAlign: 'center' }}>
                 <p style={{ fontFamily: 'Quicksand, sans-serif', fontSize: '1rem', color: COLORS.marromProfundo, marginBottom: '1rem' }}>
-                  Quando a música tocar, passe o Tikkube!<br />
+                  Quando a música tocar, passe o Tikkoin!<br />
                   Quem segurar quando parar perde — se for da cor!
                 </p>
                 <TropicalButton variant="primary" size="lg" onClick={startMusic}>
@@ -159,7 +159,7 @@ const TikkubeQuente = () => {
                   Música tocando...
                 </p>
                 <p style={{ fontFamily: 'Quicksand, sans-serif', fontSize: '0.9rem', color: COLORS.marromProfundo, opacity: 0.7, marginTop: '0.25rem' }}>
-                  Passe o Tikkube!
+                  Passe o Tikkoin!
                 </p>
               </div>
             )}
@@ -198,7 +198,7 @@ const TikkubeQuente = () => {
                   </span>
                 </div>
                 <p style={{ fontFamily: 'Quicksand, sans-serif', fontSize: '0.9rem', color: COLORS.marromProfundo, marginBottom: '1rem' }}>
-                  Quem segura o Tikkube e é <strong>{corAtual.label}</strong> perde 1!
+                  Quem segura o Tikkoin e é <strong>{corAtual.label}</strong> perde 1!
                 </p>
                 <TropicalButton variant="primary" size="md" onClick={startMusic}>
                   ▶️ Continuar jogo

@@ -786,7 +786,7 @@ const CorDaSorte = () => {
               padding: '5px 8px',
               opacity: 0.8,
             }}>
-              💡 Lembre de separar seus Tikkubes apostados fisicamente
+              💡 Lembre de separar seus Tikkoins apostados fisicamente
             </p>
           </motion.div>
         </AnimatePresence>
