@@ -12,22 +12,6 @@ const CORES = [
   { id: 'amarelo',  label: 'Amarelo',  hex: '#EAB308' },
 ];
 
-const playMusicNote = (ctx: AudioContext, freq: number, start: number, dur: number) => {
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = 'triangle';
-  osc.frequency.value = freq;
-  gain.gain.setValueAtTime(0, start);
-  gain.gain.linearRampToValueAtTime(0.18, start + 0.02);
-  gain.gain.exponentialRampToValueAtTime(0.001, start + dur);
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start(start);
-  osc.stop(start + dur);
-};
-
-const MELODY = [523, 587, 659, 784, 659, 587, 523, 698, 784, 880];
-
 type GameState = 'ready' | 'playing' | 'stopped';
 
 const TIKKUBE_KEY = 'tikki-fiesta-tikkube-state';
@@ -52,10 +36,17 @@ const TikkubeQuente = () => {
   const [gameState, setGameState] = useState<GameState>('ready');
   const [corAtual, setCorAtual] = useState<typeof CORES[number] | null>(null);
 
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const melodyIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const stopTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const noteIdxRef = useRef(0);
+
+  useEffect(() => {
+    audioRef.current = new Audio(`${import.meta.env.BASE_URL}sounds/tikkoin-quente.mp3`);
+    audioRef.current.loop = true;
+    return () => {
+      audioRef.current?.pause();
+      audioRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     if (location.state) {
@@ -68,8 +59,11 @@ const TikkubeQuente = () => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const stopMusic = useCallback(() => {
-    if (melodyIntervalRef.current) clearInterval(melodyIntervalRef.current);
     if (stopTimeoutRef.current) clearTimeout(stopTimeoutRef.current);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
     const cor = CORES[Math.floor(Math.random() * CORES.length)];
     setCorAtual(cor);
     setGameState('stopped');
@@ -78,33 +72,21 @@ const TikkubeQuente = () => {
   const startMusic = useCallback(() => {
     setCorAtual(null);
     setGameState('playing');
-
-    if (!audioCtxRef.current || audioCtxRef.current.state === 'closed') {
-      audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-    }
-    const ctx = audioCtxRef.current;
-
-    noteIdxRef.current = 0;
-    melodyIntervalRef.current = setInterval(() => {
-      const freq = MELODY[noteIdxRef.current % MELODY.length];
-      playMusicNote(ctx, freq, ctx.currentTime, 0.22);
-      noteIdxRef.current++;
-    }, 280);
-
+    audioRef.current?.play();
     const delay = (5 + Math.random() * 10) * 1000;
     stopTimeoutRef.current = setTimeout(stopMusic, delay);
   }, [stopMusic]);
 
   useEffect(() => {
     return () => {
-      if (melodyIntervalRef.current) clearInterval(melodyIntervalRef.current);
       if (stopTimeoutRef.current) clearTimeout(stopTimeoutRef.current);
+      audioRef.current?.pause();
     };
   }, []);
 
   const handleEncerrar = () => {
-    if (melodyIntervalRef.current) clearInterval(melodyIntervalRef.current);
     if (stopTimeoutRef.current) clearTimeout(stopTimeoutRef.current);
+    audioRef.current?.pause();
     navigate('/ranking-minigame', {
       state: { players, currentRound, totalRounds, isGameOver, playedMinigames },
     });
