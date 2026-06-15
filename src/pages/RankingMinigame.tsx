@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Reorder } from "framer-motion";
 import { TropicalBackground } from "@/components/layout/TropicalBackground";
