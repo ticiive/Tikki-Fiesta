@@ -113,7 +113,7 @@ const TikkubeQuente = () => {
   if (!effectiveState) return null;
 
   return (
-    <div className="h-screen w-screen overflow-hidden flex items-center justify-center px-4 py-3">
+    <div className="w-screen overflow-hidden flex items-center justify-center px-4 py-3" style={{ height: '100dvh' }}>
       <TropicalBackground />
 
       <div className="relative max-w-md w-full" style={{ overflow: 'visible' }}>

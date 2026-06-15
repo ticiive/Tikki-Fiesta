@@ -8,11 +8,20 @@ const STORAGE_KEY = 'tikki-fiesta-game-state';
 const Landing = () => {
   const navigate = useNavigate();
   const [hasSavedGame, setHasSavedGame] = useState(false);
+  const [showInstallBanner, setShowInstallBanner] = useState(false);
 
   useEffect(() => {
     try {
       setHasSavedGame(!!localStorage.getItem(STORAGE_KEY));
     } catch {}
+
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isStandalone = (window.navigator as any).standalone === true ||
+      window.matchMedia('(display-mode: standalone)').matches;
+    const dismissed = localStorage.getItem('tikki-install-dismissed');
+    if (isIOS && !isStandalone && !dismissed) {
+      setTimeout(() => setShowInstallBanner(true), 1500);
+    }
   }, []);
 
   const handleContinue = () => {
@@ -140,6 +149,30 @@ const Landing = () => {
         </div>
       </motion.div>
 
+      {showInstallBanner && (
+        <div
+          className="fixed bottom-4 left-4 right-4 rounded-2xl p-4 shadow-2xl z-50 flex items-center gap-3"
+          style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)' }}
+        >
+          <span className="text-3xl shrink-0">📱</span>
+          <div className="flex-1 min-w-0">
+            <p className="font-bold text-sm" style={{ fontFamily: 'Fredoka, sans-serif', color: '#2D1B0D' }}>
+              Quer tela cheia?
+            </p>
+            <p className="text-xs text-gray-500 leading-snug">
+              Toque em Compartilhar 🔗 → "Adicionar à Tela de Início"
+            </p>
+          </div>
+          <button
+            onClick={() => {
+              try { localStorage.setItem('tikki-install-dismissed', 'true'); } catch {}
+              setShowInstallBanner(false);
+            }}
+            className="shrink-0 text-gray-400 text-lg leading-none p-1"
+            aria-label="Fechar"
+          >✕</button>
+        </div>
+      )}
     </div>
   );
 };

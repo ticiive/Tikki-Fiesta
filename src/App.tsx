@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -24,6 +25,13 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+function SafariScrollFix() {
+  useEffect(() => {
+    setTimeout(() => { window.scrollTo(0, 1); }, 100);
+  }, []);
+  return null;
+}
+
 const App = () => (
   <MusicProvider>
     <QueryClientProvider client={queryClient}>
@@ -32,6 +40,7 @@ const App = () => (
         <Sonner />
         <BackgroundMusic />
         <BrowserRouter basename={import.meta.env.BASE_URL}>
+          <SafariScrollFix />
           <RouteSaver />
           <GlobalConfigButton />
           <FullscreenButton />

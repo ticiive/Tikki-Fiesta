@@ -142,7 +142,7 @@ const TelaBloqueio = ({
   onContinuar: () => void;
 }) => (
   <div
-    className="h-screen w-screen flex flex-col items-center justify-center px-6"
+    className="h-[100dvh] w-screen flex flex-col items-center justify-center px-6"
     style={{ background: '#120800' }}
   >
     <motion.div
@@ -171,7 +171,7 @@ const TelaBloqueio = ({
 
 /* ── Tela "rola o dado" reutilizável ──────────────────────────────── */
 const TelaRolando = ({ onJaRolei }: { onJaRolei: () => void }) => (
-  <div className="h-screen w-screen flex flex-col items-center justify-center px-4">
+  <div className="h-[100dvh] w-screen flex flex-col items-center justify-center px-4">
     <TropicalBackground />
     <motion.div
       initial={{ opacity: 0, scale: 0.85 }}
@@ -349,7 +349,7 @@ const CorDaSorte = () => {
     }));
 
     return (
-      <div className="h-screen w-screen overflow-y-auto flex flex-col items-center justify-center px-4 py-6">
+      <div className="h-[100dvh] w-screen overflow-y-auto flex flex-col items-center justify-center px-4 py-6">
         <TropicalBackground />
         <motion.div
           key={`rev-${rolagem}`}
@@ -449,7 +449,7 @@ const CorDaSorte = () => {
   /* ── FASE FIM DE JOGO ────────────────────────────────────── */
   if (fase === 'fimDeJogo') {
     return (
-      <div className="h-screen w-screen flex flex-col items-center justify-center px-6">
+      <div className="h-[100dvh] w-screen flex flex-col items-center justify-center px-6">
         <TropicalBackground />
         <motion.div
           initial={{ opacity: 0, scale: 0.88 }}
@@ -491,7 +491,7 @@ const CorDaSorte = () => {
     /* ── Sub: selecionando empatados ── */
     if (subFaseDesempate === 'selecionando') {
       return (
-        <div className="h-screen w-screen overflow-y-auto flex flex-col items-center justify-center px-4 py-6">
+        <div className="h-[100dvh] w-screen overflow-y-auto flex flex-col items-center justify-center px-4 py-6">
           <TropicalBackground />
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -564,7 +564,7 @@ const CorDaSorte = () => {
       const coresUsadas = new Set(apostasDesempate.map(a => a.cor.id));
 
       return (
-        <div className="h-screen w-screen overflow-hidden flex flex-col items-center justify-center px-4 py-6">
+        <div className="h-[100dvh] w-screen overflow-hidden flex flex-col items-center justify-center px-4 py-6">
           <TropicalBackground />
           <div className="relative z-10 w-full max-w-sm flex flex-col items-center gap-5">
             <span style={badgeRolagem('')}>Desempate · cada um escolhe 1 cor única</span>
@@ -618,7 +618,7 @@ const CorDaSorte = () => {
       const vencedorUnico = vencedores.length === 1;
 
       return (
-        <div className="h-screen w-screen overflow-y-auto flex flex-col items-center justify-center px-4 py-6">
+        <div className="h-[100dvh] w-screen overflow-y-auto flex flex-col items-center justify-center px-4 py-6">
           <TropicalBackground />
           <motion.div
             key={`desempate-rev-${apostasDesempate.length}`}
@@ -741,7 +741,7 @@ const CorDaSorte = () => {
 
   /* ── FASE APOSTA (default) ───────────────────────────────── */
   return (
-    <div className="h-screen w-screen overflow-hidden flex flex-col items-center justify-center px-4 py-6">
+    <div className="h-[100dvh] w-screen overflow-hidden flex flex-col items-center justify-center px-4 py-6">
       <TropicalBackground />
       <div className="relative z-10 w-full max-w-sm flex flex-col items-center gap-5">
 

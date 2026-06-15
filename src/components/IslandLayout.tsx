@@ -11,7 +11,7 @@ interface IslandLayoutProps {
  */
 export const IslandLayout: React.FC<IslandLayoutProps> = ({ children }) => {
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-turquoise">
+    <div className="relative w-screen overflow-hidden bg-turquoise" style={{ height: '100dvh' }}>
       {/* Animated sea background */}
       <SeaBackground />
 
