@@ -38,30 +38,6 @@ const playReveal = () => {
 
 const MINIGAMES = [
   {
-    id: 'tikki-strike',
-    name: 'Tikki Strike',
-    emoji: '🎯',
-    duration: 25,
-    description: 'Arremesse Tikkoins no cesto. Quem acertar mais da sua cor em 25 segundos vence.',
-    objetivo: 'Quem acertar mais Tikkoins da sua cor no cesto ao fim dos 25 segundos vence.',
-    materials: '12 Tikkoins (3 de cada cor: 🟦🟥🟩🟨) + Tampa da Caixa',
-    regras: [
-      'Tampa da Caixa no chão (vira cesto); marque linha 2-3 passos atrás com 1 Tikkoin',
-      'Cada jogador escolhe 1 cor e pega seus 3 Tikkoins',
-      'Quando o timer começar: TODOS arremessam ao mesmo tempo',
-      'Lance 1 Tikkoin por vez — sem jogar tudo junto de uma vez',
-      'Vale qualquer técnica: por cima, por baixo, debaixo da perna',
-      'Tikkoin fora do cesto é perdido — não pode pegar de volta',
-      'Tikkoins azuis com X contam como time amarelo',
-      'Quem acertar mais Tikkoins da sua cor no cesto vence',
-      '2 jogadores: cada um escolhe 1 cor, as outras 2 ficam fora',
-      '3 jogadores: cada um escolhe 1 cor, 1 fica fora',
-      '4 jogadores: 1 cor por jogador, todas as 4 em jogo',
-      'Desempate: cada empatado pega 1 Tikkoin, conta 3, arremessam juntos — quem acertar vence',
-    ],
-    type: 'physical',
-  },
-  {
     id: 'cor-da-sorte',
     name: 'Cor da Sorte',
     emoji: '🎲',
