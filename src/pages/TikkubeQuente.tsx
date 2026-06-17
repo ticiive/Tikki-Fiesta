@@ -14,14 +14,14 @@ const CORES = [
 
 type GameState = 'ready' | 'playing' | 'stopped';
 
-const TIKKUBE_KEY = 'tikki-fiesta-tikkube-state';
+const TIKKOIN_KEY = 'tikki-fiesta-tikkoin-state';
 
 const TikkubeQuente = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const effectiveState = (location.state as any) ?? (() => {
-    try { const s = localStorage.getItem(TIKKUBE_KEY); return s ? JSON.parse(s) : null; } catch { return null; }
+    try { const s = localStorage.getItem(TIKKOIN_KEY); return s ? JSON.parse(s) : null; } catch { return null; }
   })();
 
   const { players, currentRound, totalRounds, isGameOver, playedMinigames = [] } =
@@ -50,7 +50,7 @@ const TikkubeQuente = () => {
 
   useEffect(() => {
     if (location.state) {
-      try { localStorage.setItem(TIKKUBE_KEY, JSON.stringify(location.state)); } catch {}
+      try { localStorage.setItem(TIKKOIN_KEY, JSON.stringify(location.state)); } catch {}
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 

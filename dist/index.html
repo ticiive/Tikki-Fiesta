@@ -2,28 +2,37 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Lovable App</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+    <script type="text/javascript">
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) {
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+    <title>Tikki Fiesta</title>
+    <meta name="description" content="Tikki Fiesta — jogo de tabuleiro tropical" />
 
-    <!-- TODO: Update og:title to match your application name -->
-    <meta property="og:title" content="Lovable App" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <!-- PWA / iOS standalone -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tikki Fiesta">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#5D3A1A">
+    <link rel="apple-touch-icon" href="/Tikki-Fiesta/img/tikkimask.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/Tikki-Fiesta/img/tikkimask.png">
 
     <!-- Fredoka Font from Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="/pop-board-play/assets/index-DRvFbOkU.js"></script>
-    <link rel="stylesheet" crossorigin href="/pop-board-play/assets/index-CAPBMP-Z.css">
+    <script type="module" crossorigin src="/Tikki-Fiesta/assets/index-x3sTPKhT.js"></script>
+    <link rel="stylesheet" crossorigin href="/Tikki-Fiesta/assets/index-15E-xi8I.css">
   </head>
 
   <body>

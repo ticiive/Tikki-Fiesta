@@ -65,7 +65,7 @@ const MINIGAMES = [
     id: 'cor-da-sorte',
     name: 'Cor da Sorte',
     emoji: '🎲',
-    duration: 90,
+    duration: 0,
     description: 'Aposte em uma cor antes do dado rolar. Acertou? Seus Tikkoins dobram.',
     objetivo: 'Ao fim de 3 rolagens do dado, quem tiver mais Tikkoins vence.',
     materials: 'Dado de 6 cores + 24 Tikkoins + APP',
@@ -78,7 +78,7 @@ const MINIGAMES = [
       '4) App revela as apostas de todos + a cor que saiu',
       '5) Acertou: recupera apostados + ganha 1 extra por cada (DOBRA)',
       '6) Errou: perde os apostados pra Banca',
-      '3) Quem tiver mais Tikkoins ao fim das 3 rolagens vence',
+      'c) Quem tiver mais Tikkoins ao fim das 3 rolagens vence',
     ],
     type: 'interactive',
     appScreen: '/cor-da-sorte',
@@ -95,15 +95,15 @@ const MINIGAMES = [
       'Cada jogador pega 5 Tikkoins aleatórios do saquinho (cores variadas)',
       'Inicia o timer de 60 segundos',
       'Alguém rola o dado de cores a cada rodada',
-      'Cor normal (Verde/Azul/Amarelo/Vermelho): TODOS com cubos dessa cor descartam 1 pro saquinho',
+      'Cor normal (Verde/Azul/Amarelo/Vermelho): TODOS com Tikkoins dessa cor descartam 1 pro saquinho',
       'Laranja ou Rosa: todo mundo compra 1 Tikkoin aleatório do saquinho (surpresa!)',
       'Ganha quem zerar primeiro OU quem tiver menos Tikkoins ao fim dos 60s',
-      'Variação rápida: descartar TODOS os cubos da cor sorteada de uma vez',
+      'Variação rápida: descartar TODOS os Tikkoins da cor sorteada de uma vez',
     ],
     type: 'physical',
   },
   {
-    id: 'tikkube-quente',
+    id: 'tikkoin-quente',
     name: 'Tikkoin Quente',
     emoji: '🔥',
     duration: 60,
@@ -121,7 +121,7 @@ const MINIGAMES = [
       'Repete até sobrar 1 jogador — esse é o vencedor!',
     ],
     type: 'interactive',
-    appScreen: '/tikkube-quente',
+    appScreen: '/tikkoin-quente',
   },
   {
     id: 'capitao-mandou',
@@ -178,16 +178,17 @@ const MINIGAMES = [
       'Timer de 1 min 30 seg começa — Contador narra no tempo passado',
       'Interrogadores interrompem a qualquer momento com perguntas',
       'Contador FALHA se: usar hesitações ("hmmm", "ééé"), sair do tempo passado, contradizer algo dito, ou ficar em silêncio por 3+ segundos',
-      'Contador sobreviveu os 90s = vitória do Contador (50 pontos)',
-      'Contador falhou = 50 pontos divididos igualmente entre os Interrogadores',
+      'Contador sobreviveu os 90s = vitória do Contador',
+      'Contador falhou = vitória dos Interrogadores',
     ],
     type: 'physical',
+    appScreen: '/nao-hesite',
   },
   {
     id: 'contagem-dinamica',
     name: 'Contagem Dinâmica',
     emoji: '🔢',
-    duration: 0,
+    duration: 150,
     description: 'Contem de 1 a 10 em roda. Quem falar o 10 troca um número por uma ação. Errou? Eliminado.',
     objetivo: 'Ser o último jogador de pé. Não erre as substituições!',
     materials: 'Nenhum!',
@@ -199,7 +200,7 @@ const MINIGAMES = [
       'A cada nova vez que chegar ao 10, mais 1 número é substituído',
       'Quem errar (falar o número em vez da ação, ou fazer a ação errada) é eliminado',
       'O jogo continua sem o eliminado — último de pé vence!',
-      'Timer máximo: 2 minutos e 30 segundos. Se restar mais de 1 jogador ao fim do tempo, vence quem durou mais rodadas sem errar. Em empate, os empatados fazem uma rodada extra entre si',
+      'Timer máximo: 2 minutos e 30 segundos. Se restar mais de 1 jogador ao fim do tempo, vence quem durou mais rodadas sem errar. Em empate, dividem a colocação',
     ],
     type: 'physical',
   },
@@ -208,7 +209,7 @@ const MINIGAMES = [
     name: 'Batata Quente das Categorias',
     emoji: '🍠',
     duration: 0,
-    minPlayers: 3,
+    minPlayers: 2,
     description: 'Passe o objeto enquanto a categoria circula. Travar ou errar te elimina.',
     objetivo: 'Ser o último jogador de pé. Travar ou errar a categoria te elimina!',
     materials: 'Um objeto qualquer como "Batata Quente"',
@@ -245,13 +246,14 @@ const MINIGAMES = [
       '(2 jogadores) 6. Primeiro a 3 pontos vence',
     ],
     type: 'physical',
+    appScreen: '/palma-ou-gancho',
   },
   {
     id: 'corrente-quebrada',
     name: 'Corrente Quebrada',
     emoji: '⛓️',
     duration: 0,
-    description: 'Cada palavra começa com a última letra da anterior. Travar ou repetir te elimina.',
+    description: 'Cada palavra começa com a última letra da anterior. Travar ou repetir te elimina. (tempo controlado pelos jogadores)',
     objetivo: 'Ser o último jogador de pé mantendo a corrente de palavras.',
     materials: 'App com timer (4 segundos por jogada)',
     regras: [
@@ -271,7 +273,7 @@ const MINIGAMES = [
     name: 'Escada de Letras',
     emoji: '🔤',
     duration: 0,
-    description: 'Cada palavra tem uma letra a mais que a anterior. Errou a contagem? Eliminado.',
+    description: 'Cada palavra tem uma letra a mais que a anterior. Errou a contagem? Eliminado. (tempo controlado pelos jogadores)',
     objetivo: 'Não ser o jogador que erra a contagem de letras ou trava.',
     materials: '1 Dado de 6 números',
     regras: [
@@ -287,7 +289,7 @@ const MINIGAMES = [
   },
   {
     id: 'alfabeto-tikkicubes',
-    name: 'Alfabeto de Tikkicubes',
+    name: 'Alfabeto de Tikkoins',
     emoji: '🔡',
     duration: 0,
     description: 'Apostem Tikkoins, somem o total e descubram a letra. Grite a palavra certa primeiro.',
@@ -386,7 +388,7 @@ const Sorteio = () => {
         : [...playedMinigames, chosenGame.id];
 
   const handleStart = () => {
-    if ((chosenGame as any).type === 'interactive' && (chosenGame as any).appScreen) {
+    if ((chosenGame as any).appScreen) {
       navigate((chosenGame as any).appScreen, {
         state: { players, currentRound, totalRounds, isGameOver, minigame: chosenGame, playedMinigames: updatedPlayed, embateContext },
       });

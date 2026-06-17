@@ -20,6 +20,8 @@ import RankingMinigame from "./pages/RankingMinigame";
 import ComoJogar from "./pages/ComoJogar";
 import CorDaSorte from "./pages/CorDaSorte";
 import TikkubeQuente from "./pages/TikkubeQuente";
+import NaoHesite from "./pages/NaoHesite";
+import PalmaOuGancho from "./pages/PalmaOuGancho";
 import EmbateResultado from "./pages/EmbateResultado";
 import NotFound from "./pages/NotFound";
 
@@ -55,7 +57,9 @@ const App = () => (
             <Route path="/ranking-minigame" element={<RankingMinigame />} />
             <Route path="/como-jogar" element={<ComoJogar />} />
             <Route path="/cor-da-sorte" element={<CorDaSorte />} />
-            <Route path="/tikkube-quente" element={<TikkubeQuente />} />
+            <Route path="/tikkoin-quente" element={<TikkubeQuente />} />
+            <Route path="/nao-hesite" element={<NaoHesite />} />
+            <Route path="/palma-ou-gancho" element={<PalmaOuGancho />} />
             <Route path="/embate-resultado" element={<EmbateResultado />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
