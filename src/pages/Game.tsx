@@ -116,6 +116,7 @@ const PAGE_STATE_KEYS = [
   'tikki-fiesta-tikkoin-state',
   'tikki-fiesta-nao-hesite-state',
   'tikki-fiesta-palma-state',
+  'tikki-fiesta-respostas-state',
   'tikki-fiesta-ranking-state',
   'tikki-fiesta-embate-state',
 ];

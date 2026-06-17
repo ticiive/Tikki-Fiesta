@@ -22,6 +22,7 @@ import CorDaSorte from "./pages/CorDaSorte";
 import TikkubeQuente from "./pages/TikkubeQuente";
 import NaoHesite from "./pages/NaoHesite";
 import PalmaOuGancho from "./pages/PalmaOuGancho";
+import RespostasOuNada from "./pages/RespostasOuNada";
 import EmbateResultado from "./pages/EmbateResultado";
 import NotFound from "./pages/NotFound";
 
@@ -60,6 +61,7 @@ const App = () => (
             <Route path="/tikkoin-quente" element={<TikkubeQuente />} />
             <Route path="/nao-hesite" element={<NaoHesite />} />
             <Route path="/palma-ou-gancho" element={<PalmaOuGancho />} />
+            <Route path="/respostas-ou-nada" element={<RespostasOuNada />} />
             <Route path="/embate-resultado" element={<EmbateResultado />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
